@@ -1,79 +1,202 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Портфолио</title>
+  <title>Anastasiia Petrenko — Lead Product Designer</title>
+  <meta name="description" content="Lead Product Designer specializing in high-load systems: CRM/ERP, Trading, Logistics, Finance, HR, E-commerce and Analytics platforms." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <header>
-    <nav>
-      <div class="logo">Анастасия</div>
-      <ul class="nav-links">
-        <li><a href="#about">Обо мне</a></li>
-        <li><a href="#projects">Проекты</a></li>
-        <li><a href="#skills">Навыки</a></li>
-        <li><a href="#contact">Контакты</a></li>
-      </ul>
-    </nav>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <p class="header__logo">Portfolio</p>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
   <main>
 
-    <section id="hero">
-      <h1>Привет, я <span class="highlight">Анастасия</span></h1>
-      <p class="subtitle">Frontend разработчик</p>
-      <a href="#projects" class="btn">Посмотреть проекты</a>
-    </section>
-
-    <section id="about">
-      <h2>Обо мне</h2>
-      <p>Краткое описание о себе, своём опыте и интересах.</p>
-    </section>
-
-    <section id="projects">
-      <h2>Проекты</h2>
-      <div class="projects-grid">
-        <div class="card">
-          <h3>Проект 1</h3>
-          <p>Описание проекта.</p>
-          <a href="#" class="btn btn-sm">Посмотреть</a>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero__content">
+        <div class="hero__text">
+          <p class="hero__greeting">Hi! I'm Anastasiia Petrenko</p>
+          <h1 class="hero__title">Lead Product Designer specializing in high-load systems</h1>
+          <p class="hero__subtitle">Domains: CRM/ERP, Trading, Logistics, Finance, HR,&nbsp;<br>E-commerce and Analytics platforms.</p>
         </div>
-        <div class="card">
-          <h3>Проект 2</h3>
-          <p>Описание проекта.</p>
-          <a href="#" class="btn btn-sm">Посмотреть</a>
-        </div>
-        <div class="card">
-          <h3>Проект 3</h3>
-          <p>Описание проекта.</p>
-          <a href="#" class="btn btn-sm">Посмотреть</a>
-        </div>
+      </div>
+      <div class="hero__visual">
+        <!-- Replace src with your 3D visual -->
+        <img src="assets/images/hero-visual.png" alt="" aria-hidden="true" />
       </div>
     </section>
 
-    <section id="skills">
-      <h2>Навыки</h2>
-      <ul class="skills-list">
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>JavaScript</li>
-        <li>Git</li>
-      </ul>
+    <!-- WORK GRID -->
+    <section class="work" id="work">
+      <p class="section-label">My works</p>
+      <div class="work__grid">
+
+        <!-- Row 1 -->
+        <div class="work__row">
+          <article class="card">
+            <div class="card__body">
+              <header class="card__header">
+                <p class="card__tag">ERP · B2B</p>
+                <h2 class="card__title">Enhancing the ERP core</h2>
+              </header>
+              <div class="card__image">
+                <img src="assets/images/case-erp-core.png" alt="ERP core case study" />
+              </div>
+            </div>
+            <footer class="card__footer">
+              <a href="#" class="card__link">View case →</a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <header class="card__header">
+                <p class="card__tag">ERP &amp; CRM · B2B</p>
+                <h2 class="card__title">Unified ERP &amp; CRM payments flow</h2>
+              </header>
+              <div class="card__image">
+                <img src="assets/images/case-erp-crm.png" alt="ERP & CRM payments flow" />
+              </div>
+            </div>
+            <footer class="card__footer">
+              <a href="#" class="card__link">View case →</a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <header class="card__header">
+                <p class="card__tag">E-COMMERCE · MOBILE</p>
+                <h2 class="card__title">Turbo.ua delivery app</h2>
+              </header>
+              <div class="card__image">
+                <img src="assets/images/case-turbo.png" alt="Turbo.ua delivery app" />
+              </div>
+            </div>
+            <footer class="card__footer">
+              <a href="#" class="card__link">View case →</a>
+            </footer>
+          </article>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="work__row">
+          <article class="card">
+            <div class="card__body">
+              <header class="card__header">
+                <p class="card__tag">FINTECH · MOBILE</p>
+                <h2 class="card__title">Money Track wallet</h2>
+              </header>
+              <div class="card__image">
+                <img src="assets/images/case-moneytrack.png" alt="Money Track wallet" />
+              </div>
+            </div>
+            <footer class="card__footer">
+              <a href="#" class="card__link">View case →</a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <header class="card__header">
+                <p class="card__tag">BRANDING</p>
+                <h2 class="card__title">Packaging &amp; brand identity</h2>
+              </header>
+              <div class="card__image">
+                <img src="assets/images/case-branding.png" alt="Packaging and brand identity" />
+              </div>
+            </div>
+            <footer class="card__footer">
+              <a href="#" class="card__link">View case →</a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <header class="card__header">
+                <p class="card__tag">PRODUCT UX · RESEARCH</p>
+                <h2 class="card__title">Mobile onboarding flow redesign</h2>
+              </header>
+              <div class="card__image">
+                <img src="assets/images/case-onboarding.png" alt="Mobile onboarding flow redesign" />
+              </div>
+            </div>
+            <footer class="card__footer">
+              <a href="#" class="card__link">View case →</a>
+            </footer>
+          </article>
+        </div>
+
+      </div>
     </section>
 
-    <section id="contact">
-      <h2>Контакты</h2>
-      <p>Email: <a href="mailto:petrenkoag95@gmail.com">petrenkoag95@gmail.com</a></p>
-      <p>GitHub: <a href="https://github.com/ptrnko" target="_blank">github.com/ptrnko</a></p>
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="about__text">
+        <blockquote class="about__quote">
+          "I <span class="accent">build the team</span> and the <span class="accent">design system</span> when neither exists yet."
+        </blockquote>
+        <div class="about__bio">
+          <img class="about__avatar" src="assets/images/avatar.png" alt="Anastasiia Petrenko" />
+          <div class="about__copy">
+            <p>Across Turbo.ua, Wombat Digital and ONSEO, I've grown a department from one designer to a working team. Each time the product spanned CRM/ERP, fintech, logistics or trading — taken from idea to scale and handed off as something that scales without me in the room.</p>
+            <p>I'm doing the same with AI now: bringing Claude Code and Storybook MCP into the team's design workflow, turning days of prototyping and handoff into hours.</p>
+          </div>
+        </div>
+      </div>
+      <div class="about__visual">
+        <img src="assets/images/about-visual.png" alt="" aria-hidden="true" />
+      </div>
     </section>
 
   </main>
 
-  <footer>
-    <p>&copy; 2026 Анастасия. Все права защищены.</p>
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <p class="footer__tagline">Let's build the next big thing together.</p>
+    <div class="footer__columns">
+      <div class="footer__col">
+        <p class="footer__col-label">CONTACT</p>
+        <div class="footer__col-links">
+          <span>Europe, remote</span>
+          <a href="mailto:petrenkoag95@gmail.com">petrenkoag95@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-label">LINKS</p>
+        <div class="footer__col-links">
+          <a href="assets/cv.pdf" target="_blank">CV</a>
+          <a href="https://linkedin.com/in/" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-label">NAVIGATE</p>
+        <div class="footer__col-links">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>Anastasiia Petrenko — Lead Product Designer</span>
+      <span>© 2026</span>
+    </div>
   </footer>
 
   <script src="js/main.js"></script>
