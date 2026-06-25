@@ -11,25 +11,37 @@
   --c-bg:          #0a0a0c;
   --c-bg-card:     #0f0f12;
   --c-bg-footer:   #101013;
-  --c-surface:     #2a2a2e;   /* dividers, card-gap filler */
+  --c-surface:     #2a2a2e;
 
   /* Accent */
-  --c-accent:        #4493fa;   /* labels, highlights, links */
-  --c-accent-border: #125bba;   /* 2px top border on cards */
+  --c-accent:        #4493fa;
+  --c-accent-border: #125bba;
+  --c-online:        #34d27b;   /* "open to work" status dot */
 
   /* Text */
-  --c-text:           #ffffff;               /* headings, primary */
-  --c-text-nav:       #cccccc;               /* nav links, footer links */
-  --c-text-muted:     #999999;               /* logo, secondary labels */
-  --c-text-body:      rgba(153,153,153,0.67); /* body copy */
-  --c-text-label:     #666666;               /* footer column headers */
-  --c-text-copyright: #545454;               /* copyright line */
+  --c-text:           #ffffff;
+  --c-text-nav:       #cccccc;
+  --c-text-muted:     #999999;
+  --c-text-body:      rgba(153,153,153,0.85);
+  --c-text-label:     #666666;
+  --c-text-copyright: #545454;
 
   /* ── TYPOGRAPHY ── */
 
   --font-base: 'Inter', system-ui, sans-serif;
 
-  /* Sizes */
+  /* Line heights */
+  --lh-tight:  1.06;
+  --lh-card:   1.3;
+  --lh-quote:  1.4;
+  --lh-body:   1.6;
+
+  /* Letter spacing */
+  --ls-upper-sm: 0.7px;
+  --ls-upper-md: 0.8px;
+  --ls-upper-lg: 1.2px;
+
+  /* Font sizes */
   --fs-hero-label:    24px;
   --fs-hero-title:    48px;
   --fs-hero-body:     22px;
@@ -45,25 +57,14 @@
   --fs-footer-label:  14px;
   --fs-caption:       12px;
 
-  /* Line heights */
-  --lh-tight:  1.2;
-  --lh-card:   1.35;
-  --lh-quote:  1.4;
-  --lh-body:   32px;
-
-  /* Letter spacing */
-  --ls-upper-sm: 0.7px;
-  --ls-upper-md: 0.8px;
-  --ls-upper-lg: 1.2px;
-
   /* ── SPACING ── */
 
-  --sp-page-x:       80px;   /* horizontal page padding */
-  --sp-section-y:    100px;  /* section top/bottom padding */
-  --sp-section-y-lg: 150px;  /* large section bottom padding */
-  --sp-card-gap:     30px;   /* gap between work grid rows */
-  --sp-card-inner:   20px;   /* card horizontal & bottom padding */
-  --sp-card-top:     30px;   /* card top padding */
+  --sp-page-x:       64px;
+  --sp-section-y:    100px;
+  --sp-section-y-lg: 150px;
+  --sp-card-gap:     30px;
+  --sp-card-inner:   20px;
+  --sp-card-top:     30px;
   --sp-gap-sm:       8px;
   --sp-gap-md:       14px;
   --sp-gap-lg:       20px;
@@ -73,12 +74,7 @@
 
   /* ── BORDERS & RADIUS ── */
 
-  --border-divider:      0.5px solid var(--c-surface);
-  --border-card-accent:  2px solid var(--c-accent-border);
-  --radius-card:         8px;
-
-  /* ── LAYOUT ── */
-
-  --max-width: 1440px;
-  --content-width: calc(100% - var(--sp-page-x) * 2);
+  --border-divider:     0.5px solid var(--c-surface);
+  --border-card-accent: 2px solid var(--c-accent-border);
+  --radius-card:        8px;
 }

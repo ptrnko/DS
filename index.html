@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Anastasiia Petrenko — Lead Product Designer</title>
-  <meta name="description" content="Lead Product Designer specializing in high-load systems: CRM/ERP, Trading, Logistics, Finance, HR, E-commerce and Analytics platforms." />
+  <meta name="description" content="Lead Product Designer specializing in high-load systems. I build senior product design teams from scratch and the systems they ship." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -18,128 +18,169 @@
     <div class="header__inner">
       <p class="header__logo">Portfolio</p>
       <nav class="header__nav" aria-label="Main navigation">
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="mailto:petrenkoag95@gmail.com" class="btn-pill">Get in touch</a>
       </nav>
     </div>
   </header>
 
   <main>
 
-    <!-- HERO -->
+    <!-- HERO / FIRST SCREEN -->
     <section class="hero" id="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+
+      <!-- LEFT: content -->
       <div class="hero__content">
-        <div class="hero__text">
-          <p class="hero__greeting">Hi! I'm Anastasiia Petrenko</p>
-          <h1 class="hero__title">Lead Product Designer specializing in high-load systems</h1>
-          <p class="hero__subtitle">Domains: CRM/ERP, Trading, Logistics, Finance, HR,&nbsp;<br>E-commerce and Analytics platforms.</p>
+        <div class="status">
+          <span class="status__dot" aria-hidden="true">
+            <span class="status__ping"></span>
+            <span class="status__core"></span>
+          </span>
+          <span class="status__label">Open to Lead / Head of Design roles</span>
+        </div>
+
+        <h1 class="hero__title">I build <span class="accent">senior product design teams</span> from scratch, and the systems they ship.</h1>
+
+        <p class="hero__lead">Lead Product Designer for high-load systems. I grow design from a single hire into a senior team that ships idea &rarr; scale without me in the room.</p>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="stat__num">3</span>
+            <span class="stat__label">senior design teams<br />built from zero</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">6</span>
+            <span class="stat__label">industries shipped<br />idea &rarr; scale</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num accent">AI</span>
+            <span class="stat__label">Claude Code + VS Code + Storybook<br />in the workflow</span>
+          </div>
+        </div>
+
+        <div class="hero__cta">
+          <a href="#work" class="btn btn--primary">View selected work <span aria-hidden="true">&rarr;</span></a>
+          <a href="assets/cv.pdf" class="btn btn--ghost">Download CV</a>
         </div>
       </div>
-      <div class="hero__visual">
-        <!-- Replace src with your 3D visual -->
-        <img src="assets/images/hero-visual.png" alt="" aria-hidden="true" />
+
+      <!-- RIGHT: auto-rotating featured case -->
+      <div class="hero__featured">
+        <article class="fcard">
+          <div class="fcard__top">
+            <span class="fcard__label">Featured case</span>
+            <span class="fcard__count" data-count>01 / 03</span>
+          </div>
+
+          <div class="fcard__cover" data-cover>
+            <span class="fcard__placeholder">[ case cover &middot; 1600&times;1000 ]</span>
+          </div>
+
+          <div class="fcard__body" data-body>
+            <span class="fcard__tag" data-tag>ERP &amp; CRM</span>
+            <h2 class="fcard__title" data-title>Enhancing the ERP &amp; CRM flow</h2>
+            <p class="fcard__desc" data-desc>Designed the interface for complex allocation of funds and resources, using a game-inspired visual language to make a dense system intuitive.</p>
+          </div>
+
+          <div class="fcard__footer">
+            <a href="#work" class="fcard__link">View case &rarr;</a>
+            <div class="fcard__dots" data-dots></div>
+          </div>
+        </article>
+
+        <div class="fcard__metric">
+          <span class="fcard__metric-num">0 &rarr; 10</span>
+          <span class="fcard__metric-label">creative teams, grown</span>
+        </div>
       </div>
     </section>
 
-    <!-- WORK GRID -->
+    <!-- WORK -->
     <section class="work" id="work">
       <p class="section-label">My works</p>
       <div class="work__grid">
 
-        <!-- Row 1 -->
         <div class="work__row">
           <article class="card">
-            <div class="card__body">
-              <header class="card__header">
-                <p class="card__tag">ERP · B2B</p>
-                <h2 class="card__title">Enhancing the ERP core</h2>
-              </header>
-              <div class="card__image">
-                <img src="assets/images/case-erp-core.png" alt="ERP core case study" />
-              </div>
+            <div class="card__top">
+              <p class="card__tag">ERP · B2B</p>
+              <h2 class="card__title">Enhancing the ERP core</h2>
             </div>
-            <footer class="card__footer">
+            <div class="card__image">
+              <img src="assets/images/case-erp.jpg" alt="Enhancing the ERP core" />
+            </div>
+            <div class="card__footer">
               <a href="#" class="card__link">View case →</a>
-            </footer>
+            </div>
           </article>
 
           <article class="card">
-            <div class="card__body">
-              <header class="card__header">
-                <p class="card__tag">ERP &amp; CRM · B2B</p>
-                <h2 class="card__title">Unified ERP &amp; CRM payments flow</h2>
-              </header>
-              <div class="card__image">
-                <img src="assets/images/case-erp-crm.png" alt="ERP & CRM payments flow" />
-              </div>
+            <div class="card__top">
+              <p class="card__tag">ERP &amp; CRM · B2B</p>
+              <h2 class="card__title">Unified ERP &amp; CRM payments flow</h2>
             </div>
-            <footer class="card__footer">
+            <div class="card__image">
+              <img src="https://www.figma.com/api/mcp/asset/65444298-4249-4db2-83a3-8512750de153" alt="Unified ERP & CRM payments flow" />
+            </div>
+            <div class="card__footer">
               <a href="#" class="card__link">View case →</a>
-            </footer>
+            </div>
           </article>
 
           <article class="card">
-            <div class="card__body">
-              <header class="card__header">
-                <p class="card__tag">E-COMMERCE · MOBILE</p>
-                <h2 class="card__title">Turbo.ua delivery app</h2>
-              </header>
-              <div class="card__image">
-                <img src="assets/images/case-turbo.png" alt="Turbo.ua delivery app" />
-              </div>
+            <div class="card__top">
+              <p class="card__tag">E-COMMERCE · MOBILE</p>
+              <h2 class="card__title">Turbo.ua delivery app</h2>
             </div>
-            <footer class="card__footer">
+            <div class="card__image">
+              <img src="assets/images/case-turbo.jpg" alt="Turbo.ua delivery app" />
+            </div>
+            <div class="card__footer">
               <a href="#" class="card__link">View case →</a>
-            </footer>
+            </div>
           </article>
         </div>
 
-        <!-- Row 2 -->
         <div class="work__row">
           <article class="card">
-            <div class="card__body">
-              <header class="card__header">
-                <p class="card__tag">FINTECH · MOBILE</p>
-                <h2 class="card__title">Money Track wallet</h2>
-              </header>
-              <div class="card__image">
-                <img src="assets/images/case-moneytrack.png" alt="Money Track wallet" />
-              </div>
+            <div class="card__top">
+              <p class="card__tag">FINTECH · MOBILE</p>
+              <h2 class="card__title">Money Track wallet</h2>
             </div>
-            <footer class="card__footer">
+            <div class="card__image">
+              <img src="assets/images/case-moneytrack.jpg" alt="Money Track wallet" />
+            </div>
+            <div class="card__footer">
               <a href="#" class="card__link">View case →</a>
-            </footer>
+            </div>
           </article>
 
           <article class="card">
-            <div class="card__body">
-              <header class="card__header">
-                <p class="card__tag">BRANDING</p>
-                <h2 class="card__title">Packaging &amp; brand identity</h2>
-              </header>
-              <div class="card__image">
-                <img src="assets/images/case-branding.png" alt="Packaging and brand identity" />
-              </div>
+            <div class="card__top">
+              <p class="card__tag">BRANDING</p>
+              <h2 class="card__title">Packaging &amp; brand identity</h2>
             </div>
-            <footer class="card__footer">
+            <div class="card__image">
+              <img src="https://www.figma.com/api/mcp/asset/596b96ce-3304-433b-875f-e3ef4554ae29" alt="Packaging & brand identity" />
+            </div>
+            <div class="card__footer">
               <a href="#" class="card__link">View case →</a>
-            </footer>
+            </div>
           </article>
 
           <article class="card">
-            <div class="card__body">
-              <header class="card__header">
-                <p class="card__tag">PRODUCT UX · RESEARCH</p>
-                <h2 class="card__title">Mobile onboarding flow redesign</h2>
-              </header>
-              <div class="card__image">
-                <img src="assets/images/case-onboarding.png" alt="Mobile onboarding flow redesign" />
-              </div>
+            <div class="card__top">
+              <p class="card__tag">PRODUCT UX · RESEARCH</p>
+              <h2 class="card__title">Mobile onboarding flow redesign</h2>
             </div>
-            <footer class="card__footer">
+            <div class="card__image">
+              <img src="https://www.figma.com/api/mcp/asset/da5357c5-a5c0-42f3-8a7e-ae19fbfdce7b" alt="Mobile onboarding flow redesign" />
+            </div>
+            <div class="card__footer">
               <a href="#" class="card__link">View case →</a>
-            </footer>
+            </div>
           </article>
         </div>
 
@@ -153,7 +194,7 @@
           "I <span class="accent">build the team</span> and the <span class="accent">design system</span> when neither exists yet."
         </blockquote>
         <div class="about__bio">
-          <img class="about__avatar" src="assets/images/avatar.png" alt="Anastasiia Petrenko" />
+          <img class="about__avatar" src="https://www.figma.com/api/mcp/asset/8fdd9dfa-f9ce-499f-b3ec-7e324caa980e" alt="Anastasiia Petrenko" />
           <div class="about__copy">
             <p>Across Turbo.ua, Wombat Digital and ONSEO, I've grown a department from one designer to a working team. Each time the product spanned CRM/ERP, fintech, logistics or trading — taken from idea to scale and handed off as something that scales without me in the room.</p>
             <p>I'm doing the same with AI now: bringing Claude Code and Storybook MCP into the team's design workflow, turning days of prototyping and handoff into hours.</p>
@@ -161,7 +202,7 @@
         </div>
       </div>
       <div class="about__visual">
-        <img src="assets/images/about-visual.png" alt="" aria-hidden="true" />
+        <img src="https://www.figma.com/api/mcp/asset/d220ec11-3150-45b1-9649-e44ff175177b" alt="" aria-hidden="true" />
       </div>
     </section>
 
