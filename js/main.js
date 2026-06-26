@@ -288,4 +288,10 @@ class TeamGrowthAnimation {
 document.addEventListener('DOMContentLoaded', () => {
   new FeaturedCarousel();
   new TeamGrowthAnimation();
+
+  document.querySelectorAll('.work-card[data-href]').forEach((card) => {
+    card.addEventListener('click', () => {
+      window.location.href = card.dataset.href;
+    });
+  });
 });
