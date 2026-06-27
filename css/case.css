@@ -82,3 +82,141 @@
   border:      0.5px dashed var(--border);
   border-radius: var(--radius-card);
 }
+
+/* =============================================================
+   CASE SECTIONS
+============================================================= */
+.case__section {
+  margin-bottom: 80px;
+}
+
+.case__section-title {
+  font-size:     32px;
+  font-weight:   700;
+  line-height:   1.2;
+  color:         var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.case__section-desc {
+  font-size:   17px;
+  line-height: 1.65;
+  color:       var(--text-secondary);
+  max-width:   680px;
+}
+
+.case__section-note {
+  font-size:     16px;
+  line-height:   1.6;
+  color:         var(--text-secondary);
+  border-left:   2px solid var(--accent);
+  padding-left:  20px;
+  margin-top:    32px;
+}
+
+/* Quotes */
+.case__quotes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.case__quote-card {
+  background:    #13131a;
+  border:        0.5px solid var(--border);
+  border-radius: var(--radius-card);
+  padding:       28px;
+}
+
+.case__quote-card p {
+  font-size:   15px;
+  line-height: 1.6;
+  color:       var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.case__quote-card cite {
+  font-size:   12px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color:       var(--text-dim);
+  font-style:  normal;
+}
+
+/* Pain points */
+.case__pain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.case__pain-item {
+  background: #13131a;
+  border:     0.5px solid var(--border);
+  padding:    28px;
+}
+
+.case__pain-title {
+  font-size:     15px;
+  font-weight:   700;
+  color:         var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.case__pain-desc {
+  font-size:   14px;
+  line-height: 1.6;
+  color:       var(--text-secondary);
+}
+
+/* Screens */
+.case__screen {
+  border-radius: var(--radius-img);
+  overflow:      hidden;
+  border:        0.5px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.case__screen img {
+  width:      100%;
+  display:    block;
+  object-fit: cover;
+}
+
+/* Results */
+.case__results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.case__result-item {
+  background: #13131a;
+  border:     0.5px solid var(--border);
+  padding:    36px 28px;
+  display:    flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.case__result-value {
+  font-size:   48px;
+  font-weight: 700;
+  color:       var(--accent);
+  line-height: 1;
+}
+
+.case__result-label {
+  font-size:   14px;
+  line-height: 1.5;
+  color:       var(--text-secondary);
+}
+
+@media (max-width: 680px) {
+  .case__quotes     { grid-template-columns: 1fr; }
+  .case__pain-grid  { grid-template-columns: 1fr; }
+  .case__results    { grid-template-columns: 1fr; }
+  .case__title      { font-size: 32px; }
+}
