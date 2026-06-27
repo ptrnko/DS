@@ -25,18 +25,21 @@ const CASES = [
     title: 'Enhancing the ERP & CRM flow',
     desc:  'Designed the interface for complex allocation of funds and resources, using a game-inspired visual language to make a dense system intuitive.',
     img:   'assets/images/case-erp.jpg',
+    url:   'cases/erp-core.html',
   },
   {
     tag:   'FINTECH · MOBILE',
     title: 'Money Track wallet',
     desc:  'A personal finance wallet that turns messy transactions into clear, motivating insights.',
     img:   'assets/images/case-moneytrack.jpg',
+    url:   'cases/moneytrack.html',
   },
   {
     tag:   'E-COMMERCE · MOBILE',
     title: 'Turbo.ua delivery app',
     desc:  'Reworked the ordering flow for a high-volume delivery service: faster checkout, fewer drop-offs.',
     img:   'assets/images/case-turbo.jpg',
+    url:   'cases/turbo.html',
   },
 ];
 
@@ -68,6 +71,8 @@ class FeaturedCarousel {
     this.$desc.textContent    = c.desc;
 
     this.$image.innerHTML = '';
+    this.$image.style.cursor = c.url ? 'pointer' : 'default';
+    this.$image.onclick = c.url ? () => { window.location.href = c.url; } : null;
     if (c.img) {
       const img = document.createElement('img');
       img.src = c.img;
