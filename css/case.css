@@ -52,7 +52,7 @@
 
 .cs-tag {
   font-size:      12px;
-  font-weight:    400;
+  font-weight:    500;
   color:          var(--accent);
   letter-spacing: 0.6px;
   text-transform: uppercase;
@@ -99,7 +99,7 @@
 
 .cs-eyebrow {
   font-size:      11px;
-  font-weight:    600;
+  font-weight:    500;
   letter-spacing: 1.2px;
   text-transform: uppercase;
   color:          var(--accent);
@@ -269,7 +269,7 @@
 
 .cs-solution-title {
   font-size:   22px;
-  font-weight: 500;
+  font-weight: 500 !important;
   color:       var(--text-primary);
 }
 
@@ -390,6 +390,120 @@
   font-size:   18px;
   line-height: 1.5;
   color:       #878787;
+}
+
+/* =============================================================
+   WAVE BRANDING SECTION
+============================================================= */
+
+.wave-brand-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: var(--bg-base);
+  margin-bottom: 8px;
+  min-height: 590px;
+}
+
+.wave-logo-card {
+  background: #141417;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.wave-logo-card img {
+  width: 50%;
+  height: auto;
+  display: block;
+}
+
+.wave-type-card {
+  background: #141417;
+  border-radius: 20px;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wave-type-name {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 40px;
+}
+
+.wave-type-chars {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  row-gap: 28px;
+}
+
+.wave-type-chars span {
+  font-size: 26px;
+  color: var(--text-primary);
+  opacity: 0.85;
+}
+
+.wave-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  height: 760px;
+}
+
+.wave-palette-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wave-palette-photo {
+  flex: 493 1 0;
+}
+
+.wave-color-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px 16px;
+  gap: 4px;
+  border-radius: 20px;
+  flex: 259 1 0;
+}
+
+.wave-color-card--short { flex: 259 1 0; }
+.wave-color-card--tall  { flex: 493 1 0; }
+
+.wave-color-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.wave-color-hex {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+
+.wave-color-name--dark { color: #1e1e1e; }
+.wave-color-hex--dark  { color: rgba(0,0,0,0.5); }
+
+.wave-photo-card {
+  overflow: hidden;
+  background: #141417;
+  border-radius: 20px;
+}
+
+.wave-photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Legacy .case wrapper */
@@ -664,4 +778,281 @@
   .case__results        { grid-template-columns: 1fr; }
   .case__solution-grid  { grid-template-columns: 1fr; }
   .case__title          { font-size: 32px; }
+}
+.wave-icons-img { width: 100%; height: auto; display: block; border-radius: 20px; }
+
+/* === WAVE: USER SURVEY === */
+.wave-survey__head {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 100px;
+}
+.wave-survey__dot-stack {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  margin-top: 37px;
+}
+.wave-survey__dot { position: absolute; }
+.wave-survey__dot--lg { width: 52px; height: 52px; top: 0; left: 0; }
+.wave-survey__dot--md { width: 28px; height: 28px; top: 12px; left: -4px; }
+.wave-survey__dot--sm { width: 12px; height: 12px; top: 20px; left: 8px; }
+.wave-survey__text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.wave-survey__desc {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.wave-survey__visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1440 / 673;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.wave-survey__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.wave-survey__col {
+  position: absolute;
+  top: 7%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 37%;
+}
+.wave-survey__col--left  { left: 1.8%; }
+.wave-survey__col--right { right: 1.8%; }
+
+.wave-quote {
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  background: rgba(255,255,255,0.65);
+  border: 2px solid #fff;
+  padding: 23px 20px 23px 30px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+.wave-quote--tl { border-radius: 24px 24px 24px 0; }
+.wave-quote--tr { border-radius: 24px 24px 0 24px; }
+.wave-quote__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.wave-quote__text {
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #171717;
+}
+.wave-quote__mark {
+  font-size: 32px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 0.5;
+  vertical-align: middle;
+}
+.wave-userflow-img { border-radius: 0; }
+
+/* === WAVE: FULL-WIDTH PHOTO === */
+.wave-fullwidth-photo {
+  width: 100%;
+  overflow: hidden;
+}
+.wave-fullwidth-photo__img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Wireframes section — white bg, dark text, full-bleed image */
+.wave-wireframes-section {
+  background: #ffffff;
+  padding-bottom: 0;
+}
+.wave-eyebrow--dark {
+  color: #0457c3;
+}
+.wave-title--dark {
+  color: #000000;
+}
+.wave-wireframes-img {
+  width: calc(100% + 2 * var(--section-px));
+  margin-left: calc(-1 * var(--section-px));
+  display: block;
+  height: auto;
+  margin-top: 60px;
+}
+
+/* ── Overview section ── */
+.wave-overview {
+  padding: 72px var(--section-px);
+  border-top: 0.5px solid #1a1a1e;
+  border-bottom: 0.5px solid #1a1a1e;
+}
+.wave-overview__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.wave-overview .cs-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: #4493fa;
+  margin-bottom: 20px;
+}
+.wave-overview__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+.wave-overview__body {
+  font-size: 17px;
+  color: rgba(153, 153, 153, 0.65);
+  line-height: 1.7;
+  padding-top: 8px;
+}
+
+/* ── Problem section ── */
+.wave-problem {
+  padding: 72px var(--section-px);
+  background: #0d0d10;
+}
+.wave-problem .cs-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: #4493fa;
+  margin-bottom: 40px;
+}
+.wave-problem__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: #1a1a1e;
+}
+.wave-problem__card {
+  background: #0f0f12;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.wave-problem__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgba(68, 147, 250, 0.3);
+  color: #4493fa;
+  font-size: 24px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.wave-problem__title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+}
+.wave-problem__body {
+  font-size: 16px;
+  color: rgba(153, 153, 153, 0.6);
+  line-height: 1.65;
+}
+
+/* Final Results section */
+.wave-final {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.wave-final .cs-solution-head {
+  margin-bottom: 52px;
+}
+.wave-final__card {
+  background: #141417;
+  border-radius: 12px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.wave-final__label {
+  margin-bottom: 0;
+}
+.wave-final__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Success Metrics */
+.wave-metrics {
+  padding: 100px var(--section-px) 150px;
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+.wave-metrics__eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: #4493fa;
+  margin-bottom: 20px;
+}
+.wave-metrics__title {
+  font-size: 22px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.5;
+  max-width: 425px;
+}
+.wave-metrics__row {
+  display: flex;
+  gap: 40px;
+}
+.wave-metrics__item {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.wave-metrics__num {
+  font-size: 64px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  line-height: 1;
+}
+.wave-metrics__desc {
+  font-size: 18px;
+  color: #878787;
+  line-height: 1.5;
 }
