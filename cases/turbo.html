@@ -3,50 +3,1155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Turbo.ua delivery app — Anastasiia Petrenko</title>
+  <title>Turbo.ua — grocery delivery in 30 minutes · Anastasiia Petrenko</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/case.css">
+  <style>
+    /* ── Turbo page-specific styles ── */
+    @keyframes wordIn {
+      from { opacity: 0; transform: translateY(18px); filter: blur(4px); }
+      to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .t-word {
+      display: inline-block;
+      opacity: 0;
+      animation: wordIn 0.55s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .t-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+    }
+    .t-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero */
+    .turbo-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 560px;
+      align-items: stretch;
+      min-height: 720px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: #0a0a0c;
+    }
+    .turbo-hero__grid {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .turbo-hero__content {
+      padding: 120px 80px 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .turbo-hero__eyebrow {
+      margin: 0 0 32px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #4493fa;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(.16,1,.3,1) 0.1s forwards;
+    }
+    .turbo-hero__h1 {
+      font-size: 60px;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      color: #fff;
+      margin: 0 0 40px;
+    }
+    .turbo-hero__body {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(255,255,255,.55);
+      margin: 0;
+      max-width: 520px;
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) 0.6s forwards;
+    }
+    .turbo-hero__meta {
+      display: flex;
+      gap: 48px;
+      margin-top: 60px;
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) 0.75s forwards;
+    }
+    .turbo-hero__meta-label {
+      font-size: 11px;
+      color: #444;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .turbo-hero__meta-val {
+      font-size: 15px;
+      color: #ccc;
+    }
+    .turbo-hero__phone {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-right: 80px;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .turbo-hero__phone img {
+      width: 100%;
+      max-width: 460px;
+      position: relative;
+      z-index: 3;
+      display: block;
+      margin-bottom: -2px;
+      object-fit: contain;
+      object-position: bottom;
+    }
+
+    /* Section common */
+    .turbo-section {
+      padding: 150px 80px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .turbo-eyebrow {
+      font-size: 12px;
+      font-weight: 500;
+      color: #4493fa;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin: 0 0 24px;
+    }
+    .turbo-fullwidth {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .turbo-fullwidth img {
+      width: 100%;
+      display: block;
+    }
+
+    /* Main Goals */
+    .turbo-goals {
+      background: #0d0d10;
+    }
+    .turbo-goals__grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .turbo-goals__accent-bar {
+      width: 40px;
+      height: 2px;
+      background: #4493fa;
+      margin-top: 24px;
+    }
+    .turbo-goals__statement {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      margin: 0 0 16px;
+    }
+    .turbo-goals__divider {
+      height: 1px;
+      background: rgba(255,255,255,.06);
+      margin: 40px 0;
+    }
+    .turbo-goals__list {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+    }
+    .turbo-goals__num {
+      font-size: 11px;
+      font-weight: 500;
+      color: #4493fa;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    .turbo-goals__item-body {
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,.5);
+      margin: 0;
+    }
+
+    /* Numbers */
+    .turbo-numbers {
+      background: #0a0a0c;
+    }
+    .turbo-numbers__grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .turbo-numbers__heading {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.025em;
+      color: #fff;
+      margin: 0;
+    }
+    .turbo-numbers__stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: #1a1a1e;
+    }
+    .turbo-numbers__stat {
+      background: #0f0f12;
+      padding: 48px 40px;
+    }
+    .turbo-numbers__num {
+      font-size: 80px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -.03em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .turbo-numbers__label {
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(255,255,255,.45);
+    }
+
+    /* Personas */
+    .turbo-personas {
+      background: #0a0a0c;
+      padding-bottom: 80px;
+    }
+    .turbo-personas__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .turbo-persona {
+      position: relative;
+      min-height: 600px;
+      overflow: hidden;
+      background: #0a0a0c;
+    }
+    .turbo-persona--left { border-right: 1px solid rgba(255,255,255,.05); }
+    .turbo-persona__photo {
+      position: absolute;
+      bottom: 0;
+      height: calc(100% - 100px);
+      object-fit: contain;
+    }
+    .turbo-persona--left .turbo-persona__photo { right: -20px; object-position: bottom right; }
+    .turbo-persona--right .turbo-persona__photo { left: -20px; object-position: bottom left; }
+    .turbo-persona__fade-v {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #0a0a0c 0%, #0a0a0c 12%, rgba(10,10,12,0.4) 35%, transparent 100%);
+    }
+    .turbo-persona--left .turbo-persona__fade-h {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #0a0a0c 25%, transparent 55%);
+    }
+    .turbo-persona--right .turbo-persona__fade-h {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to left, #0a0a0c 25%, transparent 55%);
+    }
+    .turbo-persona__content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 48px;
+    }
+    .turbo-persona--right .turbo-persona__content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+    .turbo-persona__name {
+      font-size: 40px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 6px;
+      letter-spacing: -.02em;
+    }
+    .turbo-persona__meta {
+      font-size: 14px;
+      color: rgba(255,255,255,.4);
+      margin: 0 0 20px;
+    }
+    .turbo-persona__bio {
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(255,255,255,.55);
+      margin: 0 0 24px;
+      max-width: 400px;
+    }
+    .turbo-persona__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+      max-width: 420px;
+    }
+    .turbo-persona--right .turbo-persona__tags { justify-content: flex-end; }
+    .turbo-persona__tag {
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.09);
+      padding: 5px 14px;
+    }
+    .turbo-persona__pain {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding-top: 20px;
+      max-width: 400px;
+      width: 100%;
+    }
+    .turbo-persona--right .turbo-persona__pain { text-align: right; }
+    .turbo-persona__pain-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #4493fa;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    .turbo-persona__pain-body {
+      font-size: 13px;
+      color: rgba(255,255,255,.55);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Pain points */
+    .turbo-pain {
+      background: #0a0a0c;
+    }
+    .turbo-pain__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: #1a1a1e;
+    }
+    .turbo-pain__card {
+      background: #0f0f12;
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .turbo-pain__bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+    }
+    .turbo-pain__category {
+      font-size: 13px;
+      font-weight: 500;
+      color: #4493fa;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin: 0 0 16px;
+    }
+    .turbo-pain__title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 12px;
+      line-height: 1.2;
+    }
+    .turbo-pain__body {
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(255,255,255,.5);
+      margin: 0;
+    }
+
+    /* Colors & Typography */
+    .turbo-brand {
+      background: #0d0d10;
+    }
+    .turbo-brand__intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-bottom: 60px;
+    }
+    .turbo-brand__heading {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      margin: 0;
+    }
+    .turbo-brand__body {
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.5);
+      margin: 0;
+    }
+    .turbo-brand__swatches {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 2px;
+      background: #1a1a1e;
+      margin-bottom: 60px;
+    }
+    .turbo-brand__swatch {
+      height: 160px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px 24px;
+    }
+    .turbo-brand__swatch-name {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .turbo-brand__swatch-hex {
+      font-size: 13px;
+    }
+    .turbo-brand__type {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: #1a1a1e;
+    }
+    .turbo-brand__type-card {
+      background: #0f0f12;
+      padding: 40px 36px;
+    }
+    .turbo-brand__type-label {
+      font-size: 11px;
+      color: #4493fa;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* Discovery Workflow */
+    .turbo-discovery {
+      background: #fff;
+    }
+    .turbo-discovery__heading {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #0a0a0c;
+      margin: 0 0 60px;
+      max-width: 600px;
+    }
+    .turbo-discovery__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    .turbo-dw-card {
+      background: #f5f5f7;
+      padding: 40px 32px;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .turbo-dw-card__weeks {
+      font-size: 11px;
+      font-weight: 600;
+      color: #0a0a0c;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .turbo-dw-card__phase {
+      font-size: 32px;
+      font-weight: 700;
+      color: #0a0a0c;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .turbo-dw-card__tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .turbo-dw-card__task {
+      font-size: 14px;
+      color: rgba(0,0,0,.7);
+      line-height: 1.5;
+    }
+    .turbo-dw-card__tools {
+      display: flex;
+      gap: 8px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .turbo-dw-card__tools img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    /* User flow */
+    .turbo-flow {
+      background: #0a0a0c;
+    }
+    .turbo-flow__heading {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      margin: 0 0 60px;
+      max-width: 600px;
+    }
+    .turbo-flow__diagram {
+      display: flex;
+      justify-content: center;
+    }
+    .turbo-flow__diagram img {
+      width: 66%;
+      display: block;
+      border-radius: 4px;
+    }
+
+    /* Feature sections */
+    .turbo-features {
+      background: #0a0a0c;
+    }
+    .turbo-features__grid-main {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 80px;
+      align-items: center;
+    }
+    .turbo-features__grid-product {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .turbo-features__heading {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.05;
+      color: #fff;
+      margin: 0 0 56px;
+    }
+    .turbo-features__cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: #1a1a1e;
+    }
+    .turbo-features__card {
+      background: #0f0f12;
+      padding: 36px 32px;
+    }
+    .turbo-features__bar {
+      width: 32px;
+      height: 2px;
+      margin-bottom: 20px;
+    }
+    .turbo-features__card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 10px;
+    }
+    .turbo-features__card-body {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(255,255,255,.5);
+      margin: 0;
+    }
+    .turbo-features__phone {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+
+    /* Cart page */
+    .turbo-cart {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: #0d0d10;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      overflow: hidden;
+    }
+    .turbo-cart__content {
+      padding: 150px 80px;
+    }
+    .turbo-cart__phone {
+      display: block;
+      height: 800px;
+      width: auto;
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body>
+
   <header class="site-header">
-    <a href="../index.html" class="logo">Portfolio</a>
+    <a href="../index.html" class="logo case-back">&larr; Back to works</a>
     <nav class="nav">
       <a href="../index.html#work"  class="nav__link">Work</a>
       <a href="../index.html#about" class="nav__link">About</a>
-      <a href="mailto:petrenkoag95@gmail.com" class="btn btn--ghost">Get in touch</a>
+      <a href="mailto:petrenkoag95@gmail.com" class="nav__link">Contact</a>
     </nav>
   </header>
 
-  <main class="case">
-    <div class="case__hero">
-      <p class="case__tag">E-Commerce · Mobile</p>
-      <h1 class="case__title">Turbo.ua delivery app</h1>
-      <p class="case__desc">Reworked the ordering flow for a high-volume delivery service: faster checkout, clearer status tracking, and fewer drop-offs at the critical last step.</p>
+  <main>
 
-      <div class="case__meta-row">
-        <div class="case__meta-item"><span class="case__meta-label">Role</span><span class="case__meta-value">Lead Product Designer</span></div>
-        <div class="case__meta-item"><span class="case__meta-label">Industry</span><span class="case__meta-value">E-Commerce · Mobile</span></div>
-        <div class="case__meta-item"><span class="case__meta-label">Platform</span><span class="case__meta-value">iOS / Android</span></div>
+    <!-- ── HERO ── -->
+    <section class="turbo-hero">
+      <svg class="turbo-hero__grid" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="sparseGrid" width="240" height="240" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="240" height="240" fill="none" stroke="rgba(68,147,250,0.15)" stroke-width="1"></rect>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#sparseGrid)"></rect>
+        <circle cx="240" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0s" repeatCount="indefinite"></animate></circle>
+        <circle cx="480" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0.6s" repeatCount="indefinite"></animate></circle>
+        <circle cx="720" cy="480" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1.2s" repeatCount="indefinite"></animate></circle>
+        <circle cx="960" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1.8s" repeatCount="indefinite"></animate></circle>
+        <circle cx="480" cy="480" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0.9s" repeatCount="indefinite"></animate></circle>
+        <circle cx="720" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="2.4s" repeatCount="indefinite"></animate></circle>
+        <rect x="480" y="240" width="240" height="240" fill="rgba(68,147,250,0)" opacity="0"><animate attributeName="fill" values="rgba(68,147,250,0);rgba(68,147,250,0.05);rgba(68,147,250,0)" dur="6s" begin="1s" repeatCount="indefinite"></animate><animate attributeName="opacity" values="0;1;0" dur="6s" begin="1s" repeatCount="indefinite"></animate></rect>
+        <rect x="720" y="0" width="240" height="240" fill="rgba(68,147,250,0)" opacity="0"><animate attributeName="fill" values="rgba(68,147,250,0);rgba(68,147,250,0.05);rgba(68,147,250,0)" dur="6s" begin="3s" repeatCount="indefinite"></animate><animate attributeName="opacity" values="0;1;0" dur="6s" begin="3s" repeatCount="indefinite"></animate></rect>
+      </svg>
+
+      <div class="turbo-hero__content">
+        <p class="turbo-hero__eyebrow">Project Overview</p>
+        <h1 class="turbo-hero__h1">
+          <span class="t-word" style="animation-delay:.2s;">Turbo.ua</span>
+          <span class="t-word" style="animation-delay:.28s;">—</span><br>
+          <span class="t-word" style="animation-delay:.36s;color:#4493fa;">grocery</span>
+          <span class="t-word" style="animation-delay:.44s;color:#4493fa;">delivery</span><br>
+          <span class="t-word" style="animation-delay:.52s;">in</span>
+          <span class="t-word" style="animation-delay:.6s;">30</span>
+          <span class="t-word" style="animation-delay:.68s;">minutes.</span>
+        </h1>
+        <p class="turbo-hero__body">A DoorDash-style grocery delivery service for Kyiv: dark stores in every district, plus a courier app with precise delivery addresses, customer comments, and real-time GPS order tracking.</p>
+        <div class="turbo-hero__meta">
+          <div>
+            <div class="turbo-hero__meta-label">Role</div>
+            <div class="turbo-hero__meta-val">Lead Product Designer</div>
+          </div>
+          <div>
+            <div class="turbo-hero__meta-label">Platform</div>
+            <div class="turbo-hero__meta-val">iOS · Android · Web</div>
+          </div>
+          <div>
+            <div class="turbo-hero__meta-label">Sector</div>
+            <div class="turbo-hero__meta-val">Delivery · B2C</div>
+          </div>
+        </div>
       </div>
+
+      <div class="turbo-hero__phone">
+        <img src="../assets/images/turbo-hero-phone.png" alt="Turbo.ua app">
+      </div>
+    </section>
+
+    <!-- ── MAIN GOALS ── -->
+    <section class="turbo-section turbo-goals">
+      <div class="turbo-goals__grid">
+        <div class="t-reveal">
+          <p class="turbo-eyebrow">Main Goals</p>
+          <div class="turbo-goals__accent-bar"></div>
+        </div>
+        <div class="t-reveal">
+          <p class="turbo-goals__statement">30-min delivery, zero hassle. <span style="color:rgba(255,255,255,.2);">No stock-outs. No delays.</span> Automated shelf management.</p>
+          <div class="turbo-goals__divider"></div>
+          <div class="turbo-goals__list">
+            <div>
+              <p class="turbo-goals__num">01</p>
+              <p class="turbo-goals__item-body">Create a service as easy to use as possible while guaranteeing high customer orientation.</p>
+            </div>
+            <div>
+              <p class="turbo-goals__num">02</p>
+              <p class="turbo-goals__item-body">Avoid out-of-stock situations and courier delays — learn from competitor weaknesses.</p>
+            </div>
+            <div>
+              <p class="turbo-goals__num">03</p>
+              <p class="turbo-goals__item-body">The system puts everything on shelves automatically — both money and goods.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── BRAND IMAGE ── -->
+    <div class="turbo-fullwidth">
+      <img src="../assets/images/turbo-brand.jpg" alt="Turbo.ua brand">
     </div>
 
-    <div class="case__cover">
-      <img src="../assets/images/case-turbo.jpg" alt="Turbo.ua delivery app">
+    <!-- ── PROJECT IN NUMBERS ── -->
+    <section class="turbo-section turbo-numbers">
+      <div class="turbo-numbers__grid">
+        <div class="t-reveal">
+          <p class="turbo-eyebrow">Project in numbers</p>
+          <h2 class="turbo-numbers__heading">Scale of the work done.</h2>
+        </div>
+        <div class="turbo-numbers__stats">
+          <div class="turbo-numbers__stat">
+            <div class="turbo-numbers__num" data-counter="150" data-suffix="+">0</div>
+            <div class="turbo-numbers__label">Screens designed</div>
+          </div>
+          <div class="turbo-numbers__stat">
+            <div class="turbo-numbers__num" data-counter="20" data-suffix="+">0</div>
+            <div class="turbo-numbers__label">Usability tests</div>
+          </div>
+          <div class="turbo-numbers__stat">
+            <div class="turbo-numbers__num" data-counter="30" data-suffix="+">0</div>
+            <div class="turbo-numbers__label">In-depth interviews</div>
+          </div>
+          <div class="turbo-numbers__stat">
+            <div class="turbo-numbers__num" data-counter="5" data-suffix="+">0</div>
+            <div class="turbo-numbers__label">Months to release</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PERSONAS ── -->
+    <section class="turbo-section turbo-personas">
+      <p class="turbo-eyebrow t-reveal">Personas</p>
+      <div class="turbo-personas__grid" style="margin-top:48px;">
+
+        <!-- Anna -->
+        <div class="turbo-persona turbo-persona--left t-reveal">
+          <img src="../assets/images/turbo-persona-anna.png" alt="Anna Panchenko" class="turbo-persona__photo">
+          <div class="turbo-persona__fade-v"></div>
+          <div class="turbo-persona__fade-h"></div>
+          <div class="turbo-persona__content">
+            <p class="turbo-persona__name">Anna Panchenko</p>
+            <p class="turbo-persona__meta">26 · Maternity leave · Living on savings</p>
+            <p class="turbo-persona__bio">On maternity leave. Chooses only high-quality products for her child and husband.</p>
+            <div class="turbo-persona__tags">
+              <span class="turbo-persona__tag">Fresh products</span>
+              <span class="turbo-persona__tag">Kids-safe</span>
+              <span class="turbo-persona__tag">No sugar/gluten</span>
+              <span class="turbo-persona__tag">Silent courier</span>
+            </div>
+            <div class="turbo-persona__pain">
+              <p class="turbo-persona__pain-label">Pain points</p>
+              <p class="turbo-persona__pain-body">Fear not all products in order · Quality concerns</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ivan -->
+        <div class="turbo-persona turbo-persona--right t-reveal">
+          <img src="../assets/images/turbo-persona-ivan.png" alt="Ivan Moneko" class="turbo-persona__photo">
+          <div class="turbo-persona__fade-v"></div>
+          <div class="turbo-persona__fade-h"></div>
+          <div class="turbo-persona__content">
+            <p class="turbo-persona__name">Ivan Moneko</p>
+            <p class="turbo-persona__meta">35 · Senior Manager · $1500/mo</p>
+            <p class="turbo-persona__bio">Senior manager, lives alone. Orders ready-made food or products that can be prepared quickly.</p>
+            <div class="turbo-persona__tags">
+              <span class="turbo-persona__tag">Fast food range</span>
+              <span class="turbo-persona__tag">Express delivery</span>
+              <span class="turbo-persona__tag">Online payment</span>
+              <span class="turbo-persona__tag">Product ratings</span>
+            </div>
+            <div class="turbo-persona__pain">
+              <p class="turbo-persona__pain-label">Pain points</p>
+              <p class="turbo-persona__pain-body">Courier delays · Low trust as new company</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── USER PAIN POINTS ── -->
+    <section class="turbo-section turbo-pain">
+      <p class="turbo-eyebrow t-reveal" style="margin-bottom:48px;">User pain points</p>
+      <div class="turbo-pain__grid">
+        <div class="turbo-pain__card t-reveal">
+          <div class="turbo-pain__bar" style="background:#4493fa;"></div>
+          <p class="turbo-pain__category">Availability</p>
+          <p class="turbo-pain__title">Products out of stock?</p>
+          <p class="turbo-pain__body">Fear that not all products will be in the order. Something missing to prepare a meal.</p>
+        </div>
+        <div class="turbo-pain__card t-reveal" style="transition-delay:.08s;">
+          <div class="turbo-pain__bar" style="background:rgba(68,147,250,.3);"></div>
+          <p class="turbo-pain__category">Confidence</p>
+          <p class="turbo-pain__title">Can I trust them?</p>
+          <p class="turbo-pain__body">The company is new to market with few reviews — low baseline trust.</p>
+        </div>
+        <div class="turbo-pain__card t-reveal" style="transition-delay:.16s;">
+          <div class="turbo-pain__bar" style="background:rgba(68,147,250,.3);"></div>
+          <p class="turbo-pain__category">Speed</p>
+          <p class="turbo-pain__title">Will it arrive in time?</p>
+          <p class="turbo-pain__body">Fears that the courier will take too long and perishables will deteriorate.</p>
+        </div>
+        <div class="turbo-pain__card t-reveal" style="transition-delay:.24s;">
+          <div class="turbo-pain__bar" style="background:#4493fa;"></div>
+          <p class="turbo-pain__category">Quality</p>
+          <p class="turbo-pain__title">Is quality guaranteed?</p>
+          <p class="turbo-pain__body">Worried about quality of goods and products ordered online vs in store.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── COURIER IMAGE ── -->
+    <div class="turbo-fullwidth">
+      <img src="../assets/images/turbo-courier.jpg" alt="Turbo.ua courier">
     </div>
 
-    <div class="case__body">
-      <p class="case__coming-soon">Full case study coming soon.</p>
+    <!-- ── COLORS & TYPOGRAPHY ── -->
+    <section class="turbo-section turbo-brand">
+      <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">Colors &amp; Typography</p>
+      <div class="turbo-brand__intro">
+        <h2 class="turbo-brand__heading t-reveal">Visual language built for trust and speed.</h2>
+        <p class="turbo-brand__body t-reveal">The Turbo palette uses teal as the brand anchor — energetic, modern, and distinct in the delivery space. Typography stays clean and functional.</p>
+      </div>
+      <div class="turbo-brand__swatches">
+        <div class="turbo-brand__swatch" style="background:#00C8B8;">
+          <div>
+            <div class="turbo-brand__swatch-name" style="color:rgba(0,0,0,.7);">Primary</div>
+            <div class="turbo-brand__swatch-hex" style="color:rgba(0,0,0,.5);">#00C8B8</div>
+          </div>
+        </div>
+        <div class="turbo-brand__swatch" style="background:#0a0a0c;border:1px solid rgba(255,255,255,.06);">
+          <div>
+            <div class="turbo-brand__swatch-name" style="color:rgba(255,255,255,.6);">Background</div>
+            <div class="turbo-brand__swatch-hex" style="color:rgba(255,255,255,.3);">#0A0A0C</div>
+          </div>
+        </div>
+        <div class="turbo-brand__swatch" style="background:#fff;">
+          <div>
+            <div class="turbo-brand__swatch-name" style="color:rgba(0,0,0,.5);">White</div>
+            <div class="turbo-brand__swatch-hex" style="color:rgba(0,0,0,.35);">#FFFFFF</div>
+          </div>
+        </div>
+        <div class="turbo-brand__swatch" style="background:#1a1a20;">
+          <div>
+            <div class="turbo-brand__swatch-name" style="color:rgba(255,255,255,.5);">Surface</div>
+            <div class="turbo-brand__swatch-hex" style="color:rgba(255,255,255,.3);">#1A1A20</div>
+          </div>
+        </div>
+      </div>
+      <div class="turbo-brand__type">
+        <div class="turbo-brand__type-card">
+          <div class="turbo-brand__type-label">Heading</div>
+          <div style="font-size:48px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.025em;">Delivery in 15 min.</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.3);margin-top:16px;">Inter 700 · 48px · -0.025em</div>
+        </div>
+        <div class="turbo-brand__type-card">
+          <div class="turbo-brand__type-label">Body</div>
+          <div style="font-size:17px;font-weight:400;color:rgba(255,255,255,.65);line-height:1.7;">Application for the delivery of products up to 30 minutes in Kyiv. Making an order takes less time than going to a store around the corner.</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.3);margin-top:16px;">Inter 400 · 17px · 1.7</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DISCOVERY WORKFLOW ── -->
+    <section class="turbo-section turbo-discovery">
+      <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;color:#4493fa;">Discovery Workflow</p>
+      <h2 class="turbo-discovery__heading t-reveal">From research to first sketch — the discovery path.</h2>
+      <div class="turbo-discovery__grid">
+
+        <div class="turbo-dw-card t-reveal">
+          <div>
+            <div class="turbo-dw-card__weeks">4 weeks</div>
+            <div class="turbo-dw-card__phase">Dipping</div>
+          </div>
+          <div class="turbo-dw-card__tasks">
+            <div class="turbo-dw-card__task">Desk research</div>
+            <div class="turbo-dw-card__task">Interview with stakeholder</div>
+            <div class="turbo-dw-card__task">Definition of basic requirements</div>
+            <div class="turbo-dw-card__task">User flow and story mapping</div>
+            <div class="turbo-dw-card__task">Briefing</div>
+          </div>
+          <div class="turbo-dw-card__tools">
+            <img src="../assets/images/turbo-tool-docs.png" alt="Google Docs">
+            <img src="../assets/images/turbo-tool-notion.png" alt="Notion">
+            <img src="../assets/images/turbo-tool-sheets.png" alt="Google Sheets">
+          </div>
+        </div>
+
+        <div class="turbo-dw-card t-reveal" style="transition-delay:.08s;">
+          <div>
+            <div class="turbo-dw-card__weeks">5 weeks</div>
+            <div class="turbo-dw-card__phase">UX</div>
+          </div>
+          <div class="turbo-dw-card__tasks">
+            <div class="turbo-dw-card__task">Info Architecture</div>
+            <div class="turbo-dw-card__task">Wireframes</div>
+            <div class="turbo-dw-card__task">User flow</div>
+            <div class="turbo-dw-card__task">Interactive prototype</div>
+            <div class="turbo-dw-card__task">Technical tasks</div>
+          </div>
+          <div class="turbo-dw-card__tools">
+            <img src="../assets/images/turbo-tool-docs.png" alt="Google Docs">
+            <img src="../assets/images/turbo-tool-figma.png" alt="Figma">
+            <img src="../assets/images/turbo-tool-miro.png" alt="Miro">
+          </div>
+        </div>
+
+        <div class="turbo-dw-card t-reveal" style="transition-delay:.16s;">
+          <div>
+            <div class="turbo-dw-card__weeks">8 weeks</div>
+            <div class="turbo-dw-card__phase">UI</div>
+          </div>
+          <div class="turbo-dw-card__tasks">
+            <div class="turbo-dw-card__task">Visual concept</div>
+            <div class="turbo-dw-card__task">UI Kit and design system</div>
+            <div class="turbo-dw-card__task">Style guide</div>
+            <div class="turbo-dw-card__task">Preparing layouts</div>
+            <div class="turbo-dw-card__task">Interactive prototype</div>
+          </div>
+          <div class="turbo-dw-card__tools">
+            <img src="../assets/images/turbo-tool-figma.png" alt="Figma">
+            <img src="../assets/images/turbo-tool-miro.png" alt="Miro">
+          </div>
+        </div>
+
+        <div class="turbo-dw-card t-reveal" style="transition-delay:.24s;">
+          <div>
+            <div class="turbo-dw-card__weeks">4 weeks</div>
+            <div class="turbo-dw-card__phase">Testing</div>
+          </div>
+          <div class="turbo-dw-card__tasks">
+            <div class="turbo-dw-card__task">Specification</div>
+            <div class="turbo-dw-card__task">Use cases</div>
+            <div class="turbo-dw-card__task">Transferring the project to developers</div>
+            <div class="turbo-dw-card__task">Preparing rules for animation</div>
+          </div>
+          <div class="turbo-dw-card__tools">
+            <img src="../assets/images/turbo-tool-docs.png" alt="Google Docs">
+            <img src="../assets/images/turbo-tool-figma.png" alt="Figma">
+            <img src="../assets/images/turbo-tool-notion.png" alt="Notion">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── APP IMAGE ── -->
+    <div class="turbo-fullwidth">
+      <img src="../assets/images/turbo-app.png" alt="Turbo.ua app screens">
     </div>
+
+    <!-- ── USER FLOW ── -->
+    <section class="turbo-section turbo-flow">
+      <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">User Flow</p>
+      <h2 class="turbo-flow__heading t-reveal">End-to-end journey from open to checkout.</h2>
+      <div class="turbo-flow__diagram t-reveal">
+        <img src="../assets/images/turbo-userflow.png" alt="User flow diagram">
+      </div>
+    </section>
+
+    <!-- ── PRODUCT CATALOG IMAGE ── -->
+    <div class="turbo-fullwidth">
+      <img src="../assets/images/turbo-catalog.png" alt="Turbo.ua product catalog">
+    </div>
+
+    <!-- ── MAIN PAGE FEATURES ── -->
+    <section class="turbo-section turbo-features">
+      <div class="turbo-features__grid-main">
+        <div>
+          <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">High-Fidelity</p>
+          <h2 class="turbo-features__heading t-reveal">Main page features</h2>
+          <div class="turbo-features__cards">
+            <div class="turbo-features__card t-reveal">
+              <div class="turbo-features__bar" style="background:#4493fa;"></div>
+              <p class="turbo-features__card-title">Delivery time</p>
+              <p class="turbo-features__card-body">Calculated based on the user's location.</p>
+            </div>
+            <div class="turbo-features__card t-reveal" style="transition-delay:.08s;">
+              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
+              <p class="turbo-features__card-title">Address selection</p>
+              <p class="turbo-features__card-body">Save up to 5 popular addresses.</p>
+            </div>
+            <div class="turbo-features__card t-reveal" style="transition-delay:.16s;">
+              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
+              <p class="turbo-features__card-title">Catalog</p>
+              <p class="turbo-features__card-body">Dynamic, demand-driven category order.</p>
+            </div>
+            <div class="turbo-features__card t-reveal" style="transition-delay:.24s;">
+              <div class="turbo-features__bar" style="background:#4493fa;"></div>
+              <p class="turbo-features__card-title">Cart</p>
+              <p class="turbo-features__card-body">Weight-tracking with gradient fill indicator.</p>
+            </div>
+          </div>
+        </div>
+        <img src="../assets/images/turbo-hero-phone.png" alt="Turbo.ua main page" class="turbo-features__phone t-reveal">
+      </div>
+    </section>
+
+    <!-- ── SCREENS IMAGE ── -->
+    <div class="turbo-fullwidth">
+      <img src="../assets/images/turbo-screens.jpg" alt="Turbo.ua screens">
+    </div>
+
+    <!-- ── PRODUCT PAGE FEATURES ── -->
+    <section class="turbo-section turbo-features">
+      <div class="turbo-features__grid-product">
+        <img src="../assets/images/turbo-hero-phone.png" alt="Turbo.ua product page" class="turbo-features__phone t-reveal">
+        <div>
+          <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">High-Fidelity</p>
+          <h2 class="turbo-features__heading t-reveal">Product page features</h2>
+          <div class="turbo-features__cards">
+            <div class="turbo-features__card t-reveal">
+              <div class="turbo-features__bar" style="background:#4493fa;"></div>
+              <p class="turbo-features__card-title">Add to main</p>
+              <p class="turbo-features__card-body">Possibility to add a product to favorites and monitor its availability.</p>
+            </div>
+            <div class="turbo-features__card t-reveal" style="transition-delay:.08s;">
+              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
+              <p class="turbo-features__card-title">Product composition</p>
+              <p class="turbo-features__card-body">The composition of each product is detailed.</p>
+            </div>
+            <div class="turbo-features__card t-reveal" style="transition-delay:.16s;">
+              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
+              <p class="turbo-features__card-title">The nutritional value</p>
+              <p class="turbo-features__card-body">Proteins, fats, carbohydrates and calories for each product.</p>
+            </div>
+            <div class="turbo-features__card t-reveal" style="transition-delay:.24s;">
+              <div class="turbo-features__bar" style="background:#4493fa;"></div>
+              <p class="turbo-features__card-title">Product photo</p>
+              <p class="turbo-features__card-body">High-quality photos: packaging, composition label, and product without packaging.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CART PAGE ── -->
+    <div class="turbo-cart">
+      <div class="turbo-cart__content">
+        <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">High-Fidelity</p>
+        <h2 class="turbo-features__heading t-reveal">Product cart page</h2>
+        <div class="turbo-features__cards">
+          <div class="turbo-features__card t-reveal">
+            <div class="turbo-features__bar" style="background:#4493fa;"></div>
+            <p class="turbo-features__card-title">Weight &amp; volume control</p>
+            <p class="turbo-features__card-body">Live sliders show how close the cart is to the 12 kg courier limit.</p>
+          </div>
+          <div class="turbo-features__card t-reveal" style="transition-delay:.08s;">
+            <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
+            <p class="turbo-features__card-title">Promo code</p>
+            <p class="turbo-features__card-body">Inline promo code entry with instant discount calculation.</p>
+          </div>
+          <div class="turbo-features__card t-reveal" style="transition-delay:.16s;">
+            <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
+            <p class="turbo-features__card-title">Order comments</p>
+            <p class="turbo-features__card-body">Leave notes for the courier — no phone calls needed.</p>
+          </div>
+          <div class="turbo-features__card t-reveal" style="transition-delay:.24s;">
+            <div class="turbo-features__bar" style="background:#4493fa;"></div>
+            <p class="turbo-features__card-title">Order confirmation</p>
+            <p class="turbo-features__card-body">"Thanks for your order" modal with delivery time and tracking link.</p>
+          </div>
+        </div>
+      </div>
+      <img src="../assets/images/turbo-cart-mockup.png" alt="Turbo.ua cart page" class="turbo-cart__phone t-reveal">
+    </div>
+
+    <!-- ── FINAL IMAGE ── -->
+    <div class="turbo-fullwidth" style="border-bottom:none;">
+      <img src="../assets/images/turbo-final.jpg" alt="Turbo.ua couriers">
+    </div>
+
   </main>
 
-  <footer class="footer" style="margin-top:0">
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <p class="footer__cta">Let&rsquo;s build the next big thing together.</p>
+    <div class="footer__columns">
+      <div class="footer__col">
+        <p class="footer__col-label">Contact</p>
+        <p class="footer__col-item">Europe, remote</p>
+        <a href="mailto:petrenkoag95@gmail.com" class="footer__col-link">petrenkoag95@gmail.com</a>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-label">Links</p>
+        <a href="../assets/cv.pdf" class="footer__col-link">CV</a>
+        <a href="https://linkedin.com" class="footer__col-link" target="_blank">LinkedIn</a>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-label">Navigate</p>
+        <a href="../index.html#work"  class="footer__col-link">Work</a>
+        <a href="../index.html#about" class="footer__col-link">About</a>
+      </div>
+    </div>
     <div class="footer__bottom">
-      <span class="footer__copy">Anastasiia Petrenko — Lead Product Designer</span>
-      <span class="footer__copy">&copy; 2026</span>
+      <span>Anastasiia Petrenko &mdash; Lead Product Designer</span>
+      <span>&copy; 2026</span>
     </div>
   </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.t-reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -48px 0px' });
+    reveals.forEach(el => revealObserver.observe(el));
+
+    // Animated counters
+    const counters = document.querySelectorAll('[data-counter]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target._counted) {
+          entry.target._counted = true;
+          const target = parseInt(entry.target.dataset.counter);
+          const suffix = entry.target.dataset.suffix || '';
+          const duration = 1600;
+          const start = performance.now();
+          const animate = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            entry.target.textContent = Math.round(eased * target) + suffix;
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(c => counterObserver.observe(c));
+  </script>
 </body>
 </html>
