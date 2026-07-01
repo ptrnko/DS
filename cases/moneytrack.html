@@ -1,52 +1,824 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Money Track wallet — Anastasiia Petrenko</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Money Track — Anastasiia Petrenko</title>
+  <meta name="description" content="Money Track — personal finance management app with bank card sync, QR receipt scanning and built-in financial literacy courses.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/case.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #0a0a0c; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; color: #fff; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes wordIn {
+      from { opacity: 0; transform: translateY(18px); filter: blur(4px); }
+      to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50%       { opacity: 0.9; transform: scale(1.1); }
+    }
+    @keyframes floatPhone {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    .mt-word {
+      display: inline-block;
+      opacity: 0;
+      animation: wordIn 0.55s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    .mt-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+    }
+    .mt-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Nav */
+    .mt-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 72px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 80px;
+      background: rgba(10,10,12,0.92);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .mt-nav a { text-decoration: none; transition: color .2s; }
+    .mt-nav__back { display: flex; align-items: center; gap: 10px; color: #999; font-size: 16px; }
+    .mt-nav__back:hover { color: #fff; }
+    .mt-nav__links { display: flex; gap: 36px; align-items: center; }
+    .mt-nav__links a { color: #ccc; font-size: 16px; }
+    .mt-nav__links a:hover { color: #fff; }
+    .mt-nav__links a.accent { color: #007AFF; }
+    .mt-nav__links a.accent:hover { color: #4da6ff; }
+
+    /* Hero */
+    .mt-hero {
+      position: relative; overflow: hidden;
+      display: grid; grid-template-columns: 1fr 520px;
+      align-items: stretch; min-height: 720px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-top: 72px;
+    }
+    .mt-hero__text {
+      padding: 120px 80px 150px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .mt-hero__eyebrow {
+      margin: 0 0 32px; font-size: 12px; font-weight: 500;
+      color: #007AFF; letter-spacing: .14em; text-transform: uppercase;
+      opacity: 0; animation: fadeUp 0.6s cubic-bezier(.16,1,.3,1) 0.1s forwards;
+    }
+    .mt-hero__title {
+      font-size: 60px; font-weight: 700; line-height: 1.05;
+      letter-spacing: -.03em; color: #fff; margin: 0 0 40px;
+    }
+    .mt-hero__desc {
+      opacity: 0; animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) 0.65s forwards;
+      max-width: 520px;
+    }
+    .mt-hero__desc p {
+      font-size: 17px; font-weight: 400; line-height: 1.7;
+      color: rgba(255,255,255,.55); margin: 0;
+    }
+    .mt-hero__meta {
+      display: flex; gap: 48px; margin-top: 60px;
+      opacity: 0; animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) 0.8s forwards;
+    }
+    .mt-hero__meta-label {
+      font-size: 11px; color: #444; letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .mt-hero__meta-value { font-size: 15px; color: #ccc; }
+    .mt-hero__phone {
+      position: relative; display: flex;
+      align-items: flex-end; justify-content: center;
+      padding-right: 60px; overflow: hidden;
+    }
+    .mt-hero__phone img {
+      width: 100%; max-width: 336px; position: relative; z-index: 2;
+      display: block; margin-bottom: -2px;
+      object-fit: contain; object-position: bottom;
+      filter: drop-shadow(0 40px 60px rgba(0,0,0,0.5));
+      animation: floatPhone 5s ease-in-out infinite;
+    }
+    .mt-hero__glow {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 280px; height: 80px;
+      background: radial-gradient(ellipse, rgba(0,122,255,0.2) 0%, transparent 70%);
+      border-radius: 50%; pointer-events: none; z-index: 1;
+    }
+
+    /* Sections */
+    .mt-section {
+      padding: 150px 80px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .mt-section--dark   { background: #0a0a0c; }
+    .mt-section--darker { background: #0d0d10; }
+    .mt-section--deep   { background: #000913; }
+    .mt-section--white  { background: #fff; }
+    .mt-section--blue   { background: #007AFF; }
+    .mt-section--pad0   { padding: 0; }
+
+    .mt-header-grid {
+      display: grid; grid-template-columns: 320px 1fr; gap: 80px;
+      align-items: start; margin-bottom: 80px;
+    }
+    .mt-eyebrow {
+      font-size: 12px; font-weight: 500; color: #007AFF;
+      letter-spacing: .14em; text-transform: uppercase; margin: 0 0 24px;
+    }
+    .mt-eyebrow--dim { color: rgba(0,122,255,.6); }
+    .mt-heading {
+      font-size: 40px; font-weight: 700; line-height: 1.1;
+      color: #fff; margin: 0; letter-spacing: -.025em;
+    }
+    .mt-heading--lg { font-size: 48px; }
+    .mt-subtext {
+      font-size: 17px; line-height: 1.7; color: rgba(255,255,255,.45); margin: 0;
+    }
+    .mt-divider { width: 40px; height: 2px; background: #007AFF; margin-top: 24px; }
+
+    /* Problem/Solution cards */
+    .mt-prob-grid { display: flex; flex-direction: column; gap: 2px; background: #1a1a1e; }
+    .mt-prob-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #1a1a1e; }
+    .mt-prob-card {
+      background: #0f0f12; padding: 40px 36px;
+      position: relative; overflow: hidden;
+    }
+    .mt-prob-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: #007AFF;
+    }
+    .mt-prob-card--dim::before { background: rgba(0,122,255,.3); }
+    .mt-prob-card__title { font-size: 20px; font-weight: 700; color: #fff; margin: 0 0 12px; line-height: 1.25; }
+
+    /* Color swatches */
+    .mt-swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: #1a1a1e; }
+    .mt-swatch { height: 180px; display: flex; align-items: flex-end; padding: 20px 24px; }
+
+    /* Type specimen */
+    .mt-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #1a1a1e; }
+    .mt-type-card { background: #0f0f12; padding: 40px 36px; }
+
+    /* Logo */
+    .mt-logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+    .mt-logo-grid > div { overflow: hidden; border-radius: 4px; }
+    .mt-logo-grid img { width: 100%; display: block; object-fit: cover; }
+
+    /* Persona */
+    .mt-persona-top    { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: #1a1a1e; margin-bottom: 2px; }
+    .mt-persona-card   { background: #0f0f12; padding: 36px 32px; }
+    .mt-persona-bottom { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: #1a1a1e; }
+    .mt-persona-col    { background: #0f0f12; padding: 32px 28px; }
+    .mt-persona-col--highlight { background: rgba(0,122,255,.07); border-top: 2px solid #007AFF; }
+
+    /* Bar */
+    .mt-bar-row { display: flex; flex-direction: column; gap: 16px; }
+    .mt-bar-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .mt-bar-track { height: 2px; background: rgba(255,255,255,.08); border-radius: 2px; }
+    .mt-bar-fill  { height: 100%; background: #007AFF; border-radius: 2px; }
+
+    /* Questions */
+    .mt-q-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .mt-q-card { background: #007AFF; border-radius: 16px; padding: 28px; }
+    .mt-q-card p { font-size: 18px; font-weight: 500; color: #fff; margin: 0; line-height: 1.4; }
+
+    /* Wireframes phones */
+    .mt-phones-grid { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 32px; align-items: flex-end; }
+    .mt-phones-grid > div { display: flex; justify-content: center; }
+
+    /* Design cards */
+    .mt-design-card {
+      position: relative; overflow: hidden;
+      background: #0a0a0c;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 24px; padding: 60px 80px;
+      display: flex; align-items: center; gap: 48px;
+      margin-bottom: 40px;
+    }
+    .mt-design-card--right { justify-content: flex-end; }
+    .mt-design-card--left  { justify-content: flex-start; }
+    .mt-design-card img {
+      position: relative; z-index: 1;
+      width: 40%; max-width: 360px;
+      display: block; object-fit: contain;
+    }
+
+    /* Final */
+    .mt-final {
+      position: relative; overflow: hidden; min-height: 720px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 100px 80px;
+    }
+    .mt-final__text { position: relative; z-index: 1; }
+    .mt-final__phone { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; }
+    .mt-final__phone img { width: 100%; max-width: 360px; display: block; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,30,.3)); }
+
+    /* Discovery workflow */
+    .mt-workflow { position: relative; width: 100%; height: 460px; }
+
+    /* Footer */
+    .mt-footer { padding: 80px 80px 48px; background: #101013; border-top: 1px solid rgba(255,255,255,0.05); }
+    .mt-footer__grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 60px; margin-bottom: 80px; }
+    .mt-footer__label { font-size: 14px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 24px; }
+    .mt-footer a { color: #ccc; text-decoration: none; transition: color .2s; font-size: 18px; }
+    .mt-footer a:hover { color: #fff; }
+    .mt-footer__links { display: flex; flex-direction: column; gap: 12px; }
+    .mt-footer__bottom { border-top: 1px solid rgba(255,255,255,.05); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+    .mt-footer__copy { font-size: 12px; color: #545454; }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <a href="../index.html" class="logo">Portfolio</a>
-    <nav class="nav">
-      <a href="../index.html#work"  class="nav__link">Work</a>
-      <a href="../index.html#about" class="nav__link">About</a>
-      <a href="mailto:petrenkoag95@gmail.com" class="btn btn--ghost">Get in touch</a>
-    </nav>
-  </header>
 
-  <main class="case">
-    <div class="case__hero">
-      <p class="case__tag">Fintech · Mobile</p>
-      <h1 class="case__title">Money Track wallet</h1>
-      <p class="case__desc">A personal finance wallet that turns messy transactions into clear, motivating insights — designed to change spending habits, not just track them.</p>
+<!-- NAV -->
+<nav class="mt-nav">
+  <a href="../index.html" class="mt-nav__back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to works
+  </a>
+  <div class="mt-nav__links">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="mailto:petrenkoag95@gmail.com" class="accent">Contact</a>
+  </div>
+</nav>
 
-      <div class="case__meta-row">
-        <div class="case__meta-item"><span class="case__meta-label">Role</span><span class="case__meta-value">Product Designer</span></div>
-        <div class="case__meta-item"><span class="case__meta-label">Industry</span><span class="case__meta-value">Fintech · Mobile</span></div>
-        <div class="case__meta-item"><span class="case__meta-label">Platform</span><span class="case__meta-value">iOS</span></div>
+<!-- HERO -->
+<section class="mt-hero">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="mtGrid" width="240" height="240" patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="240" height="240" fill="none" stroke="rgba(0,122,255,0.1)" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#mtGrid)"/>
+    <circle cx="240" cy="240" r="3" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0s" repeatCount="indefinite"/></circle>
+    <circle cx="480" cy="240" r="3" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0.7s" repeatCount="indefinite"/></circle>
+    <circle cx="720" cy="480" r="3" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1.4s" repeatCount="indefinite"/></circle>
+    <circle cx="960" cy="240" r="3" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="2.1s" repeatCount="indefinite"/></circle>
+    <rect x="480" y="240" width="240" height="240" fill="rgba(0,122,255,0)" opacity="0"><animate attributeName="fill" values="rgba(0,122,255,0);rgba(0,122,255,0.04);rgba(0,122,255,0)" dur="6s" begin="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="6s" begin="1s" repeatCount="indefinite"/></rect>
+  </svg>
+  <div style="position:absolute;top:-120px;right:360px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,122,255,0.12) 0%,transparent 70%);animation:glowPulse 6s ease-in-out infinite;pointer-events:none;z-index:0;"></div>
+
+  <div class="mt-hero__text">
+    <p class="mt-hero__eyebrow">Project Overview</p>
+    <h1 class="mt-hero__title">
+      <span class="mt-word" style="animation-delay:.18s;">Money</span>
+      <span class="mt-word" style="animation-delay:.26s;">Track</span>
+      <span class="mt-word" style="animation-delay:.34s;">—</span><br>
+      <span class="mt-word" style="animation-delay:.42s;color:#007AFF;">personal</span>
+      <span class="mt-word" style="animation-delay:.50s;color:#007AFF;">finance</span><br>
+      <span class="mt-word" style="animation-delay:.58s;">made</span>
+      <span class="mt-word" style="animation-delay:.66s;">simple.</span>
+    </h1>
+    <div class="mt-hero__desc">
+      <p>A personal finance management app with bank card sync, automated spending tracking via QR receipt scanning, and built-in financial literacy courses — designed for users who want control without complexity.</p>
+    </div>
+    <div class="mt-hero__meta">
+      <div>
+        <div class="mt-hero__meta-label">Role</div>
+        <div class="mt-hero__meta-value">Product Designer</div>
+      </div>
+      <div>
+        <div class="mt-hero__meta-label">Platform</div>
+        <div class="mt-hero__meta-value">iOS</div>
+      </div>
+      <div>
+        <div class="mt-hero__meta-label">Sector</div>
+        <div class="mt-hero__meta-value">FinTech · B2C</div>
       </div>
     </div>
+  </div>
 
-    <div class="case__cover">
-      <img src="../assets/images/case-moneytrack.jpg" alt="Money Track wallet">
+  <div class="mt-hero__phone">
+    <img src="../assets/images/mt-hero-phone.png" alt="Money Track app">
+    <div class="mt-hero__glow"></div>
+  </div>
+</section>
+
+
+<!-- PROBLEMS & SOLUTIONS -->
+<section class="mt-section mt-section--dark">
+  <div class="mt-header-grid">
+    <div class="mt-reveal">
+      <p class="mt-eyebrow">Problems &amp; Solution</p>
+      <div class="mt-divider"></div>
+    </div>
+    <div class="mt-reveal">
+      <p style="font-size:40px;font-weight:700;line-height:1.15;color:#fff;margin:0 0 16px;">Real problems, <span style="color:rgba(255,255,255,.2);">thoughtful answers.</span></p>
+      <p class="mt-subtext" style="margin-bottom:56px;max-width:600px;">The research revealed two core user frustrations. Here's how Money Track addresses each one directly.</p>
+
+      <div class="mt-prob-grid">
+        <div class="mt-prob-row">
+          <div class="mt-prob-card mt-prob-card--dim mt-reveal">
+            <p style="font-size:11px;font-weight:500;color:rgba(0,122,255,.6);letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px;">Problem 01</p>
+            <p class="mt-prob-card__title">Lack of financial literacy</p>
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.45);margin:0;">Users don't have enough knowledge to manage their finances effectively and feel overwhelmed by complex tools.</p>
+          </div>
+          <div class="mt-prob-card mt-reveal" style="transition-delay:.08s;">
+            <p style="font-size:11px;font-weight:500;color:#007AFF;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px;">Solution 01</p>
+            <p class="mt-prob-card__title">Built-in tutorial section</p>
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.5);margin:0;">Money Track includes a tutorial section with lessons of varying difficulty. Users can choose the "beginner" level and listen to only the basic lessons.</p>
+          </div>
+        </div>
+        <div class="mt-prob-row">
+          <div class="mt-prob-card mt-prob-card--dim mt-reveal" style="transition-delay:.08s;">
+            <p style="font-size:11px;font-weight:500;color:rgba(0,122,255,.6);letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px;">Problem 02</p>
+            <p class="mt-prob-card__title">Not being able to plan your budget</p>
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.45);margin:0;">Users lack visibility into where their money goes and struggle to set meaningful budget goals.</p>
+          </div>
+          <div class="mt-prob-card mt-reveal" style="transition-delay:.16s;">
+            <p style="font-size:11px;font-weight:500;color:#007AFF;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px;">Solution 02</p>
+            <p class="mt-prob-card__title">Link your card. Track everything.</p>
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.5);margin:0;">The app offers to link your card to track and segment spending. You can also scan the QR code from a receipt — the operation is added automatically.</p>
+          </div>
+        </div>
+        <div class="mt-prob-row">
+          <div class="mt-prob-card mt-prob-card--dim mt-reveal" style="transition-delay:.16s;">
+            <p style="font-size:11px;font-weight:500;color:rgba(0,122,255,.6);letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px;">Problem 03</p>
+            <p class="mt-prob-card__title">Lack of time to learn new tools</p>
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.45);margin:0;">Existing budget planning apps are feature-heavy and demand a steep learning curve most users never have time for.</p>
+          </div>
+          <div class="mt-prob-card mt-reveal" style="transition-delay:.24s;">
+            <p style="font-size:11px;font-weight:500;color:#007AFF;letter-spacing:.1em;text-transform:uppercase;margin:0 0 16px;">Solution 03</p>
+            <p class="mt-prob-card__title">Minimal features. Maximum clarity.</p>
+            <p style="font-size:14px;line-height:1.65;color:rgba(255,255,255,.5);margin:0;">Simple interface with a minimum number of features. Financial literacy courses are also available depending on the level of the user.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- VISUAL SYSTEM -->
+<section class="mt-section mt-section--darker">
+  <div class="mt-header-grid">
+    <div class="mt-reveal">
+      <p class="mt-eyebrow">Visual System</p>
+      <h2 class="mt-heading">Typography, colors &amp; logo</h2>
+    </div>
+  </div>
+
+  <div class="mt-reveal mt-swatches" style="margin-bottom:80px;">
+    <div class="mt-swatch" style="background:#007AFF;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:4px;">Primary</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);">#007AFF</div>
+      </div>
+    </div>
+    <div class="mt-swatch" style="background:#ffffff;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:rgba(0,0,0,.5);margin-bottom:4px;">White</div>
+        <div style="font-size:13px;color:rgba(0,0,0,.35);">#FFFFFF</div>
+      </div>
+    </div>
+    <div class="mt-swatch" style="background:#000913;border:1px solid rgba(255,255,255,.06);">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:4px;">Dark</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.3);">#000913</div>
+      </div>
+    </div>
+    <div class="mt-swatch" style="background:#A9ADB0;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:4px;">Neutral</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.45);">#A9ADB0</div>
+      </div>
+    </div>
+    <div class="mt-swatch" style="background:#EFF1F5;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:rgba(0,0,0,.4);margin-bottom:4px;">Surface</div>
+        <div style="font-size:13px;color:rgba(0,0,0,.3);">#EFF1F5</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-reveal mt-type-grid" style="margin-bottom:80px;">
+    <div class="mt-type-card">
+      <div style="font-size:11px;color:#007AFF;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Heading</div>
+      <div style="font-size:48px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.025em;">Balance: 19 445 ₴</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.3);margin-top:16px;">SF Pro Display · 700 · 48px · −0.025em</div>
+    </div>
+    <div class="mt-type-card">
+      <div style="font-size:11px;color:#007AFF;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Body</div>
+      <div style="font-size:17px;font-weight:400;color:rgba(255,255,255,.65);line-height:1.7;">Track your spending automatically. Link your card and every transaction is categorized in real time — no manual input required.</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.3);margin-top:16px;">SF Pro Display · 400 · 17px · 1.7</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:320px 1fr;gap:80px;align-items:start;margin-bottom:40px;">
+    <div class="mt-reveal">
+      <p class="mt-eyebrow">Logo design</p>
+      <p class="mt-subtext">The main idea is coins stacked in two columns. Made in a minimalist style.</p>
+    </div>
+  </div>
+  <div class="mt-reveal mt-logo-grid">
+    <div><img src="../assets/images/mt-logo-homescreen.png" alt="Money Track logo on iPhone homescreen"></div>
+    <div><img src="../assets/images/mt-logo-evolution.png" alt="Logo evolution: Idea → Prototype → Design"></div>
+  </div>
+</section>
+
+
+<!-- BRAND IMAGE -->
+<section class="mt-section--pad0" style="border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);">
+  <img src="../assets/images/mt-brand.jpg" alt="Money Track app in use" style="width:100%;display:block;">
+</section>
+
+
+<!-- DISCOVERY WORKFLOW -->
+<section class="mt-section mt-section--darker">
+  <div style="display:grid;grid-template-columns:320px 1fr;gap:80px;align-items:start;margin-bottom:72px;">
+    <div class="mt-reveal">
+      <p class="mt-eyebrow">Discovery Workflow</p>
+      <h2 class="mt-heading">Scope of work.</h2>
+    </div>
+    <div style="display:flex;justify-content:flex-end;">
+      <p class="mt-subtext" style="max-width:560px;text-align:right;">Applying UI/UX best practices and strategies to create an app that meets and exceeds expectations.</p>
+    </div>
+  </div>
+
+  <div class="mt-reveal mt-workflow">
+    <div style="position:absolute;top:0;left:0%;display:flex;align-items:center;gap:8px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#007AFF;flex-shrink:0;"></div>
+      <span style="font-size:12px;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase;">Discover &amp; Define</span>
+    </div>
+    <div style="position:absolute;top:0;left:33%;display:flex;align-items:center;gap:8px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#007AFF;flex-shrink:0;"></div>
+      <span style="font-size:12px;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase;">Develop &amp; Deliver</span>
+    </div>
+    <div style="position:absolute;top:0;left:66%;display:flex;align-items:center;gap:8px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#007AFF;flex-shrink:0;"></div>
+      <span style="font-size:12px;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase;">Develop &amp; Deliver</span>
     </div>
 
-    <div class="case__body">
-      <p class="case__coming-soon">Full case study coming soon.</p>
-    </div>
-  </main>
+    <div style="position:absolute;top:20px;bottom:40px;left:0;width:1px;background:rgba(255,255,255,.35);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:33%;width:1px;background:rgba(255,255,255,.35);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:66%;width:1px;background:rgba(255,255,255,.35);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;right:0;width:1px;background:rgba(255,255,255,.15);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:8%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:16%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:24.5%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:41%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:49.5%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:58%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:74.5%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:83%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
+    <div style="position:absolute;top:20px;bottom:40px;left:91.5%;width:1px;border-left:1px dashed rgba(255,255,255,.1);"></div>
 
-  <footer class="footer" style="margin-top:0">
-    <div class="footer__bottom">
-      <span class="footer__copy">Anastasiia Petrenko — Lead Product Designer</span>
-      <span class="footer__copy">&copy; 2026</span>
+    <div style="position:absolute;bottom:36px;left:-3.5px;width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:#0d0d10;"></div>
+    <div style="position:absolute;bottom:36px;left:calc(33% - 3.5px);width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:#0d0d10;"></div>
+    <div style="position:absolute;bottom:36px;left:calc(66% - 3.5px);width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:#0d0d10;"></div>
+
+    <div style="position:absolute;top:44px;left:1%;width:17%;background:rgba(0,122,255,.12);border-radius:40px;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#007AFF;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><div style="width:5px;height:5px;border-radius:50%;background:#fff;"></div></div>
+      <span style="font-size:14px;color:rgba(255,255,255,.85);white-space:nowrap;">UX Audit</span>
     </div>
-  </footer>
+    <div style="position:absolute;top:108px;left:11%;width:20%;background:rgba(0,122,255,.12);border-radius:40px;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#007AFF;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><div style="width:5px;height:5px;border-radius:50%;background:#fff;"></div></div>
+      <span style="font-size:14px;color:rgba(255,255,255,.85);white-space:nowrap;">Story mapping</span>
+    </div>
+    <div style="position:absolute;top:108px;left:30%;width:16%;background:rgba(0,122,255,.12);border-radius:40px;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#007AFF;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><div style="width:5px;height:5px;border-radius:50%;background:#fff;"></div></div>
+      <span style="font-size:14px;color:rgba(255,255,255,.85);white-space:nowrap;">User flows</span>
+    </div>
+    <div style="position:absolute;top:172px;left:40%;width:16%;background:rgba(0,122,255,.12);border-radius:40px;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#007AFF;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><div style="width:5px;height:5px;border-radius:50%;background:#fff;"></div></div>
+      <span style="font-size:14px;color:rgba(255,255,255,.85);white-space:nowrap;">Wireframes</span>
+    </div>
+    <div style="position:absolute;top:236px;left:49%;width:27%;background:rgba(0,122,255,.12);border-radius:40px;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#007AFF;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><div style="width:5px;height:5px;border-radius:50%;background:#fff;"></div></div>
+      <span style="font-size:14px;color:rgba(255,255,255,.85);white-space:nowrap;">High-fidelity designs</span>
+    </div>
+    <div style="position:absolute;top:300px;left:68%;width:19%;background:rgba(0,122,255,.12);border-radius:40px;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#007AFF;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><div style="width:5px;height:5px;border-radius:50%;background:#fff;"></div></div>
+      <span style="font-size:14px;color:rgba(255,255,255,.85);white-space:nowrap;">Interactive prototype</span>
+    </div>
+    <div style="position:absolute;top:300px;left:84%;width:14%;background:rgba(0,122,255,.12);border-radius:40px;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#007AFF;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><div style="width:5px;height:5px;border-radius:50%;background:#fff;"></div></div>
+      <span style="font-size:14px;color:rgba(255,255,255,.85);white-space:nowrap;">UI testing</span>
+    </div>
+
+    <div style="position:absolute;bottom:0;left:0;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;">November</div>
+    <div style="position:absolute;bottom:0;left:33%;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;">December</div>
+    <div style="position:absolute;bottom:0;left:66%;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;">January</div>
+  </div>
+</section>
+
+
+<!-- USER PERSONA -->
+<section class="mt-section mt-section--dark">
+  <div style="display:grid;grid-template-columns:320px 1fr;gap:80px;align-items:start;margin-bottom:64px;">
+    <div>
+      <p class="mt-eyebrow">User Persona</p>
+      <h2 class="mt-heading">Jennifer</h2>
+    </div>
+    <div style="display:flex;justify-content:flex-end;">
+      <p class="mt-subtext" style="max-width:560px;">A user persona is a semi-fictional character based on a current customer. Personas can be created by talking to users and segmenting by various demographic and psychographic data to improve your product marketing.</p>
+    </div>
+  </div>
+
+  <div class="mt-persona-top">
+    <div class="mt-persona-card">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+        <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(0,122,255,0.3);">
+          <img src="../assets/images/mt-persona.jpg" alt="Jennifer" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div>
+          <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;">Jennifer</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.4);">Sales Manager, 35 y.o.</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.3);">Kyiv, Ukraine</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.06);padding-top:20px;">
+        <p style="font-size:18px;line-height:1.6;color:#fff;margin:0;font-style:italic;">"I need an app which could help me to save money for my personal goals"</p>
+      </div>
+    </div>
+    <div class="mt-persona-card">
+      <p class="mt-eyebrow" style="margin-bottom:16px;">Bio</p>
+      <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,.55);margin:0;">Jennifer lives alone and spends a lot of time at work. Often she does not have enough time to manage her own finances.</p>
+    </div>
+    <div class="mt-persona-card">
+      <p class="mt-eyebrow" style="margin-bottom:20px;">Personality</p>
+      <div class="mt-bar-row">
+        <div>
+          <div class="mt-bar-meta"><span style="font-size:14px;color:rgba(255,255,255,.6);">Thrifty</span><span style="font-size:14px;font-weight:600;color:#fff;">9/10</span></div>
+          <div class="mt-bar-track"><div class="mt-bar-fill" style="width:90%;"></div></div>
+        </div>
+        <div>
+          <div class="mt-bar-meta"><span style="font-size:14px;color:rgba(255,255,255,.6);">Independent</span><span style="font-size:14px;font-weight:600;color:#fff;">6/10</span></div>
+          <div class="mt-bar-track"><div class="mt-bar-fill" style="width:60%;opacity:.7;"></div></div>
+        </div>
+        <div>
+          <div class="mt-bar-meta"><span style="font-size:14px;color:rgba(255,255,255,.6);">Busy</span><span style="font-size:14px;font-weight:600;color:#fff;">8/10</span></div>
+          <div class="mt-bar-track"><div class="mt-bar-fill" style="width:80%;opacity:.85;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-persona-bottom">
+    <div class="mt-persona-col">
+      <p class="mt-eyebrow" style="margin-bottom:16px;">Interests</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Sport</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Work</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Reading</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Music</span>
+      </div>
+    </div>
+    <div class="mt-persona-col">
+      <p class="mt-eyebrow" style="margin-bottom:16px;">Influences</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Friends</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Colleagues</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Experts in the same field</span>
+      </div>
+    </div>
+    <div class="mt-persona-col">
+      <p class="mt-eyebrow" style="margin-bottom:16px;">Goals</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">To be rich</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">To have more free time</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">To be healthy</span>
+      </div>
+    </div>
+    <div class="mt-persona-col mt-persona-col--highlight">
+      <p class="mt-eyebrow" style="margin-bottom:16px;">Pain points</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">No financial literacy</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">Can't manage own finances</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55);">No savings</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- EMPATHIZE PHASE -->
+<section class="mt-section mt-section--darker">
+  <div class="mt-header-grid">
+    <div class="mt-reveal">
+      <p class="mt-eyebrow">Empathize Phase</p>
+      <h2 class="mt-heading">User interviews insights</h2>
+    </div>
+    <div style="display:flex;justify-content:flex-end;">
+      <p class="mt-subtext" style="max-width:560px;"><span style="color:#fff;font-weight:600;">93%</span> of respondents download applications to track and analyze their financial transactions. 7 respondents took part in the survey with an average age of 28 y.o.</p>
+    </div>
+  </div>
+  <div class="mt-reveal" style="display:flex;justify-content:center;">
+    <img src="../assets/images/mt-interview-insights.png" alt="User interview insights" style="width:100%;max-width:900px;display:block;">
+  </div>
+</section>
+
+
+<!-- QUALITATIVE QUESTIONS -->
+<section class="mt-section mt-section--dark">
+  <div class="mt-header-grid" style="margin-bottom:64px;">
+    <div class="mt-reveal">
+      <p class="mt-eyebrow">User Interviews</p>
+      <h2 class="mt-heading">Qualitative question</h2>
+    </div>
+    <div style="display:flex;justify-content:flex-end;">
+      <p class="mt-subtext" style="max-width:560px;">Qualitative market research questions are the most effective interviews to understand how your target demographic thinks, feels and why they make certain choices.</p>
+    </div>
+  </div>
+  <div class="mt-reveal mt-q-grid">
+    <div class="mt-q-card"><p>How do you plan your budget?</p></div>
+    <div class="mt-q-card"><p>What budgeting methods do you use?</p></div>
+    <div class="mt-q-card"><p>Do you use budget planning apps?</p></div>
+    <div class="mt-q-card"><p>Tell us about your experience with the budget planning app?</p></div>
+    <div class="mt-q-card"><p>Are you still using the app? Why?</p></div>
+    <div class="mt-q-card"><p>What difficulties did you have when visited the application?</p></div>
+  </div>
+</section>
+
+
+<!-- USER FLOW -->
+<section class="mt-section mt-section--deep">
+  <div class="mt-reveal" style="display:grid;grid-template-columns:380px 1fr;gap:80px;align-items:center;">
+    <div>
+      <p class="mt-eyebrow">User Flow</p>
+      <h2 class="mt-heading mt-heading--lg" style="margin-bottom:48px;">User flow</h2>
+      <p style="font-size:12px;color:rgba(255,255,255,.4);letter-spacing:.06em;text-transform:uppercase;margin:0 0 12px;">Description</p>
+      <p class="mt-subtext">The user flow takes you from the entry point through a set of steps towards a successful outcome and final action of the product.</p>
+    </div>
+    <div style="position:relative;height:420px;">
+      <svg width="100%" height="420" viewBox="0 0 720 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="187" width="120" height="46" rx="23" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none"/>
+        <text x="80" y="215" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Inter,sans-serif" font-size="15" font-weight="500">Entry</text>
+        <line x1="140" y1="210" x2="218" y2="210" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <polygon points="270,160 340,210 270,260 200,210" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none"/>
+        <text x="270" y="205" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-size="13" font-weight="500">User has</text>
+        <text x="270" y="222" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-size="13" font-weight="500">account?</text>
+        <line x1="270" y1="160" x2="270" y2="112" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="280" y="135" fill="rgba(255,255,255,0.4)" font-family="Inter,sans-serif" font-size="13">Yes</text>
+        <rect x="220" y="68" width="100" height="40" rx="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none"/>
+        <text x="270" y="92" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Inter,sans-serif" font-size="14" font-weight="500">Yes</text>
+        <line x1="320" y1="88" x2="380" y2="88" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <rect x="380" y="65" width="150" height="46" rx="23" fill="#007AFF"/>
+        <text x="455" y="93" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="15" font-weight="500">Login form</text>
+        <line x1="530" y1="88" x2="590" y2="88" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <rect x="590" y="65" width="130" height="46" rx="23" fill="#007AFF"/>
+        <text x="655" y="93" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="14" font-weight="500">Operations</text>
+        <line x1="270" y1="260" x2="270" y2="316" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="280" y="295" fill="rgba(255,255,255,0.4)" font-family="Inter,sans-serif" font-size="13">No</text>
+        <rect x="220" y="320" width="100" height="40" rx="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none"/>
+        <text x="270" y="344" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Inter,sans-serif" font-size="14" font-weight="500">No</text>
+        <line x1="320" y1="340" x2="380" y2="340" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <rect x="380" y="317" width="150" height="46" rx="23" fill="#007AFF"/>
+        <text x="455" y="345" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="15" font-weight="500">Onboarding</text>
+        <line x1="530" y1="340" x2="590" y2="340" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <rect x="590" y="317" width="130" height="46" rx="23" fill="#007AFF"/>
+        <text x="655" y="345" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="13" font-weight="500">Registration</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+<!-- WIREFRAMES -->
+<section class="mt-section mt-section--white">
+  <div class="mt-reveal" style="display:grid;grid-template-columns:320px 1fr;gap:80px;align-items:start;margin-bottom:80px;">
+    <div>
+      <p style="font-size:12px;font-weight:500;color:#007AFF;letter-spacing:.14em;text-transform:uppercase;margin:0 0 24px;">High-Fidelity</p>
+      <h2 style="font-size:40px;font-weight:700;line-height:1.1;color:#0a0a0c;margin:0;letter-spacing:-.025em;">Wireframes</h2>
+    </div>
+    <div style="display:flex;justify-content:flex-end;">
+      <p style="font-size:17px;line-height:1.7;color:rgba(0,0,0,.5);margin:0;max-width:560px;">They contain the main categories, information structure and description of user interaction with the application interface.</p>
+    </div>
+  </div>
+  <div class="mt-reveal mt-phones-grid">
+    <div><img src="../assets/images/mt-wireframe-1.png" alt="Add operation wireframe" style="max-width:280px;"></div>
+    <div><img src="../assets/images/mt-wireframe-2.png" alt="Operations wireframe" style="max-width:340px;"></div>
+    <div><img src="../assets/images/mt-wireframe-3.png" alt="Cards screen" style="max-width:280px;"></div>
+  </div>
+</section>
+
+
+<!-- DESIGN & PROTOTYPING -->
+<section class="mt-section mt-section--deep" style="position:relative;overflow:hidden;">
+  <div style="position:relative;z-index:1;">
+    <div class="mt-reveal" style="margin-bottom:80px;">
+      <p class="mt-eyebrow">High-Fidelity</p>
+      <h2 class="mt-heading mt-heading--lg">Design &amp; prototyping</h2>
+    </div>
+
+    <div class="mt-design-card mt-design-card--right mt-reveal">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+        <defs><pattern id="dpGrid1" width="200" height="200" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="200" height="200" fill="none" stroke="rgba(0,122,255,0.1)" stroke-width="1"/></pattern></defs>
+        <rect width="100%" height="100%" fill="url(#dpGrid1)"/>
+        <circle cx="200" cy="200" r="2.5" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0s" repeatCount="indefinite"/></circle>
+        <circle cx="400" cy="200" r="2.5" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0.8s" repeatCount="indefinite"/></circle>
+        <circle cx="600" cy="400" r="2.5" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1.6s" repeatCount="indefinite"/></circle>
+      </svg>
+      <img src="../assets/images/mt-phone-scan.png" alt="Scan a receipt screen">
+      <img src="../assets/images/mt-phone-add-op.png" alt="Add operation screen">
+    </div>
+
+    <div class="mt-design-card mt-design-card--left mt-reveal" style="margin-bottom:0;">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+        <defs><pattern id="dpGrid2" width="200" height="200" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="200" height="200" fill="none" stroke="rgba(0,122,255,0.1)" stroke-width="1"/></pattern></defs>
+        <rect width="100%" height="100%" fill="url(#dpGrid2)"/>
+        <circle cx="200" cy="200" r="2.5" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0.4s" repeatCount="indefinite"/></circle>
+        <circle cx="600" cy="200" r="2.5" fill="#007AFF" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1.2s" repeatCount="indefinite"/></circle>
+      </svg>
+      <img src="../assets/images/mt-phone-profile.png" alt="Profile screen">
+      <img src="../assets/images/mt-phone-study.png" alt="Study space screen">
+    </div>
+  </div>
+</section>
+
+
+<!-- INTERACTIVE PROTOTYPE -->
+<section class="mt-section mt-section--dark">
+  <div style="display:grid;grid-template-columns:320px 1fr;gap:80px;align-items:start;margin-bottom:64px;">
+    <div class="mt-reveal">
+      <p class="mt-eyebrow">Interactive</p>
+      <h2 class="mt-heading">Try the prototype</h2>
+    </div>
+    <div class="mt-reveal" style="display:flex;justify-content:flex-end;">
+      <p class="mt-subtext" style="max-width:560px;">Click through the full interactive prototype directly below — no Figma account needed.</p>
+    </div>
+  </div>
+  <div class="mt-reveal" style="position:relative;width:100%;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:#0f0f12;">
+    <iframe
+      style="display:block;width:100%;height:720px;border:none;"
+      src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Ft4EIrUdU1FvT3uc4GCTur5%2FMoney-track%3Fnode-id%3D122-3721%26viewport%3D655%252C-243%252C0.21%26t%3DZh8VAZmuFcigvo7E-1%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D122%253A3721%26page-id%3D120%253A1074"
+      allowfullscreen>
+    </iframe>
+  </div>
+</section>
+
+
+<!-- FINAL SHOWCASE -->
+<section class="mt-section--blue mt-final">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.12;" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="finalGrid" width="200" height="200" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="200" height="200" fill="none" stroke="rgba(255,255,255,1)" stroke-width="1"/></pattern></defs>
+    <rect width="100%" height="100%" fill="url(#finalGrid)"/>
+  </svg>
+  <div class="mt-final__text mt-reveal">
+    <p style="font-size:12px;font-weight:500;color:rgba(255,255,255,.65);letter-spacing:.14em;text-transform:uppercase;margin:0 0 24px;">Money Track</p>
+    <h2 style="font-size:56px;font-weight:700;line-height:1.05;color:#fff;margin:0 0 32px;letter-spacing:-.025em;">Financial literacy for everyone.</h2>
+    <p style="font-size:18px;line-height:1.7;color:rgba(255,255,255,.7);margin:0;max-width:460px;">Study courses · Bank sync · QR scanning · Smart budget tracking — all in one app.</p>
+  </div>
+  <div class="mt-final__phone mt-reveal">
+    <img src="../assets/images/mt-phone-study.png" alt="Study space">
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="mt-footer">
+  <div class="mt-footer__grid">
+    <div>
+      <div class="mt-footer__label">Contact</div>
+      <div style="font-size:16px;color:#ccc;margin-bottom:10px;">Europe, remote</div>
+      <a href="mailto:petrenkoag95@gmail.com">petrenkoag95@gmail.com</a>
+    </div>
+    <div>
+      <div class="mt-footer__label">Links</div>
+      <div class="mt-footer__links">
+        <a href="../assets/cv.pdf">CV</a>
+        <a href="https://linkedin.com">LinkedIn</a>
+      </div>
+    </div>
+    <div>
+      <div class="mt-footer__label">Navigate</div>
+      <div class="mt-footer__links">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#about">About</a>
+      </div>
+    </div>
+  </div>
+  <div class="mt-footer__bottom">
+    <span class="mt-footer__copy">Anastasiia Petrenko — Lead Product Designer</span>
+    <span class="mt-footer__copy">© 2026</span>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.mt-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
