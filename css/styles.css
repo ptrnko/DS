@@ -411,10 +411,10 @@ h1, h2, h3 { font-weight: 700; }
   left:           50%;
   top:            48.67%;
   transform:      translate(-50%, -50%);
-  font-size:      9px;
+  font-size:      clamp(11px, 3vw, 18px);
   font-weight:    600;
   letter-spacing: 0.2px;
-  color:          #0a0a0c;
+  color:          #ffffff;
   pointer-events: none;
   text-align:     center;
   line-height:    1.3;
