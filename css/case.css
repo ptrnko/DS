@@ -1090,3 +1090,104 @@
   color: #878787;
   line-height: 1.5;
 }
+
+/* ─── MOBILE: Wave-specific ─────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Overview */
+  .wave-overview { padding: 44px 20px; }
+  .wave-overview__grid { grid-template-columns: 1fr; gap: 20px; }
+  .wave-overview__title { font-size: 22px; }
+  .wave-overview__body { font-size: 15px; padding-top: 0; }
+
+  /* Problem cards — 1 col */
+  .wave-problem { padding: 44px 20px; }
+  .wave-problem__grid { grid-template-columns: 1fr; }
+  .wave-problem__card { padding: 24px 20px; }
+  .wave-problem__title { font-size: 18px; }
+
+  /* Branding — stack logo + type */
+  .wave-brand-grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .wave-logo-card { padding: 28px 24px; min-height: 160px; }
+  .wave-logo-card img { width: 35%; }
+  .wave-type-card { padding: 28px 20px; }
+  .wave-type-name { font-size: 32px; margin-bottom: 20px; }
+  .wave-type-chars { grid-template-columns: repeat(6, 1fr); row-gap: 16px; }
+  .wave-type-chars span { font-size: 20px; }
+
+  /* Palette — simplified 2-row stacked colors */
+  .wave-palette-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    gap: 8px;
+  }
+  .wave-palette-col {
+    display: contents; /* flatten children into parent grid */
+  }
+  .wave-palette-photo { display: none; } /* hide photos on mobile, keep colors */
+  .wave-color-card { flex: none; height: 100px; border-radius: 12px; }
+  .wave-color-card--short,
+  .wave-color-card--tall { flex: none; height: 100px; }
+  .wave-photo-card { display: none; }
+
+  /* Survey */
+  .wave-survey { padding: 44px 20px; }
+  .wave-survey__head { flex-direction: column; gap: 16px; margin-bottom: 32px; }
+  .wave-survey__dot-stack { margin-top: 0; }
+  .wave-survey__desc { font-size: 18px; }
+
+  /* Survey visual — collapse absolute layout to stacked cards */
+  .wave-survey__visual {
+    aspect-ratio: unset;
+    height: auto;
+    background: none;
+  }
+  .wave-survey__bg { display: none; }
+  .wave-survey__col {
+    position: static;
+    width: 100%;
+    top: auto;
+    left: auto;
+    right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .wave-survey__col--right { margin-top: 12px; }
+  .wave-quote {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 14px !important;
+    padding: 16px;
+  }
+  .wave-quote__text { font-size: 14px; color: rgba(240,240,240,0.8); }
+  .wave-quote__mark { font-size: 22px; }
+  .wave-quote__avatar { width: 32px; height: 32px; }
+
+  /* Wireframes */
+  .wave-wireframes-section { padding: 44px 20px 0; }
+  .wave-wireframes-img {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    margin-top: 32px;
+  }
+
+  /* Final results */
+  .wave-final { padding: 44px 20px; }
+  .wave-final__card { padding: 24px 20px; gap: 24px; border-radius: 10px; }
+
+  /* Metrics */
+  .wave-metrics { padding: 52px 20px; gap: 40px; }
+  .wave-metrics__row { flex-direction: column; gap: 28px; }
+  .wave-metrics__item { gap: 14px; }
+  .wave-metrics__num { font-size: 48px; }
+  .wave-metrics__desc { font-size: 16px; }
+}
