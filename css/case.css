@@ -513,10 +513,44 @@
   padding:    80px var(--section-px) 120px;
 }
 
-@media (max-width: 720px) {
-  .cs-title            { font-size: 34px; }
-  .cs-problem__grid    { grid-template-columns: 1fr; gap: 40px; }
-  .cs-meta             { flex-wrap: wrap; gap: 16px; }
+/* ─── MOBILE (erp-core & shared cs-* pages) ────────────────── */
+@media (max-width: 768px) {
+  /* Nav */
+  .site-header { padding: 0 20px; height: 56px; }
+  .site-header .nav { display: none; }
+
+  /* Hero */
+  .cs-hero { padding: 36px 20px 44px; }
+  .cs-title { font-size: 30px; line-height: 1.1; }
+  .cs-meta  { flex-wrap: wrap; gap: 16px; }
+
+  /* Section padding */
+  .cs-section { padding: 52px 20px; }
+
+  /* Problem grid → 1 col */
+  .cs-problem__grid { grid-template-columns: 1fr; gap: 32px; }
+  .cs-problem__left-inner { flex-direction: row; gap: 14px; }
+  .cs-author__avatar { margin-top: 0; width: 44px; height: 44px; }
+  .cs-quote { font-size: 20px; }
+
+  /* Strategy cards → 1 col */
+  .cs-strategy__cards { grid-template-columns: 1fr; }
+
+  /* Decision cols → 1 col */
+  .cs-decision__cols { grid-template-columns: 1fr; }
+
+  /* Metrics → 1 col */
+  .cs-metrics__row { grid-template-columns: 1fr; gap: 24px; }
+  .cs-metrics__value { font-size: 48px; }
+  .cs-metrics__label { font-size: 16px; }
+
+  /* Screens frame */
+  .cs-screens-frame { padding: 20px; gap: 20px; }
+  .cs-screens-wrap { gap: 40px; }
+
+  /* Solution head */
+  .cs-solution-head { margin-bottom: 28px; }
+  .cs-solution-title { font-size: 20px; }
 }
 
 .case__hero {
