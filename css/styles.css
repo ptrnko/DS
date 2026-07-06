@@ -767,11 +767,13 @@ h1, h2, h3 { font-weight: 700; }
     display:    block;
     text-align: center;
     padding:    15px 20px;
+    width:      100%;
   }
   .btn--outline {
     display:    block;
     text-align: center;
-    padding:    10px;
+    padding:    12px 20px;
+    width:      100%;
   }
 
   /* Featured case — full-width below hero content */
@@ -801,7 +803,7 @@ h1, h2, h3 { font-weight: 700; }
 
   /* About section — hide animation, show text only */
   .about {
-    padding: 0 20px 44px;
+    padding: 44px 20px 44px;
   }
   .about__grid {
     grid-template-columns: 1fr;
@@ -818,7 +820,7 @@ h1, h2, h3 { font-weight: 700; }
   .chip             { font-size: 13px; padding: 5px 12px; }
 
   /* Work section */
-  .work { padding: 0 20px 44px; }
+  .work { padding: 44px 20px 44px; }
   .work-grid {
     grid-template-columns: 1fr;
     gap: 0;
