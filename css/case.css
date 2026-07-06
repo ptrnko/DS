@@ -1138,9 +1138,9 @@
 
   /* Survey */
   .wave-survey { padding: 44px 20px; }
-  .wave-survey__head { flex-direction: column; gap: 16px; margin-bottom: 32px; }
-  .wave-survey__dot-stack { margin-top: 0; }
-  .wave-survey__desc { font-size: 18px; }
+  .wave-survey__head { flex-direction: column; gap: 0; margin-bottom: 32px; }
+  .wave-survey__dot-stack { display: none; }
+  .wave-survey__desc { font-size: 18px; margin-top: 20px; }
 
   /* Survey visual — collapse absolute layout to stacked cards */
   .wave-survey__visual {
