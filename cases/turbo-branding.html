@@ -287,6 +287,16 @@
     .img-hover img { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
     .img-hover:hover img { transform: scale(1.03); }
 
+    /* ── BILLBOARD HEADER ───────────────────────────────── */
+    .billboard-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: end; margin-bottom: 40px;
+    }
+    .billboard-header__h2 {
+      font-size: 46px; font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1.05; color: var(--text);
+    }
+
     /* ── MOBILE ──────────────────────────────────────────── */
     @media (max-width: 768px) {
       .nav { padding: 0 20px; }
@@ -320,6 +330,9 @@
 
       .metrics { grid-template-columns: 1fr; }
       .metric__num { font-size: 52px; }
+
+      .billboard-header { grid-template-columns: 1fr; gap: 20px; }
+      .billboard-header__h2 { font-size: 28px; }
 
       .next-case { flex-direction: column; align-items: flex-start; gap: 32px; padding: 52px 20px; }
       .next-case__title { font-size: 32px; }
@@ -594,11 +607,11 @@
 
       <div style="display: flex; flex-direction: column; gap: 12px;">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
-            <img src="../assets/images/tb-instagram1.jpg" alt="Turbo.ua Instagram profile" style="width:100%;height:auto;" />
+          <div style="border-radius: 20px; overflow: hidden; aspect-ratio: 9/19;" class="img-hover">
+            <img src="../assets/images/tb-instagram1.jpg" alt="Turbo.ua Instagram profile" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />
           </div>
-          <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
-            <img src="../assets/images/tb-instagram2.jpg" alt="Turbo.ua Instagram feed" style="width:100%;height:auto;" />
+          <div style="border-radius: 20px; overflow: hidden; aspect-ratio: 9/19;" class="img-hover">
+            <img src="../assets/images/tb-instagram2.jpg" alt="Turbo.ua Instagram feed" style="width:100%;height:100%;object-fit:cover;object-position:top center;" />
           </div>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
@@ -621,8 +634,8 @@
   <div class="container reveal">
     <span class="section-label">Billboard · Outdoor &amp; Metro Placement</span>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 40px;">
-      <h2 style="font-size: 46px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; color: var(--text);">Grocery delivery from 15 minutes.</h2>
+    <div class="billboard-header">
+      <h2 class="billboard-header__h2">Grocery delivery from 15 minutes.</h2>
       <p style="font-size: 16px; color: var(--muted); line-height: 1.7;">Designed a billboard campaign targeting Kyiv metro commuters. The concept had to communicate grocery delivery in 15 minutes within 2–3 seconds of exposure. Led the full cycle from concept to print-ready production, including the photo shoot.</p>
     </div>
 
