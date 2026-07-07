@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turbo.ua Brand Identity — Anastasiia Petrenko</title>
+  <meta name="description" content="Full-cycle branding for Ukraine's fastest grocery delivery — packaging, courier fleet, billboard, and social media content system." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:   #00ACB0;
+      --bg:     #151515;
+      --bg2:    #111;
+      --border: rgba(255,255,255,0.07);
+      --text:   #f0f0f0;
+      --muted:  rgba(240,240,240,0.55);
+      --subtle: rgba(240,240,240,0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 60px; height: 68px;
+      background: rgba(21,21,21,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav__back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav__back:hover { color: var(--text); }
+
+    .nav__links {
+      display: flex; align-items: center; gap: 32px;
+    }
+    .nav__links a {
+      font-size: 14px; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav__links a:hover { color: var(--text); }
+
+    /* ── REVEAL ──────────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── LAYOUT ──────────────────────────────────────────── */
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 60px; }
+    .section { padding: 100px 0; }
+    .divider { height: 1px; background: var(--border); max-width: 1240px; margin: 0 auto; }
+
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+    }
+    .two-col--60-40 { grid-template-columns: 60fr 40fr; }
+    .two-col--40-60 { grid-template-columns: 40fr 60fr; }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero { padding-top: 68px; }
+
+    .hero__inner {
+      max-width: 1240px; margin: 0 auto; padding: 80px 60px 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+
+    .hero__cat {
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--teal); margin-bottom: 20px;
+    }
+
+    .hero__title {
+      font-size: 62px; font-weight: 800;
+      letter-spacing: -0.05em; line-height: 1.0;
+      color: var(--text); margin-bottom: 24px;
+    }
+
+    .hero__sub {
+      font-size: 16px; color: var(--muted);
+      line-height: 1.7; max-width: 480px;
+    }
+
+    .hero__meta {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; margin-top: 48px;
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    }
+
+    .hero__meta-cell {
+      padding: 20px 22px;
+      border-right: 1px solid var(--border);
+    }
+    .hero__meta-cell:last-child { border-right: none; }
+
+    .hero__meta-label {
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--subtle); margin-bottom: 6px;
+    }
+
+    .hero__meta-val {
+      font-size: 13px; font-weight: 600; color: var(--text);
+    }
+
+    .hero__image {
+      border-radius: 20px; overflow: hidden;
+    }
+    .hero__image img { width: 100%; height: auto; }
+
+    /* ── OVERVIEW ─────────────────────────────────────────── */
+    .overview {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    }
+
+    .section-label {
+      display: block; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--teal);
+      margin-bottom: 20px;
+    }
+
+    .stat-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; border-bottom: 1px solid var(--border);
+    }
+    .stat-row:first-child { border-top: 1px solid var(--border); }
+
+    .stat-row__label { font-size: 14px; color: var(--muted); max-width: 240px; line-height: 1.5; }
+
+    .stat-row__num {
+      font-size: 40px; font-weight: 800;
+      letter-spacing: -0.05em; color: var(--text); line-height: 1;
+    }
+
+    /* ── TEXT BODY ───────────────────────────────────────── */
+    .text-block { max-width: 600px; }
+
+    .text-block h2 {
+      font-size: 38px; font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1.1;
+      color: var(--text); margin-bottom: 20px;
+    }
+
+    .text-block p {
+      font-size: 16px; color: var(--muted);
+      line-height: 1.75; letter-spacing: -0.01em;
+    }
+    .text-block p + p { margin-top: 14px; }
+
+    /* ── INSIGHT ─────────────────────────────────────────── */
+    .insight {
+      background: linear-gradient(135deg, #0d1f1d 0%, #091815 100%);
+      border: 1px solid rgba(30,200,176,0.15);
+      border-radius: 20px; padding: 40px 48px;
+    }
+    .insight__label {
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.12em; color: rgba(30,200,176,0.6); margin-bottom: 16px;
+    }
+    .insight__text {
+      font-size: 22px; font-weight: 600;
+      color: var(--text); line-height: 1.5; letter-spacing: -0.02em; max-width: 640px;
+    }
+
+    /* ── PALETTE ─────────────────────────────────────────── */
+    .palette { display: flex; gap: 12px; }
+
+    .swatch { flex: 1; border-radius: 12px; overflow: hidden; }
+    .swatch__color { height: 80px; }
+    .swatch__info {
+      padding: 12px 14px; background: var(--bg2);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 12px 12px;
+    }
+    .swatch__name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .swatch__hex { font-size: 12px; color: var(--subtle); font-variant-numeric: tabular-nums; }
+
+    /* ── METRICS ─────────────────────────────────────────── */
+    .metrics {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border-radius: 20px; overflow: hidden;
+    }
+    .metric { background: var(--bg); padding: 40px 36px; }
+    .metric__num {
+      font-size: 68px; font-weight: 800;
+      letter-spacing: -0.06em; line-height: 1;
+      color: var(--text); margin-bottom: 10px;
+    }
+    .metric__label { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+    /* ── STEPS ───────────────────────────────────────────── */
+    .steps {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+    }
+    .step {
+      padding: 28px 32px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 24px;
+    }
+    .step:last-child { border-bottom: none; }
+    .step__num { font-size: 13px; font-weight: 700; color: var(--teal); min-width: 28px; opacity: 0.7; }
+    .step__title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .step__body { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── QUOTE ───────────────────────────────────────────── */
+    .quote-block { border-left: 3px solid var(--teal); padding: 4px 0 4px 32px; }
+    .quote-block p {
+      font-size: 22px; font-weight: 500; font-style: italic;
+      color: rgba(240,240,240,0.75); line-height: 1.6; letter-spacing: -0.02em;
+    }
+
+    /* ── SPEC ITEM ───────────────────────────────────────── */
+    .spec-item {
+      border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px;
+    }
+    .spec-item__label {
+      font-size: 12px; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--subtle); margin-bottom: 8px;
+    }
+    .spec-item__val { font-size: 15px; font-weight: 600; color: var(--text); }
+
+    /* ── COUNTER ROW ─────────────────────────────────────── */
+    .counter-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px; border: 1px solid var(--border); border-radius: 12px;
+    }
+    .counter-row__label { font-size: 14px; color: var(--muted); }
+    .counter-row__num { font-size: 22px; font-weight: 800; color: var(--text); }
+
+    /* ── NEXT CASE ───────────────────────────────────────── */
+    .next-case {
+      padding: 100px 60px; display: flex; align-items: center;
+      justify-content: space-between; border-top: 1px solid var(--border);
+      max-width: 1240px; margin: 0 auto;
+    }
+    .next-case__label {
+      font-size: 12px; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--subtle); margin-bottom: 14px;
+    }
+    .next-case__title {
+      font-size: 42px; font-weight: 800;
+      letter-spacing: -0.04em; color: var(--text); line-height: 1.05;
+    }
+    .next-case__link {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 16px; font-weight: 600; color: var(--text);
+      border: 1px solid var(--border); border-radius: 100px;
+      padding: 14px 28px; transition: background 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+    .next-case__link:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.15); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    .footer-wrap { background: #151515; border-top: 1px solid var(--border); }
+    .footer {
+      border-top: none; padding: 60px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 40px;
+      max-width: 1240px; margin: 0 auto;
+    }
+    .footer__heading {
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--subtle); margin-bottom: 16px;
+    }
+    .footer__val { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .footer__val a { color: var(--muted); transition: color 0.2s ease; }
+    .footer__val a:hover { color: var(--text); }
+    .footer__copy {
+      max-width: 1240px; margin: 0 auto; padding: 24px 60px;
+      font-size: 12px; color: var(--subtle); border-top: 1px solid var(--border);
+    }
+
+    /* ── IMAGE HOVER ─────────────────────────────────────── */
+    .img-hover { overflow: hidden; }
+    .img-hover img { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+    .img-hover:hover img { transform: scale(1.03); }
+
+    /* ── MOBILE ──────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav { padding: 0 20px; }
+      .nav__links { display: none; }
+
+      .hero__inner {
+        grid-template-columns: 1fr; gap: 40px;
+        padding: 60px 20px 0;
+      }
+      .hero__title { font-size: 36px; }
+      .hero__meta { grid-template-columns: 1fr; }
+      .hero__meta-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .hero__meta-cell:last-child { border-bottom: none; }
+
+      .container { padding: 0 20px; }
+      .section { padding: 52px 0; }
+      .divider { margin: 0 20px; }
+
+      .overview { grid-template-columns: 1fr; gap: 48px; }
+      .two-col,
+      .two-col--60-40,
+      .two-col--40-60 { grid-template-columns: 1fr; gap: 40px; }
+
+      .text-block h2 { font-size: 28px; }
+      .quote-block p { font-size: 18px; }
+      .insight { padding: 28px 24px; }
+      .insight__text { font-size: 18px; }
+
+      .palette { flex-wrap: wrap; }
+      .swatch { flex: 1 1 calc(50% - 6px); }
+
+      .metrics { grid-template-columns: 1fr; }
+      .metric__num { font-size: 52px; }
+
+      .next-case { flex-direction: column; align-items: flex-start; gap: 32px; padding: 52px 20px; }
+      .next-case__title { font-size: 32px; }
+
+      .footer { grid-template-columns: 1fr 1fr; padding: 48px 20px 36px; gap: 32px; }
+      .footer__copy { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav__back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to works
+  </a>
+  <div class="nav__links">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="mailto:petrenkoag95@gmail.com">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__inner">
+    <div>
+      <div class="hero__cat">Branding · E-Commerce</div>
+      <h1 class="hero__title">Turbo.ua<br>Brand Identity</h1>
+      <p class="hero__sub">Full-cycle branding for Ukraine's fastest grocery delivery — packaging, courier fleet, billboard, and social media content system.</p>
+      <div class="hero__meta">
+        <div class="hero__meta-cell">
+          <div class="hero__meta-label">Role</div>
+          <div class="hero__meta-val">Lead Product Designer</div>
+        </div>
+        <div class="hero__meta-cell">
+          <div class="hero__meta-label">Deliverables</div>
+          <div class="hero__meta-val">Brand · Print · OOH · SMM</div>
+        </div>
+        <div class="hero__meta-cell">
+          <div class="hero__meta-label">Market</div>
+          <div class="hero__meta-val">Ukraine, Kyiv</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero__image img-hover">
+      <img src="../assets/images/tb-hero.jpg" alt="Turbo.ua branding" />
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="margin-top: 80px;"></div>
+
+<!-- BRAND OVERVIEW -->
+<section class="section">
+  <div class="container">
+    <div class="overview reveal">
+      <div>
+        <span class="section-label">Brand Identity Design</span>
+        <div class="text-block">
+          <h2>Quick delivery. Clear identity.</h2>
+          <p>Turbo.ua delivers products and goods in 15 minutes. Delivery is carried out by couriers on bicycles. The maximum order weight is 12 kg.</p>
+          <p>Branding was created for paper bags, a courier bike, and advertising banners. A completely new positioning is at the heart of the creative solution — quickly selected, quickly received. No more wasting time shopping and long queues.</p>
+        </div>
+        <div style="margin-top: 40px;">
+          <div class="quote-block">
+            <p>"Turbo deliver all products fresh and in record time."</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="section-label">Brand Palette</span>
+        <div class="palette" style="margin-bottom: 32px;">
+          <div class="swatch">
+            <div class="swatch__color" style="background: #00ACB0;"></div>
+            <div class="swatch__info">
+              <div class="swatch__name">Turbo Teal</div>
+              <div class="swatch__hex">#00ACB0</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch__color" style="background: #C8A96E;"></div>
+            <div class="swatch__info">
+              <div class="swatch__name">Kraft</div>
+              <div class="swatch__hex">#C8A96E</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch__color" style="background: #151515; border: 1px solid #333;"></div>
+            <div class="swatch__info">
+              <div class="swatch__name">Night</div>
+              <div class="swatch__hex">#151515</div>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch__color" style="background: #F5F0EA; border: 1px solid #333;"></div>
+            <div class="swatch__info">
+              <div class="swatch__name">Cream</div>
+              <div class="swatch__hex">#F5F0EA</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+          <div style="border-radius: 14px; overflow: hidden;" class="img-hover">
+            <img src="../assets/images/tb-courier.jpg" alt="Courier delivery" style="width:100%;height:100%;object-fit:cover;aspect-ratio:1;" />
+          </div>
+          <div style="border-radius: 14px; overflow: hidden;" class="img-hover">
+            <img src="../assets/images/tb-kitchen.jpg" alt="Lifestyle kitchen" style="width:100%;height:100%;object-fit:cover;aspect-ratio:1;" />
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-row__label">Delivery time — the single strongest brand claim</div>
+          <div class="stat-row__num" style="color: var(--teal);">15'</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-row__label">Maximum order weight per courier</div>
+          <div class="stat-row__num">12<span style="font-size: 22px; opacity: 0.5;">kg</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-row__label">Brand touchpoints designed end-to-end</div>
+          <div class="stat-row__num">4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAPER BAGS -->
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <div class="two-col two-col--40-60 reveal">
+      <div>
+        <span class="section-label">Paper Bags</span>
+        <div class="text-block">
+          <h2>Packaging that carries the brand.</h2>
+          <p>The design of the paper bag was made in a minimalistic style using the company logo. The design harmonically combines the craft color of the package and the corporate turquoise.</p>
+          <p>The package also contains a slogan and a QR code that leads to the company's website — turning every delivery into a brand moment.</p>
+        </div>
+        <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 12px;">
+          <div class="spec-item">
+            <div class="spec-item__label">Material</div>
+            <div class="spec-item__val">Kraft paper</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-item__label">Print</div>
+            <div class="spec-item__val">2-color logo + QR code</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-item__label">Concept</div>
+            <div class="spec-item__val">Every bag is a touchpoint</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="border-radius: 20px; overflow: hidden; background: #f0ede8;" class="img-hover">
+            <img src="../assets/images/tb-bag-mockup.jpg" alt="Turbo.ua paper bag mockup" style="width:100%;height:auto;" />
+          </div>
+          <div style="border-radius: 20px; overflow: hidden; background: #f5f5f5;" class="img-hover">
+            <img src="../assets/images/tb-bag-photo.jpg" alt="Turbo.ua bag with groceries" style="width:100%;height:auto;" />
+          </div>
+        </div>
+        <div style="border-radius: 20px; overflow: hidden; background: #f8f8f8;" class="img-hover">
+          <img src="../assets/images/tb-bag-flat.png" alt="Turbo.ua bag flat design" style="width:100%;height:auto;" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL BLEED PHOTO -->
+<div class="divider"></div>
+
+<div style="overflow: hidden; margin: 0;">
+  <img src="../assets/images/tb-brand-photo.jpg" alt="Turbo.ua brand photography" style="width:100%;height:500px;object-fit:cover;display:block;" />
+</div>
+
+<!-- COURIER BIKE -->
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container reveal">
+    <span class="section-label">Design for Courier Bike</span>
+    <div class="two-col two-col--60-40" style="align-items: center; gap: 80px;">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+          <img src="../assets/images/tb-bike-team.jpg" alt="Turbo couriers on bikes" style="width:100%;height:auto;" />
+        </div>
+        <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+          <img src="../assets/images/tb-bike-riding.jpg" alt="Turbo courier riding" style="width:100%;height:auto;" />
+        </div>
+      </div>
+
+      <div>
+        <div class="text-block">
+          <h2>The bike is the brand in motion.</h2>
+          <p>The design of the courier's bike was created in the signature color turquoise, which makes the courier stand out on the road. Also on the bike is the company logo and name.</p>
+          <p>The bike is equipped with a trunk where the courier can carry the bag or put the bag on his shoulders — engineered for Kyiv street conditions.</p>
+        </div>
+        <div style="margin-top: 40px;">
+          <div class="steps">
+            <div class="step">
+              <span class="step__num">01</span>
+              <div>
+                <div class="step__title">Signature teal wrap</div>
+                <div class="step__body">Full frame painted in brand turquoise — instantly recognisable on Kyiv streets.</div>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step__num">02</span>
+              <div>
+                <div class="step__title">Logo placement</div>
+                <div class="step__body">Brand mark on both sides of the rear cargo bag and on the frame.</div>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step__num">03</span>
+              <div>
+                <div class="step__title">Cargo trunk</div>
+                <div class="step__body">Custom-designed trunk accommodates branded kraft bags up to 12 kg.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM / SMM -->
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container reveal">
+    <div class="two-col">
+      <div>
+        <span class="section-label">Instagram · SMM</span>
+        <div class="text-block">
+          <h2>Content system for social media.</h2>
+          <p>Designed a social media content strategy and visual system for Turbo.ua — quick grocery delivery. The goal was to communicate freshness, speed, and everyday value across feed posts, reels, and stories while maintaining a consistent brand voice.</p>
+        </div>
+
+        <div style="margin-top: 40px;" class="insight">
+          <div class="insight__label">Creative Direction</div>
+          <div class="insight__text">The visual concept had to communicate the core message — grocery delivery in 15 minutes — within 2–3 seconds of exposure.</div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 8px;">
+          <div class="counter-row">
+            <span class="counter-row__label">Feed posts</span>
+            <span class="counter-row__num">120+</span>
+          </div>
+          <div class="counter-row">
+            <span class="counter-row__label">Stories templates</span>
+            <span class="counter-row__num">24</span>
+          </div>
+          <div class="counter-row">
+            <span class="counter-row__label">Months of content</span>
+            <span class="counter-row__num">3</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+            <img src="../assets/images/tb-instagram1.jpg" alt="Turbo.ua Instagram profile" style="width:100%;height:auto;" />
+          </div>
+          <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+            <img src="../assets/images/tb-instagram2.jpg" alt="Turbo.ua Instagram feed" style="width:100%;height:auto;" />
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+            <img src="../assets/images/tb-reel1.jpg" alt="Turbo.ua Reels — app demo" style="width:100%;height:auto;" />
+          </div>
+          <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+            <img src="../assets/images/tb-reel2.jpg" alt="Turbo.ua Reels — download CTA" style="width:100%;height:auto;" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BILLBOARD -->
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container reveal">
+    <span class="section-label">Billboard · Outdoor &amp; Metro Placement</span>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 40px;">
+      <h2 style="font-size: 46px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; color: var(--text);">Grocery delivery from 15 minutes.</h2>
+      <p style="font-size: 16px; color: var(--muted); line-height: 1.7;">Designed a billboard campaign targeting Kyiv metro commuters. The concept had to communicate grocery delivery in 15 minutes within 2–3 seconds of exposure. Led the full cycle from concept to print-ready production, including the photo shoot.</p>
+    </div>
+
+    <div style="border-radius: 20px; overflow: hidden; margin-bottom: 12px;" class="img-hover">
+      <img src="../assets/images/tb-billboard.png" alt="Turbo.ua outdoor billboard" style="width:100%;height:auto;" />
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 16px; margin: 36px 0 16px;">
+      <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--subtle);">In production</span>
+      <div style="flex: 1; height: 1px; background: var(--border);"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+        <img src="../assets/images/tb-shoot.jpg" alt="Photo shoot production" style="width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;" />
+      </div>
+      <div style="border-radius: 20px; overflow: hidden;" class="img-hover">
+        <img src="../assets/images/tb-metro.jpg" alt="Turbo.ua metro placement" style="width:100%;height:auto;" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container reveal">
+    <span class="section-label">Results</span>
+    <div style="margin-bottom: 48px; max-width: 560px;">
+      <h2 style="font-size: 38px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; color: var(--text);">Brand built end-to-end — concept to billboard.</h2>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric__num" style="color: var(--teal);">15'</div>
+        <div class="metric__label">Core message communicated in under 3 seconds of billboard exposure</div>
+      </div>
+      <div class="metric">
+        <div class="metric__num">4</div>
+        <div class="metric__label">Brand touchpoints — bag, bike, OOH, social — in one unified identity</div>
+      </div>
+      <div class="metric">
+        <div class="metric__num">100%</div>
+        <div class="metric__label">Full cycle ownership: concept → photo shoot → print-ready production</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; padding: 40px 48px; border: 1px solid var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap;">
+      <div>
+        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--subtle); margin-bottom: 10px;">Brand Recognition</div>
+        <div style="font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.5;">Turbo bikes became a recognisable sight<br>across central Kyiv — the brand became<br>the fastest-moving object on the street.</div>
+      </div>
+      <div style="flex-shrink: 0; text-align: right;">
+        <div style="font-size: 72px; font-weight: 800; color: var(--teal); letter-spacing: -0.06em; line-height: 1;">⚡</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT CASE -->
+<div class="divider"></div>
+
+<div class="next-case reveal">
+  <div>
+    <div class="next-case__label">Next case</div>
+    <div class="next-case__title">Turbo.ua<br>Delivery App</div>
+  </div>
+  <a href="turbo.html" class="next-case__link">
+    View case
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <div class="footer">
+    <div>
+      <div class="footer__heading">Contact</div>
+      <div class="footer__val">Europe, remote<br><br>
+        <a href="mailto:petrenkoag95@gmail.com">petrenkoag95@gmail.com</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__heading">Links</div>
+      <div class="footer__val" style="display:flex;flex-direction:column;gap:8px;">
+        <a href="../assets/cv.pdf">CV</a>
+        <a href="https://linkedin.com">LinkedIn</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__heading">Navigate</div>
+      <div class="footer__val" style="display:flex;flex-direction:column;gap:8px;">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#about">About</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer__heading">Role</div>
+      <div class="footer__val">Lead Product Designer<br>Building teams &amp; systems</div>
+    </div>
+  </div>
+  <div class="footer__copy">Anastasiia Petrenko — Lead Product Designer © 2026</div>
+</div>
+
+<script>
+(function(){
+  // Hero entrance
+  [
+    { sel: '.hero__cat',    delay: 0   },
+    { sel: '.hero__title',  delay: 100 },
+    { sel: '.hero__sub',    delay: 200 },
+    { sel: '.hero__meta',   delay: 320 },
+    { sel: '.hero__image',  delay: 180 },
+  ].forEach(({ sel, delay }) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = `opacity 0.75s cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 0.75s cubic-bezier(0.22,1,0.36,1) ${delay}ms`;
+    setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'none'; }, 60 + delay);
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4 * 40) + 'ms';
+    obs.observe(el);
+  });
+
+  // Section label animation
+  document.querySelectorAll('.section-label').forEach(el => {
+    el.style.opacity = '0';
+    el.style.letterSpacing = '0.3em';
+    el.style.transition = 'opacity 0.6s ease, letter-spacing 0.6s ease';
+    const lo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.letterSpacing = '0.12em';
+          lo.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    lo.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>
