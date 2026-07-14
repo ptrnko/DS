@@ -25,14 +25,11 @@
   background:var(--ab-bg);
   color:var(--ab-text);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
-  padding:64px 24px;
-  display:flex;
-  justify-content:center;
+  padding: var(--section-py) var(--section-px);
 }
 
 .ab-grid{
   width:100%;
-  max-width:1112px;
   display:grid;
   grid-template-columns:repeat(3,1fr);
   grid-auto-rows:minmax(96px,auto);
