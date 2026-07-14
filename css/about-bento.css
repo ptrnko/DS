@@ -26,6 +26,7 @@
   color:var(--ab-text);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   padding: var(--section-py) var(--section-px);
+  border-top: 0.5px solid var(--border);
 }
 
 .ab-grid{

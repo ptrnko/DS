@@ -345,7 +345,7 @@ function initScrollReveal() {
 ============================================================= */
 document.addEventListener('DOMContentLoaded', () => {
   new FeaturedCarousel();
-  new TeamGrowthAnimation();
+  if (document.getElementById('js-network-svg')) new TeamGrowthAnimation();
   initBurger();
   initScrollReveal();
 
