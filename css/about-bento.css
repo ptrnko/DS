@@ -38,7 +38,7 @@
 
 .ab-tile{
   background:var(--ab-card);
-  border:1px solid var(--ab-line);
+  border:none;
   border-radius:var(--ab-radius);
   padding:28px;
 }
@@ -50,7 +50,7 @@
 .ab-ai     {grid-column:3;     grid-row:3;}
 .ab-disc   {grid-column:1 / 4;}
 
-.ab-quote,.ab-ai{border-color:var(--ab-line-accent);}
+.ab-quote,.ab-ai{border:none;}
 .ab-quote{background:linear-gradient(150deg,#12213f,#0d1017 62%);padding:40px;}
 .ab-ai   {background:linear-gradient(160deg,#0d1017,#12213f);}
 
@@ -63,10 +63,10 @@
 .ab-stat-label{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ab-accent-2);}
 .ab-stat-num{font-size:52px;font-weight:800;letter-spacing:-.02em;margin:8px 0 2px;}
 .ab-arrow{color:var(--ab-accent);font-weight:500;}
-.ab-stat-cap{font-size:13px;color:var(--ab-text-3);}
+.ab-stat-cap{font-size:15px;color:var(--ab-text-2);}
 .ab-years-num{font-size:52px;font-weight:800;letter-spacing:-.02em;}
 .ab-years-num span{font-size:24px;font-weight:600;color:var(--ab-text-3);}
-.ab-years-cap{font-size:13px;color:var(--ab-text-3);margin-top:2px;}
+.ab-years-cap{font-size:15px;color:var(--ab-text-2);margin-top:2px;}
 
 .ab-bio{display:flex;flex-direction:column;gap:14px;padding:32px;}
 .ab-bio p{font-size:15px;line-height:1.6;color:var(--ab-text-2);}
