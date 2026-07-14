@@ -7,8 +7,9 @@
   <meta name="description" content="Lead Product Designer specialising in high-load systems. I build senior product design teams from scratch and the systems they ship." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/about-bento.css">
 </head>
 <body>
 
@@ -113,59 +114,52 @@
   </section>
 
   <!-- ABOUT -->
-  <section class="about" id="about">
-    <p class="section-label">About</p>
+  <section class="about-bento" id="about" aria-label="About">
+    <div class="ab-grid">
 
-    <div class="about__grid">
+      <!-- Quote -->
+      <article class="ab-tile ab-quote">
+        <span class="ab-eyebrow">Lead Product Designer</span>
+        <h2 class="ab-quote-text">I build <span class="ab-hl">the team</span> and the <span class="ab-hl">design system</span> when neither exists yet.</h2>
+      </article>
 
-      <!-- Left: team-growth network animation -->
-      <div class="about__animation">
-        <div class="network-wrap">
-          <svg class="network-svg" id="js-network-svg" viewBox="0 0 360 300" aria-hidden="true"></svg>
-          <span class="hub-label" aria-hidden="true">Lead<br>Product<br>Designer</span>
-          <div class="network-pills" id="js-network-pills" aria-hidden="true"></div>
-          <div class="stats-overlay">
-            <p class="stats-overlay__label">Building teams</p>
-            <div class="stats-overlay__value">
-              <span>0</span>
-              <span class="stats-overlay__arrow">&rarr;</span>
-              <span>10</span>
-            </div>
-            <span class="stats-overlay__sub">creative teams, grown</span>
-          </div>
+      <!-- Stat 0 → 10 -->
+      <article class="ab-tile ab-stat">
+        <div class="ab-stat-label">Building teams</div>
+        <div class="ab-stat-num">0 <span class="ab-arrow">&rarr;</span> 10</div>
+        <div class="ab-stat-cap">creative teams, grown</div>
+      </article>
+
+      <!-- Years -->
+      <article class="ab-tile ab-years">
+        <div class="ab-years-num">7<span>yrs</span></div>
+        <div class="ab-years-cap">shipping product design</div>
+      </article>
+
+      <!-- Bio -->
+      <article class="ab-tile ab-bio">
+        <p>Over 7 years I&rsquo;ve gone from building products with my own hands &mdash; apps, websites, full brand identities &mdash; to leading the teams behind them, owning the full cycle: hiring, onboarding, performance, growth.</p>
+        <p>I build design systems as products in their own right &mdash; unifying fragmented interfaces into one language and cutting development time in half.</p>
+      </article>
+
+      <!-- AI card -->
+      <article class="ab-tile ab-ai">
+        <div class="ab-stat-label">Design ops + AI</div>
+        <div class="ab-ai-title">Rebuilding the process through Claude Code &amp; Git &mdash; Figma out of the loop.</div>
+      </article>
+
+      <!-- Disciplines -->
+      <article class="ab-tile ab-disc">
+        <span class="ab-disc-label">Disciplines</span>
+        <div class="ab-chips">
+          <span class="ab-chip">Social media</span>
+          <span class="ab-chip">UI/UX</span>
+          <span class="ab-chip">Product</span>
+          <span class="ab-chip">AI engineering</span>
+          <span class="ab-chip">Graphic</span>
+          <span class="ab-chip">Motion</span>
         </div>
-      </div>
-
-      <!-- Right: text -->
-      <div class="about__text">
-        <blockquote class="about__quote">
-          &ldquo;I build <span class="text-accent">the team</span> and the
-          <span class="text-accent">design system</span> when neither exists yet.&rdquo;
-        </blockquote>
-
-        <div class="about__body">
-          <p>Over 7 years in product design, I&rsquo;ve gone from building products
-          with my own hands &mdash; apps, websites, full brand identities &mdash; to
-          building and leading the teams behind them.</p>
-          <p>As a lead, I own the full management cycle &mdash; hiring, onboarding,
-          performance, and team growth from a single designer to teams of 10. In
-          parallel, I build and maintain design systems as products in their own right:
-          unifying fragmented interfaces into one cohesive language and cutting
-          development time in half.</p>
-          <p>I&rsquo;m just as comfortable presenting ROI to C-level stakeholders as
-          I am deep in Figma. And lately, I&rsquo;m rebuilding how design itself gets
-          done &mdash; embedding AI into routine tasks, and in some cases replacing the
-          classic process entirely, working through Claude Code and Git without Figma
-          in the loop.</p>
-        </div>
-
-        <div class="chip-group">
-          <span class="chip">Team building</span>
-          <span class="chip">Design systems</span>
-          <span class="chip">0 &rarr; 1 products</span>
-          <span class="chip">Design ops + AI</span>
-        </div>
-      </div>
+      </article>
 
     </div>
   </section>
