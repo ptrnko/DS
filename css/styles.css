@@ -159,7 +159,7 @@ h1, h2, h3 { font-weight: 700; }
   display:         flex;
   align-items:     center;
   justify-content: space-between;
-  padding:         22px 64px;
+  padding:         16px 64px;
   background:      rgba(10,10,12,.85);
   backdrop-filter: blur(12px);
   border-bottom:   0.5px solid var(--border);
@@ -257,7 +257,7 @@ h1, h2, h3 { font-weight: 700; }
 }
 
 /* Stats */
-.stats-row { display: flex; align-items: stretch; margin-top: 4px; }
+.stats-row { display: flex; align-items: stretch; margin-top: 30px; }
 .stat {
   display:        flex;
   flex-direction: column;
@@ -269,7 +269,7 @@ h1, h2, h3 { font-weight: 700; }
 .stat__label { font-size: 14px; line-height: 1.4; color: var(--text-muted); }
 
 /* CTAs */
-.hero__ctas { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
+.hero__ctas { display: flex; align-items: center; gap: 14px; margin-top: 20px; }
 
 /* Featured case card */
 .featured-case { position: relative; }
