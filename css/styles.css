@@ -592,6 +592,17 @@ h1, h2, h3 { font-weight: 700; }
   .network-svg { margin-left: 0; }
 }
 
+@media (max-width: 1600px) {
+  .hero { padding: 56px 48px; gap: 48px; }
+  .hero__content { gap: 24px; }
+  .hero__headline { font-size: clamp(34px, 3.2vw, 48px); }
+}
+
+@media (max-width: 1200px) {
+  .hero { padding: 48px 40px; gap: 40px; }
+  .hero__headline { font-size: clamp(30px, 3vw, 38px); }
+}
+
 @media (max-width: 900px) {
   :root { --section-px: 24px; }
   .site-header { padding: 22px var(--section-px); }
