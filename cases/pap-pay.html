@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pap-Pay — crypto payroll wallet · Anastasiia Petrenko</title>
+  <meta name="description" content="Pap-Pay — an iOS crypto payroll wallet. Employees are paid in BTC and cash out to their card. The case is about separating two models of money so an irreversible move reads before it's confirmed, not after." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       Pap-Pay — self-contained, dark-only case system.
+       Distinct from the site's blue tokens. Motion-first:
+       tokens below drive every loop and transition on the page.
+       ============================================================ */
+    :root {
+      /* palette — dark green ground, lime accent */
+      --pp-bg:        #0A140E;
+      --pp-bg-2:      #0D1A12;
+      --pp-surface:   #12211A;
+      --pp-surface-2: #16281E;
+      --pp-border:    rgba(199,249,77,0.12);
+      --pp-hair:      rgba(234,243,234,0.08);
+      --pp-lime:      #C7F94D;
+      --pp-lime-dim:  rgba(199,249,77,0.14);
+      --pp-text:      #EAF3EA;
+      --pp-muted:     rgba(234,243,234,0.58);
+      --pp-dim:       rgba(234,243,234,0.34);
+      --pp-danger:    #FF5B4A;
+
+      /* type */
+      --pp-sans: 'Manrope', system-ui, sans-serif;
+      --pp-num:  'Roboto', 'Manrope', monospace; /* second face — digits */
+
+      /* motion tokens — durations */
+      --dur-100: 100ms;
+      --dur-200: 200ms;
+      --dur-300: 300ms;
+      --dur-500: 500ms;
+      /* motion tokens — curves */
+      --ease-standard:   cubic-bezier(0.2, 0, 0, 1);
+      --ease-decelerate: cubic-bezier(0, 0, 0, 1);  /* entering elements */
+      --ease-accelerate: cubic-bezier(0.3, 0, 1, 1); /* exiting elements  */
+
+      /* layout */
+      --pp-max: 1200px;
+      --pp-px:  60px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--pp-bg);
+      color: var(--pp-text);
+      font-family: var(--pp-sans);
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    .pp-container { max-width: var(--pp-max); margin: 0 auto; padding: 0 var(--pp-px); }
+    .pp-section   { padding: 100px 0; border-top: 1px solid var(--pp-hair); }
+    .pp-num { font-family: var(--pp-num); font-variant-numeric: tabular-nums; }
+
+    /* ---- header ---- */
+    .pp-header {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px var(--pp-px);
+      background: rgba(10,20,14,0.72);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--pp-hair);
+    }
+    .pp-header__logo { font-weight: 700; letter-spacing: -0.01em; }
+    .pp-header__nav { display: flex; gap: 28px; align-items: center; }
+    .pp-header__nav a { color: var(--pp-muted); font-size: 15px; transition: color var(--dur-200) var(--ease-standard); }
+    .pp-header__nav a:hover { color: var(--pp-text); }
+    .pp-btn {
+      border: 1px solid var(--pp-border); border-radius: 999px;
+      padding: 9px 18px; color: var(--pp-text); font-size: 14px;
+      transition: background var(--dur-200) var(--ease-standard), border-color var(--dur-200) var(--ease-standard);
+    }
+    .pp-btn:hover { background: var(--pp-lime-dim); border-color: var(--pp-lime); }
+
+    /* ---- shared type ---- */
+    .pp-eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--pp-lime);
+    }
+    .pp-h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+    .pp-lead { font-size: clamp(17px, 2.2vw, 20px); color: var(--pp-muted); max-width: 60ch; }
+    .pp-body { font-size: 16px; color: var(--pp-muted); }
+    .pp-accent { color: var(--pp-lime); }
+
+    /* ============================================================
+       Reusable media slot.
+       Renders as a labelled placeholder until a video/embed is
+       dropped in. JS (bottom) swaps in <video> from data-src.
+       ============================================================ */
+    .pp-media {
+      position: relative; overflow: hidden;
+      background: var(--pp-surface);
+      border: 1px solid var(--pp-border); border-radius: 20px;
+      aspect-ratio: var(--pp-ratio, 9 / 19.5);
+    }
+    .pp-media--wide  { --pp-ratio: 16 / 10; }
+    .pp-media--phone { --pp-ratio: 9 / 19.5; }
+    .pp-media--square{ --pp-ratio: 1 / 1; }
+    .pp-media video { width: 100%; height: 100%; object-fit: cover; }
+    .pp-media__ph {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; text-align: center; padding: 24px;
+      background:
+        radial-gradient(120% 80% at 78% 18%, var(--pp-lime-dim), transparent 60%),
+        var(--pp-surface);
+    }
+    .pp-media__ph-tag {
+      font-family: var(--pp-num); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pp-lime); border: 1px solid var(--pp-border); border-radius: 999px; padding: 5px 12px;
+    }
+    .pp-media__ph-label { font-size: 14px; color: var(--pp-text); font-weight: 600; }
+    .pp-media__ph-spec  { font-family: var(--pp-num); font-size: 12px; color: var(--pp-dim); }
+
+    /* ============================================================
+       Block 1 — video cover
+       ============================================================ */
+    .pp-cover { position: relative; min-height: 88vh; display: flex; align-items: flex-end; overflow: hidden; }
+    .pp-cover__media { position: absolute; inset: 0; }
+    .pp-cover__media .pp-media { height: 100%; border: none; border-radius: 0; aspect-ratio: auto; }
+    .pp-cover__scrim {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,20,14,0.35) 0%, rgba(10,20,14,0.15) 45%, rgba(10,20,14,0.92) 100%);
+    }
+    .pp-cover__inner { position: relative; z-index: 2; width: 100%; padding-bottom: 72px; }
+    .pp-cover__title { font-size: clamp(44px, 8vw, 104px); font-weight: 800; line-height: 0.98; letter-spacing: -0.04em; margin: 18px 0 20px; }
+    .pp-cover__sub { font-size: clamp(17px, 2.4vw, 22px); color: var(--pp-muted); max-width: 46ch; }
+
+    /* ============================================================
+       Block 2 — context (static)
+       ============================================================ */
+    .pp-context__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--pp-hair); border: 1px solid var(--pp-hair); border-radius: 20px; overflow: hidden; margin-top: 48px; }
+    .pp-context__cell { background: var(--pp-bg-2); padding: 28px 30px; }
+    .pp-context__cell--full { grid-column: 1 / -1; }
+    .pp-context__k { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pp-dim); margin-bottom: 12px; }
+    .pp-context__v { font-size: 16px; color: var(--pp-text); }
+    .pp-nda { display: inline-flex; align-items: center; gap: 8px; margin-top: 32px; font-size: 13px; color: var(--pp-dim); border: 1px dashed var(--pp-border); border-radius: 999px; padding: 8px 16px; }
+
+    /* ============================================================
+       Block 3 — main: hierarchy + USD ↔ Crypto toggle loop
+       ============================================================ */
+    .pp-main__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-top: 48px; }
+    .pp-main__copy > * + * { margin-top: 20px; }
+    .pp-note { display: flex; gap: 14px; padding: 18px 20px; background: var(--pp-surface); border-left: 2px solid var(--pp-lime); border-radius: 0 12px 12px 0; }
+
+    /* ============================================================
+       Block 4 — send flow (single live prototype + fallback)
+       ============================================================ */
+    .pp-proto {
+      position: relative; margin-top: 48px;
+      background: var(--pp-surface); border: 1px solid var(--pp-border); border-radius: 20px;
+      aspect-ratio: 16 / 10; overflow: hidden;
+    }
+    .pp-proto iframe { width: 100%; height: 100%; border: 0; }
+    .pp-proto__ph {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; text-align: center; padding: 24px;
+      background: radial-gradient(120% 80% at 50% 20%, var(--pp-lime-dim), transparent 60%), var(--pp-surface);
+    }
+    .pp-proto__badge { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pp-lime); border: 1px solid var(--pp-border); border-radius: 999px; padding: 6px 14px; }
+    .pp-proto__cap { margin-top: 16px; font-size: 13px; color: var(--pp-dim); }
+    .pp-states-inline { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .pp-chip { font-family: var(--pp-num); font-size: 12px; color: var(--pp-muted); border: 1px solid var(--pp-hair); border-radius: 999px; padding: 6px 12px; }
+    .pp-chip--danger { color: var(--pp-danger); border-color: rgba(255,91,74,0.4); }
+
+    /* ============================================================
+       Block 5 — states & edge cases grid (short loops)
+       ============================================================ */
+    .pp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+    .pp-grid__item .pp-caption { margin-top: 12px; font-size: 13px; color: var(--pp-muted); }
+    .pp-caption__k { font-family: var(--pp-num); color: var(--pp-dim); margin-right: 6px; }
+
+    /* ============================================================
+       Block 6 — outcomes & reflection + design-system tile
+       ============================================================ */
+    .pp-outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 48px 0 64px; }
+    .pp-metric__num { font-family: var(--pp-num); font-weight: 700; font-size: clamp(40px, 6vw, 64px); color: var(--pp-lime); letter-spacing: -0.02em; }
+    .pp-metric__label { font-size: 15px; color: var(--pp-muted); margin-top: 8px; }
+    .pp-reflection { max-width: 68ch; font-size: clamp(17px, 2.2vw, 20px); color: var(--pp-muted); }
+    .pp-reflection > * + * { margin-top: 20px; }
+
+    .pp-ds-tile {
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      margin-top: 56px; padding: 36px 40px;
+      background: linear-gradient(120deg, var(--pp-surface), var(--pp-bg-2));
+      border: 1px solid var(--pp-border); border-radius: 20px;
+      transition: transform var(--dur-300) var(--ease-decelerate), border-color var(--dur-200) var(--ease-standard);
+    }
+    .pp-ds-tile:hover { transform: translateY(-4px); border-color: var(--pp-lime); }
+    .pp-ds-tile__title { font-size: 22px; font-weight: 700; }
+    .pp-ds-tile__sub { font-size: 15px; color: var(--pp-muted); margin-top: 6px; }
+    .pp-ds-tile__arrow { font-family: var(--pp-num); font-size: 26px; color: var(--pp-lime); }
+
+    /* ---- footer ---- */
+    .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
+
+    /* ============================================================
+       Reveal — entering elements use decelerate + 300/500ms
+       ============================================================ */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-500) var(--ease-decelerate), transform var(--dur-500) var(--ease-decelerate); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ============================================================
+       Mobile — required
+       ============================================================ */
+    @media (max-width: 768px) {
+      :root { --pp-px: 20px; }
+      .pp-header__nav { gap: 16px; }
+      .pp-header__nav a:not(.pp-btn) { display: none; }
+      .pp-section { padding: 64px 0; }
+      .pp-main__grid,
+      .pp-context__grid,
+      .pp-outcomes { grid-template-columns: 1fr; }
+      .pp-grid { grid-template-columns: 1fr 1fr; }
+      .pp-proto { aspect-ratio: 3 / 4; }
+      .pp-ds-tile { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 460px) {
+      .pp-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="pp-header">
+    <a href="../index.html" class="pp-header__logo">Portfolio</a>
+    <nav class="pp-header__nav">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#about">About</a>
+      <a href="mailto:petrenkoag95@gmail.com" class="pp-btn">Get in touch</a>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       BLOCK 1 — VIDEO COVER
+       6–8s seamless loop, title over video.
+       ============================================================ -->
+  <section class="pp-cover">
+    <div class="pp-cover__media">
+      <div class="pp-media"
+           data-src="../assets/pap-pay/cover-loop"
+           data-poster="../assets/pap-pay/posters/cover-loop.jpg">
+        <div class="pp-media__ph">
+          <span class="pp-media__ph-tag">Block 1 · cover loop</span>
+          <span class="pp-media__ph-label">6–8s seamless loop</span>
+          <span class="pp-media__ph-spec">cover-loop.webm / .mp4 · ≤3MB · 30fps · poster</span>
+        </div>
+      </div>
+    </div>
+    <div class="pp-cover__scrim"></div>
+    <div class="pp-cover__inner pp-container">
+      <span class="pp-eyebrow">Crypto payroll wallet · iOS · dark-only</span>
+      <h1 class="pp-cover__title">Pap-Pay</h1>
+      <p class="pp-cover__sub">Salary arrives in BTC. Cashing out to a card is the first move — and it can't be undone.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOCK 2 — CONTEXT (static)
+       ============================================================ -->
+  <section class="pp-section" id="context">
+    <div class="pp-container">
+      <span class="pp-eyebrow reveal">Context</span>
+      <h2 class="pp-h2 reveal" style="margin-top:16px;max-width:20ch;">You didn't choose crypto. It came with the contract.</h2>
+      <p class="pp-lead reveal" style="margin-top:20px;">Employees of a media holding are paid in BTC and convert to dollars by sending to their own card. Accounts and accruals come from an external system — the app doesn't own them. The first operation a user ever makes is spending their own salary, and it's irreversible: a card transfer can be disputed, a blockchain transaction can't. The job was to separate the two models of money so the difference reads <span class="pp-accent">before</span> confirmation, not after.</p>
+
+      <div class="pp-context__grid reveal">
+        <div class="pp-context__cell"><div class="pp-context__k">Role</div><div class="pp-context__v">Lead Product Designer — hands-on</div></div>
+        <div class="pp-context__cell"><div class="pp-context__k">Platform</div><div class="pp-context__v">iOS · dark-only</div></div>
+        <div class="pp-context__cell"><div class="pp-context__k">Scope</div><div class="pp-context__v pp-num">41 screens · 10 flows</div></div>
+        <div class="pp-context__cell"><div class="pp-context__k">System</div><div class="pp-context__v">2-theme color tokens · 2 typefaces · motion tokens · mascot, 4 moods</div></div>
+        <div class="pp-context__cell"><div class="pp-context__k">Problem</div><div class="pp-context__v">Two models of money — reversible card vs. irreversible chain — must read apart before confirm.</div></div>
+        <div class="pp-context__cell"><div class="pp-context__k">Constraints</div><div class="pp-context__v">External source of truth · motion-first · media weight budget · mobile required</div></div>
+        <div class="pp-context__cell"><div class="pp-context__k">Process</div><div class="pp-context__v">— <!-- fill --></div></div>
+        <div class="pp-context__cell"><div class="pp-context__k">Success criterion</div><div class="pp-context__v">The irreversible move is understood pre-confirm.</div></div>
+      </div>
+
+      <span class="pp-nda reveal">🔒 Internal product · data under NDA — only cleared screens shown</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOCK 3 — MAIN: hierarchy + USD ↔ Crypto toggle loop
+       Text left, autoplay loop right.
+       ============================================================ -->
+  <section class="pp-section" id="main">
+    <div class="pp-container">
+      <div class="pp-main__grid">
+        <div class="pp-main__copy reveal">
+          <span class="pp-eyebrow">The core screen</span>
+          <h2 class="pp-h2">Two currencies, one balance, one hierarchy.</h2>
+          <p class="pp-body">Breakdown of the hierarchy that keeps dollars and crypto legible at a glance — and the auto-playing loop that switches the balance between USD and crypto framing.</p>
+          <div class="pp-note"><span class="pp-body" style="color:var(--pp-text);">Enter = decelerate, exit = accelerate. The switch is 300ms on the standard curve.</span></div>
+        </div>
+        <div class="reveal">
+          <div class="pp-media pp-media--phone"
+               data-src="../assets/pap-pay/hierarchy-toggle"
+               data-poster="../assets/pap-pay/posters/hierarchy-toggle.jpg">
+            <div class="pp-media__ph">
+              <span class="pp-media__ph-tag">Block 3 · USD ↔ Crypto</span>
+              <span class="pp-media__ph-label">Auto-play toggle loop</span>
+              <span class="pp-media__ph-spec">hierarchy-toggle.webm / .mp4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOCK 4 — SEND FLOW (single live prototype + video fallback)
+       Put the Figma prototype URL in data-embed on #pp-proto.
+       ============================================================ -->
+  <section class="pp-section" id="send-flow">
+    <div class="pp-container">
+      <span class="pp-eyebrow reveal">Send flow</span>
+      <h2 class="pp-h2 reveal" style="margin-top:16px;max-width:22ch;">The one flow you can actually touch.</h2>
+      <p class="pp-lead reveal" style="margin-top:20px;">The single live prototype — every state, including error and expired rate. A Figma embed doesn't autoplay, so a video fallback sits underneath.</p>
+
+      <!-- Live embed: set data-embed to the Figma prototype URL to activate -->
+      <div class="pp-proto reveal" id="pp-proto"
+           data-embed=""
+           data-fallback="../assets/pap-pay/send-flow"
+           data-poster="../assets/pap-pay/posters/send-flow.jpg">
+        <div class="pp-proto__ph">
+          <span class="pp-proto__badge">Block 4 · live prototype</span>
+          <span class="pp-media__ph-label">Figma embed slot</span>
+          <span class="pp-media__ph-spec">set data-embed → Figma prototype URL · video fallback below</span>
+        </div>
+      </div>
+      <p class="pp-proto__cap reveal">Video fallback: send-flow.webm / .mp4 (embed doesn't autoplay).</p>
+
+      <div class="pp-states-inline reveal">
+        <span class="pp-chip">Amount</span>
+        <span class="pp-chip">Review</span>
+        <span class="pp-chip">Confirm</span>
+        <span class="pp-chip">Sending</span>
+        <span class="pp-chip">Success</span>
+        <span class="pp-chip pp-chip--danger">Error</span>
+        <span class="pp-chip pp-chip--danger">Rate expired</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOCK 5 — STATES & EDGE CASES (grid of short 2–3s loops)
+       ============================================================ -->
+  <section class="pp-section" id="states">
+    <div class="pp-container">
+      <span class="pp-eyebrow reveal">States &amp; edge cases</span>
+      <h2 class="pp-h2 reveal" style="margin-top:16px;">Short loops, 2–3s each.</h2>
+      <div class="pp-grid">
+        <!-- Duplicate .pp-grid__item per state; wire data-src/data-poster to media -->
+        <div class="pp-grid__item reveal">
+          <div class="pp-media pp-media--square" data-src="../assets/pap-pay/state-01" data-poster="../assets/pap-pay/posters/state-01.jpg">
+            <div class="pp-media__ph"><span class="pp-media__ph-tag">state-01</span><span class="pp-media__ph-spec">2–3s loop</span></div>
+          </div>
+          <p class="pp-caption"><span class="pp-caption__k">01</span>Empty balance</p>
+        </div>
+        <div class="pp-grid__item reveal">
+          <div class="pp-media pp-media--square" data-src="../assets/pap-pay/state-02" data-poster="../assets/pap-pay/posters/state-02.jpg">
+            <div class="pp-media__ph"><span class="pp-media__ph-tag">state-02</span><span class="pp-media__ph-spec">2–3s loop</span></div>
+          </div>
+          <p class="pp-caption"><span class="pp-caption__k">02</span>Rate refresh</p>
+        </div>
+        <div class="pp-grid__item reveal">
+          <div class="pp-media pp-media--square" data-src="../assets/pap-pay/state-03" data-poster="../assets/pap-pay/posters/state-03.jpg">
+            <div class="pp-media__ph"><span class="pp-media__ph-tag">state-03</span><span class="pp-media__ph-spec">2–3s loop</span></div>
+          </div>
+          <p class="pp-caption"><span class="pp-caption__k">03</span>Error — faster motion</p>
+        </div>
+        <div class="pp-grid__item reveal">
+          <div class="pp-media pp-media--square" data-src="../assets/pap-pay/state-04" data-poster="../assets/pap-pay/posters/state-04.jpg">
+            <div class="pp-media__ph"><span class="pp-media__ph-tag">state-04</span><span class="pp-media__ph-spec">2–3s loop</span></div>
+          </div>
+          <p class="pp-caption"><span class="pp-caption__k">04</span>Pending on chain</p>
+        </div>
+        <div class="pp-grid__item reveal">
+          <div class="pp-media pp-media--square" data-src="../assets/pap-pay/state-05" data-poster="../assets/pap-pay/posters/state-05.jpg">
+            <div class="pp-media__ph"><span class="pp-media__ph-tag">state-05</span><span class="pp-media__ph-spec">2–3s loop</span></div>
+          </div>
+          <p class="pp-caption"><span class="pp-caption__k">05</span>Mascot — reassure</p>
+        </div>
+        <div class="pp-grid__item reveal">
+          <div class="pp-media pp-media--square" data-src="../assets/pap-pay/state-06" data-poster="../assets/pap-pay/posters/state-06.jpg">
+            <div class="pp-media__ph"><span class="pp-media__ph-tag">state-06</span><span class="pp-media__ph-spec">2–3s loop</span></div>
+          </div>
+          <p class="pp-caption"><span class="pp-caption__k">06</span>Mascot — alert</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOCK 6 — OUTCOMES & REFLECTION + design-system tile
+       ============================================================ -->
+  <section class="pp-section" id="outcomes">
+    <div class="pp-container">
+      <span class="pp-eyebrow reveal">Outcomes &amp; reflection</span>
+      <div class="pp-outcomes reveal">
+        <div><div class="pp-metric__num pp-num">41</div><div class="pp-metric__label">screens across 10 flows</div></div>
+        <div><div class="pp-metric__num pp-num">2</div><div class="pp-metric__label">money models made legible pre-confirm</div></div>
+        <div><div class="pp-metric__num pp-num">4</div><div class="pp-metric__label">mascot moods with usage rules</div></div>
+      </div>
+      <div class="pp-reflection reveal">
+        <p>— <!-- reflection copy --></p>
+      </div>
+
+      <!-- Design system lives as its own case — link, don't duplicate -->
+      <a class="pp-ds-tile reveal" href="#" aria-label="Open the Pap-Pay design system case">
+        <div>
+          <div class="pp-eyebrow">Design system</div>
+          <div class="pp-ds-tile__title">Pap-Pay design system</div>
+          <div class="pp-ds-tile__sub">Tokens in two themes · two typefaces · light/dark elevation · motion tokens · mascot</div>
+        </div>
+        <span class="pp-ds-tile__arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="pp-footer">
+    <span>Anastasiia Petrenko — Lead Product Designer</span>
+    <span>Pap-Pay · internal product under NDA · © 2026</span>
+  </footer>
+
+  <script>
+    /* ---- Reveal on scroll (entering = decelerate) ---- */
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('is-visible'); }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (e) { io.observe(e); });
+    })();
+
+    /* ---- Hydrate media slots ----
+       For each .pp-media[data-src], if the video files exist they load
+       and autoplay; otherwise the placeholder stays. mp4 + webm + poster,
+       muted + playsinline so iOS autoplays. */
+    (function () {
+      document.querySelectorAll('.pp-media[data-src]').forEach(function (slot) {
+        var base = slot.getAttribute('data-src');
+        var poster = slot.getAttribute('data-poster') || '';
+        var v = document.createElement('video');
+        v.autoplay = true; v.loop = true; v.muted = true;
+        v.setAttribute('muted', ''); v.playsInline = true; v.setAttribute('playsinline', '');
+        if (poster) v.poster = poster;
+        v.preload = 'metadata';
+        [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (t) {
+          var s = document.createElement('source');
+          s.src = base + '.' + t[0]; s.type = t[1];
+          v.appendChild(s);
+        });
+        // Only replace the placeholder once a source is actually playable.
+        v.addEventListener('loadeddata', function () {
+          var ph = slot.querySelector('.pp-media__ph');
+          if (ph) ph.remove();
+          slot.appendChild(v);
+          v.play().catch(function () {});
+        }, { once: true });
+        // Kick off load without disturbing the placeholder if it 404s.
+        v.load();
+      });
+    })();
+
+    /* ---- Activate the live prototype embed when a URL is set ---- */
+    (function () {
+      var p = document.getElementById('pp-proto');
+      if (!p) return;
+      var url = p.getAttribute('data-embed');
+      if (!url) return; // keep placeholder / fallback until wired
+      var f = document.createElement('iframe');
+      f.src = url; f.allowFullscreen = true; f.loading = 'lazy';
+      var ph = p.querySelector('.pp-proto__ph');
+      if (ph) ph.remove();
+      p.appendChild(f);
+    })();
+  </script>
+</body>
+</html>
