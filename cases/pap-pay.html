@@ -7,7 +7,7 @@
   <meta name="description" content="Pap-Pay — an iOS crypto payroll wallet. Employees are paid in BTC and cash out to their card. The case is about separating two models of money so an irreversible move reads before it's confirmed, not after." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     /* ============================================================
        Pap-Pay — self-contained, dark-only case system.
@@ -20,10 +20,10 @@
       --pp-bg-2:      #0D1A12;
       --pp-surface:   #12211A;
       --pp-surface-2: #16281E;
-      --pp-border:    rgba(199,249,77,0.12);
+      --pp-border:    rgba(227,252,83,0.12);
       --pp-hair:      rgba(234,243,234,0.08);
-      --pp-lime:      #C7F94D;
-      --pp-lime-dim:  rgba(199,249,77,0.14);
+      --pp-lime:      #E3FC53; /* --color-text-accent from the Figma system */
+      --pp-lime-dim:  rgba(227,252,83,0.14);
       --pp-text:      #EAF3EA;
       --pp-muted:     rgba(234,243,234,0.58);
       --pp-dim:       rgba(234,243,234,0.34);
@@ -127,18 +127,51 @@
     .pp-media__ph-spec  { font-family: var(--pp-num); font-size: 12px; color: var(--pp-dim); }
 
     /* ============================================================
-       Block 1 — video cover
+       Block 1 — video cover (matches Figma node 160:626)
+       Forest-mascot loop as background; logo, meta pills, headline
+       and role pill overlaid.
        ============================================================ */
-    .pp-cover { position: relative; min-height: 88vh; display: flex; align-items: flex-end; overflow: hidden; }
+    .pp-cover { position: relative; min-height: 100vh; overflow: hidden; }
     .pp-cover__media { position: absolute; inset: 0; }
     .pp-cover__media .pp-media { height: 100%; border: none; border-radius: 0; aspect-ratio: auto; }
     .pp-cover__scrim {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(10,20,14,0.35) 0%, rgba(10,20,14,0.15) 45%, rgba(10,20,14,0.92) 100%);
+      background: linear-gradient(180deg, rgba(6,12,8,0.30) 0%, rgba(6,12,8,0.12) 40%, rgba(6,12,8,0.55) 100%);
     }
-    .pp-cover__inner { position: relative; z-index: 2; width: 100%; padding-bottom: 72px; }
-    .pp-cover__title { font-size: clamp(44px, 8vw, 104px); font-weight: 800; line-height: 0.98; letter-spacing: -0.04em; margin: 18px 0 20px; }
-    .pp-cover__sub { font-size: clamp(17px, 2.4vw, 22px); color: var(--pp-muted); max-width: 46ch; }
+    .pp-cover__overlay {
+      position: relative; z-index: 2;
+      min-height: 100vh; display: flex; flex-direction: column;
+      padding: 60px 0 56px;
+    }
+    .pp-cover__top { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .pp-cover__mid { flex: 1; display: flex; align-items: center; }
+    .pp-cover__bottom { display: flex; justify-content: flex-end; }
+
+    /* logo */
+    .pp-logo { display: flex; align-items: center; gap: 16px; }
+    .pp-logo__mark { width: 34px; height: 34px; flex-shrink: 0; }
+    .pp-logo__name { font-weight: 700; font-size: clamp(22px, 2.4vw, 28px); letter-spacing: -0.01em; color: #fff; }
+
+    /* glass pills */
+    .pp-glass {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 30px; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(110deg, rgba(255,255,255,0.10) 29%, rgba(153,153,153,0.10) 110%);
+      backdrop-filter: blur(6.5px); -webkit-backdrop-filter: blur(6.5px);
+      font-weight: 500; font-size: 15px; line-height: 20px; color: #fff; white-space: nowrap;
+    }
+    .pp-cover__meta { display: flex; align-items: center; gap: 8px; }
+    .pp-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), rgba(153,153,153,0.2));
+      border: 0.5px solid rgba(255,255,255,0.6); }
+
+    /* headline */
+    .pp-cover__title {
+      font-weight: 600; font-size: clamp(34px, 5vw, 47px); line-height: 1.15;
+      letter-spacing: -0.005em; color: #fff; max-width: 15ch;
+    }
+    .pp-cover__title .accent { font-weight: 300; color: var(--pp-lime); }
 
     /* ============================================================
        Block 2 — context (static)
@@ -225,6 +258,10 @@
       :root { --pp-px: 20px; }
       .pp-header__nav { gap: 16px; }
       .pp-header__nav a:not(.pp-btn) { display: none; }
+      .pp-cover__top { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .pp-cover__meta { flex-wrap: wrap; }
+      .pp-glass { padding: 8px 18px; font-size: 13px; }
+      .pp-cover__title { max-width: none; }
       .pp-section { padding: 64px 0; }
       .pp-main__grid,
       .pp-context__grid,
@@ -251,8 +288,8 @@
   </header>
 
   <!-- ============================================================
-       BLOCK 1 — VIDEO COVER
-       6–8s seamless loop, title over video.
+       BLOCK 1 — VIDEO COVER  (Figma 160:626)
+       Forest-mascot 6–8s seamless loop behind logo + pills + headline.
        ============================================================ -->
   <section class="pp-cover">
     <div class="pp-cover__media">
@@ -261,16 +298,40 @@
            data-poster="../assets/pap-pay/posters/cover-loop.jpg">
         <div class="pp-media__ph">
           <span class="pp-media__ph-tag">Block 1 · cover loop</span>
-          <span class="pp-media__ph-label">6–8s seamless loop</span>
+          <span class="pp-media__ph-label">6–8s seamless forest-mascot loop</span>
           <span class="pp-media__ph-spec">cover-loop.webm / .mp4 · ≤3MB · 30fps · poster</span>
         </div>
       </div>
     </div>
     <div class="pp-cover__scrim"></div>
-    <div class="pp-cover__inner pp-container">
-      <span class="pp-eyebrow">Crypto payroll wallet · iOS · dark-only</span>
-      <h1 class="pp-cover__title">Pap-Pay</h1>
-      <p class="pp-cover__sub">Salary arrives in BTC. Cashing out to a card is the first move — and it can't be undone.</p>
+
+    <div class="pp-cover__overlay">
+      <!-- top: logo + meta pills -->
+      <div class="pp-cover__top pp-container">
+        <div class="pp-logo">
+          <svg class="pp-logo__mark" viewBox="0 0 40 40" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="9" cy="9" r="9"/>
+            <rect x="22" y="0" width="18" height="18" rx="4"/>
+            <rect x="0" y="22" width="18" height="18" rx="4"/>
+          </svg>
+          <span class="pp-logo__name">pap pay</span>
+        </div>
+        <div class="pp-cover__meta">
+          <span class="pp-glass">Internal product</span>
+          <span class="pp-dot" aria-hidden="true"></span>
+          <span class="pp-glass">February — June 2026</span>
+        </div>
+      </div>
+
+      <!-- middle: headline -->
+      <div class="pp-cover__mid pp-container">
+        <h1 class="pp-cover__title">Pap-Pay&nbsp;&mdash; <span class="accent">is a mobile wallet</span> for fiat and cryptocurrencies.</h1>
+      </div>
+
+      <!-- bottom: role pill -->
+      <div class="pp-cover__bottom pp-container">
+        <span class="pp-glass">Lead Product Designer (hands-on)</span>
+      </div>
     </div>
   </section>
 
