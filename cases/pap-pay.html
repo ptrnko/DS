@@ -141,10 +141,10 @@
     .pp-cover__overlay {
       position: relative; z-index: 2;
       min-height: 100vh; display: flex; flex-direction: column;
-      padding: 60px 0 56px;
+      padding: 104px 0 56px; /* top clears the sticky site header */
     }
     .pp-cover__top { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .pp-cover__mid { flex: 1; display: flex; align-items: center; }
+    .pp-cover__mid { flex: 1; display: flex; align-items: flex-start; padding-top: clamp(24px, 8vh, 96px); }
     .pp-cover__bottom { display: flex; justify-content: flex-end; }
 
     /* logo */
