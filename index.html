@@ -130,47 +130,57 @@
   </section>
 
   <!-- ABOUT -->
-  <section class="about-bento" id="about" aria-label="About">
-    <div class="ab-grid">
+  <section class="about-1b" id="about" aria-labelledby="about-heading">
+    <div class="ab1-inner">
 
-      <!-- Quote -->
-      <article class="ab-tile ab-quote">
-        <span class="ab-eyebrow">Lead Product Designer</span>
-        <p class="ab-quote-body">From solo execution to leading the people and process behind it — I've built design departments twice from a single hire, taken one team to 10 specialists, and turned fragmented interfaces into design systems that halved dev handoff time. Now doing the same with AI in the loop: Claude Code and Git are part of the daily process, not a side experiment.</p>
-      </article>
+      <!-- Tier A -->
+      <p class="ab1-eyebrow ab1-anim" style="--delay:0ms">About</p>
+      <h2 id="about-heading" class="ab1-heading ab1-anim ab1-anim--blur" style="--delay:80ms">
+        Hi! My name is Anastasiia and this part is about my experience
+      </h2>
 
-      <!-- Stat 0 → 10 -->
-      <article class="ab-tile ab-stat">
-        <div class="ab-stat-label">Building teams</div>
-        <div class="ab-stat-num">0 <span class="ab-arrow">&rarr;</span> 10</div>
-        <div class="ab-stat-cap">Designers, hired &amp; grown</div>
-      </article>
-
-      <!-- Years -->
-      <article class="ab-tile ab-years">
-        <div class="ab-stat-label">Experience</div>
-        <div class="ab-years-num">7+</div>
-        <div class="ab-years-cap">Yrs of shipping product design</div>
-      </article>
-
-      <!-- Disciplines (moved to bio slot) -->
-      <article class="ab-tile ab-disc">
-        <span class="ab-disc-label">Disciplines</span>
-        <div class="ab-chips">
-          <span class="ab-chip">Hiring &amp; mentorship</span>
-          <span class="ab-chip">Cross-functional leadership</span>
-          <span class="ab-chip">Process ownership</span>
-          <span class="ab-chip">Design system at scale</span>
-          <span class="ab-chip">AI-native workflows</span>
-          <span class="ab-chip">Rebrand &amp; visual identity</span>
+      <!-- Tier B — metric strip -->
+      <div class="ab1-metrics">
+        <span class="ab1-metrics__rule" aria-hidden="true"></span>
+        <div class="ab1-metrics__grid">
+          <div class="ab1-metric ab1-anim" role="group" style="--delay:420ms">
+            <p class="ab1-metric__label">Building teams</p>
+            <p class="ab1-metric__value">0 <span aria-hidden="true">&rarr;</span> <span class="ab1-count" data-count-to="10">10</span></p>
+            <p class="ab1-metric__desc">Designers hired, coached, and scaled into an aligned, high-performance unit.</p>
+          </div>
+          <div class="ab1-metric ab1-anim" role="group" style="--delay:540ms">
+            <p class="ab1-metric__label">Production experience</p>
+            <p class="ab1-metric__value"><span class="ab1-count" data-count-to="7">7</span>+ YRS</p>
+            <p class="ab1-metric__desc">Years of shipping complex, end-to-end web and mobile applications.</p>
+          </div>
+          <div class="ab1-metric ab1-anim" role="group" style="--delay:660ms">
+            <p class="ab1-metric__label">Design Ops + AI</p>
+            <p class="ab1-metric__value"><span class="ab1-count" data-count-to="50">50</span>%</p>
+            <p class="ab1-metric__desc">Cut 50% off design-to-dev handoff with Claude Code &amp; Git — Figma stays the source of truth.</p>
+          </div>
         </div>
-      </article>
+      </div>
 
-      <!-- AI card -->
-      <article class="ab-tile ab-ai">
-        <div class="ab-stat-label">Design ops + AI</div>
-        <div class="ab-ai-title">Cut 50% off design-to-dev handoff with Claude Code &amp; Git &mdash; Figma stays the source of truth, AI speeds up everything around it.</div>
-      </article>
+      <!-- Tier C — footer row -->
+      <div class="ab1-footer">
+        <p class="ab1-intro ab1-anim" style="--delay:700ms">
+          I've built design departments twice — scaling teams to 10 specialists, and turning
+          fragmented interfaces into high-performance design systems. Currently doing the same
+          with AI in the loop: Claude Code and Git are active partners in my process, not side
+          experiments.
+        </p>
+        <div class="ab1-disciplines">
+          <p class="ab1-label ab1-anim" style="--delay:780ms">System disciplines</p>
+          <ul class="ab1-chips">
+            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:860ms">Cross-functional leadership</li>
+            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:930ms">Hiring &amp; mentorship</li>
+            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1000ms">AI-native workflows</li>
+            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1070ms">Process ownership</li>
+            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1140ms">Design system at scale</li>
+            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1210ms">Rebrand &amp; visual identity</li>
+          </ul>
+        </div>
+      </div>
 
     </div>
   </section>

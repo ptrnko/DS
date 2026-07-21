@@ -343,11 +343,56 @@ function initScrollReveal() {
 /* =============================================================
    INIT
 ============================================================= */
+/* =============================================================
+   ABOUT 1B — scroll reveal + count-up
+============================================================= */
+function initAbout1b() {
+  const about = document.querySelector('.about-1b');
+  if (!about) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function countUp(el, to, duration) {
+    let start = null;
+    function step(now) {
+      if (start === null) start = now;
+      const p = Math.min(1, (now - start) / duration);
+      el.textContent = Math.round(to * easeOut(p)).toString();
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function runCounters() {
+    about.querySelectorAll('.ab1-count').forEach((el) => {
+      const to = parseInt(el.getAttribute('data-count-to'), 10) || 0;
+      if (reduce) { el.textContent = to.toString(); return; }
+      el.textContent = '0';
+      countUp(el, to, 1100);
+    });
+  }
+
+  function reveal() {
+    about.classList.add('is-visible');
+    setTimeout(runCounters, reduce ? 0 : 500);
+  }
+
+  if (reduce || !('IntersectionObserver' in window)) { reveal(); return; }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { reveal(); io.disconnect(); } });
+  }, { threshold: 0.15 });
+  io.observe(about);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   new FeaturedCarousel();
   if (document.getElementById('js-network-svg')) new TeamGrowthAnimation();
   initBurger();
   initScrollReveal();
+  initAbout1b();
 
   document.querySelectorAll('.work-card[data-href]').forEach((card) => {
     card.addEventListener('click', () => {
