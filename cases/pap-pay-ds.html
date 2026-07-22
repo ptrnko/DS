@@ -706,6 +706,10 @@
     }
     @keyframes themeWipe { 0% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(0 0 0 100%); } }
     @keyframes seamMove { 0% { left: 0; } 100% { left: 100%; } }
+    /* stacked layout wipes top-to-bottom instead — a sideways pass across a
+       narrow, tall panel reads as a glitch rather than a re-theme */
+    @keyframes themeWipeV { 0% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(100% 0 0 0); } }
+    @keyframes seamMoveV { 0% { top: 0; } 100% { top: 100%; } }
     @keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes cardIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
@@ -734,6 +738,13 @@
         border-top: 1px solid var(--ds-surface-2);
       }
       .ds-theme-light .ds-ramps { border-top-color: #DDE3CE; }
+      /* wipe follows the stack: top-to-bottom, seam turns horizontal */
+      .themeLight { animation-name: themeWipeV; }
+      .themeSeam {
+        top: 0; bottom: auto; left: 0; right: 0;
+        width: auto; height: 2px;
+        animation-name: seamMoveV;
+      }
       .ds-money { grid-template-columns: 1fr; }
       .ds-furniture { grid-template-columns: repeat(3, 1fr); }
       .ds-screens { grid-template-columns: 1fr 1fr; }
