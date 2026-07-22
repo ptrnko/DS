@@ -201,17 +201,23 @@ h1, h2, h3 { font-weight: 700; }
   display:        flex;
   flex-direction: column;
   gap:            30px;
-  max-width:      600px;
+  max-width:      700px;
 }
 
 /* Headline */
 .hero__headline {
-  font-size:      clamp(38px, 4.6vw, 62px);
+  /* 48 max, matching the <=1600 step — at 62 the type outgrew the box on
+     very wide screens and the headline spilled to a 4th line */
+  font-size:      clamp(38px, 4.6vw, 48px);
   font-weight:    700;
   line-height:    1.06;
   letter-spacing: -0.02em;
   color:          var(--text-primary);
-  max-width:      600px;
+  /* 700 so the box keeps up with the type on wide screens — at 600 the
+     headline stayed narrow while the font grew to 48px and spilled to a
+     4th line. Below ~1400 the hero grid column is the binding limit. */
+  max-width:      720px;
+  text-wrap:      balance;
 }
 
 /* Stats */
