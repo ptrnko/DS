@@ -725,9 +725,15 @@
       /* single column now — headline gets the full width back */
       .ds-hero__h1 { font-size: clamp(40px, 6.4vw, 68px); }
       .ds-colour { grid-template-columns: 1fr; gap: 56px; }
+      /* stacked: the ramps need their own height, since the swatch/step
+         proportions are flex ratios with nothing else to divide up */
       .ds-foundations__split { grid-template-columns: 1fr; }
-      .ds-theme-light { display: none; }
-      .themeSeam { display: none; }
+      .ds-ramps {
+        min-height: 420px;
+        border-left: none;
+        border-top: 1px solid var(--ds-surface-2);
+      }
+      .ds-theme-light .ds-ramps { border-top-color: #DDE3CE; }
       .ds-money { grid-template-columns: 1fr; }
       .ds-furniture { grid-template-columns: repeat(3, 1fr); }
       .ds-screens { grid-template-columns: 1fr 1fr; }
@@ -760,7 +766,10 @@
       .ds-specimen__aa { font-size: 64px; }
       .ds-specimen__nums, .ds-specimen__glyphs { font-size: 56px; }
       .ds-specimen__roles { flex-wrap: wrap; gap: 20px; }
+      /* the panel can shrink to its content, but the ramps keep a height —
+         zeroing it collapsed the flex ratios and overlapped the labels */
       .ds-foundations, .ds-foundations__split { min-height: 0; }
+      .ds-ramps { min-height: 360px; }
       .ds-furniture { grid-template-columns: repeat(2, 1fr); }
       /* keep the 8×8 square — the grid IS the point; shrink the glyphs instead */
       .ds-icon-grid { gap: 1px; border-radius: 12px; }
