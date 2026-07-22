@@ -65,6 +65,7 @@
       font-family: var(--ds-sans);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      padding-top: 68px;      /* clears the fixed nav */
       padding-bottom: 180px;
     }
     ::selection { background: var(--ds-dot); color: #fff; }
@@ -81,36 +82,28 @@
     /* numerals are a material — Roboto tabular, always */
     .ds-num { font-family: var(--ds-num); font-variant-numeric: tabular-nums; }
 
-    /* ---------- nav ---------- */
+    /* ---------- nav — matches the other case pages: sticky, blurred,
+       "back to works" left, section links right ---------- */
     .ds-nav {
-      max-width: var(--ds-max);
-      margin: 0 auto;
-      padding: 32px var(--ds-pad);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; height: 68px; padding: 0 var(--ds-pad);
+      background: rgba(14,17,2,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--ds-surface-2);
     }
-    .ds-nav__brand { display: flex; align-items: center; gap: 14px; }
-    .ds-nav__mark {
-      width: 34px; height: 34px;
-      border: 1px solid var(--ds-dot);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 13px; color: var(--ds-sage);
+    .ds-nav__back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: var(--ds-sage);
+      transition: color 0.2s ease;
     }
-    .ds-nav__name { font-size: 16px; color: var(--ds-text-2); }
-    .ds-nav__links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
-    .ds-nav__link {
-      color: var(--ds-text-2); padding: 7px 14px; border-radius: 999px;
-      transition: background .18s ease, color .18s ease;
-    }
-    .ds-nav__link:hover { background: var(--ds-surface); color: #fff; }
-    .ds-nav__cta {
-      color: #fff; font-weight: 700; padding: 7px 16px;
-      border-radius: 999px; border: 1px solid var(--ds-dot);
-      transition: background .18s ease;
-    }
-    .ds-nav__cta:hover { background: var(--ds-surface); color: #fff; }
+    .ds-nav__back:hover { color: var(--ds-text); }
+    .ds-nav__links { display: flex; gap: 28px; align-items: center; font-size: 14px; }
+    .ds-nav__links a { color: var(--ds-sage); transition: color 0.2s ease; }
+    .ds-nav__links a:hover { color: var(--ds-text); }
+    .ds-nav__links a.ds-nav__contact { color: var(--ds-accent); }
+    .ds-nav__links a.ds-nav__contact:hover { color: var(--ds-accent-hover); }
 
     /* ---------- hero ---------- */
     .ds-hero {
@@ -742,8 +735,7 @@
     @media (max-width: 768px) {
       :root { --ds-pad: 20px; --ds-block: 110px; }
       body { padding-bottom: 100px; }
-      .ds-nav { padding: 20px var(--ds-pad); }
-      .ds-nav__links { display: none; }
+      .ds-nav__links { display: none; }   /* back-link only, as on the other cases */
       .ds-hero { padding: 48px var(--ds-pad) 0; }
       .ds-hero__h1 { font-size: 36px; }
       .ds-hero__rule { width: 180px; }
@@ -790,17 +782,19 @@
 <body>
 
   <!-- ===== NAV ===== -->
-  <header class="ds-nav">
-    <a class="ds-nav__brand" href="../index.html">
-      <span class="ds-nav__mark">AP</span>
-      <span class="ds-nav__name">Anastasiia Petrenko</span>
+  <nav class="ds-nav">
+    <a href="../index.html" class="ds-nav__back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to works
     </a>
-    <nav class="ds-nav__links">
-      <a class="ds-nav__link" href="../index.html#work">Work</a>
-      <a class="ds-nav__link" href="../index.html#about">About</a>
-      <a class="ds-nav__cta" href="mailto:petrenkoag95@gmail.com">Get in touch</a>
-    </nav>
-  </header>
+    <div class="ds-nav__links">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#about">About</a>
+      <a href="mailto:petrenkoag95@gmail.com" class="ds-nav__contact">Contact</a>
+    </div>
+  </nav>
 
   <!-- ===== HERO ===== -->
   <section class="ds-hero">
