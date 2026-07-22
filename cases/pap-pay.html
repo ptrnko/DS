@@ -58,6 +58,7 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      padding-top: 68px;   /* clears the fixed header */
     }
     img, video { display: block; max-width: 100%; }
     a { color: inherit; text-decoration: none; }
@@ -67,24 +68,27 @@
     .pp-num { font-family: var(--pp-num); font-variant-numeric: tabular-nums; }
 
     /* ---- header ---- */
+    /* header — same pattern as the other case pages */
     .pp-header {
-      position: sticky; top: 0; z-index: 50;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 16px var(--pp-px);
-      background: rgba(10,20,14,0.72);
+      gap: 24px; height: 68px; padding: 0 var(--pp-px);
+      background: rgba(10,20,14,0.85);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--pp-hair);
     }
-    .pp-header__logo { font-weight: 700; letter-spacing: -0.01em; }
-    .pp-header__nav { display: flex; gap: 28px; align-items: center; }
-    .pp-header__nav a { color: var(--pp-muted); font-size: 15px; transition: color var(--dur-200) var(--ease-standard); }
-    .pp-header__nav a:hover { color: var(--pp-text); }
-    .pp-btn {
-      border: 1px solid var(--pp-border); border-radius: 999px;
-      padding: 9px 18px; color: var(--pp-text); font-size: 14px;
-      transition: background var(--dur-200) var(--ease-standard), border-color var(--dur-200) var(--ease-standard);
+    .pp-header__back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: var(--pp-muted);
+      transition: color var(--dur-200) var(--ease-standard);
     }
-    .pp-btn:hover { background: var(--pp-lime-dim); border-color: var(--pp-lime); }
+    .pp-header__back:hover { color: var(--pp-text); }
+    .pp-header__nav { display: flex; gap: 28px; align-items: center; font-size: 14px; }
+    .pp-header__nav a { color: var(--pp-muted); transition: color var(--dur-200) var(--ease-standard); }
+    .pp-header__nav a:hover { color: var(--pp-text); }
+    .pp-header__nav a.pp-header__contact { color: var(--pp-lime); }
+    .pp-header__nav a.pp-header__contact:hover { color: var(--pp-text); }
 
     /* ---- shared type ---- */
     .pp-eyebrow {
@@ -286,8 +290,7 @@
        ============================================================ */
     @media (max-width: 768px) {
       :root { --pp-px: 20px; }
-      .pp-header__nav { gap: 16px; }
-      .pp-header__nav a:not(.pp-btn) { display: none; }
+      .pp-header__nav { display: none; }   /* back-link only, as on the other cases */
       .pp-cover__top { flex-direction: column; align-items: flex-start; gap: 16px; }
       .pp-cover__meta { flex-wrap: wrap; }
       .pp-glass { padding: 8px 18px; font-size: 13px; }
@@ -326,11 +329,16 @@
 
   <!-- HEADER -->
   <header class="pp-header">
-    <a href="../index.html" class="pp-header__logo">Portfolio</a>
+    <a href="../index.html" class="pp-header__back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to works
+    </a>
     <nav class="pp-header__nav">
       <a href="../index.html#work">Work</a>
       <a href="../index.html#about">About</a>
-      <a href="mailto:petrenkoag95@gmail.com" class="pp-btn">Get in touch</a>
+      <a href="mailto:petrenkoag95@gmail.com" class="pp-header__contact">Contact</a>
     </nav>
   </header>
 
