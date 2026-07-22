@@ -136,8 +136,12 @@
       margin: 0 0 32px;
     }
     .ds-hero__h1 {
-      font-weight: 800; font-size: 68px; line-height: 1.05;
+      font-weight: 800; line-height: 1.05;
       letter-spacing: -0.02em; color: #fff; margin: 0;
+      /* Two-column hero: the headline column is (100vw - 624px) wide, and the
+         longer line needs ~9.6px of width per px of font. Scale to fit so the
+         hard <br> stays the only line break instead of the text going ragged. */
+      font-size: clamp(46px, calc((100vw - 640px) / 9.8), 68px);
     }
     .ds-hero__rule {
       height: 4px; width: 280px; background: var(--ds-accent);
@@ -718,7 +722,8 @@
     @media (max-width: 1100px) {
       :root { --ds-pad: 40px; --ds-block: 140px; }
       .ds-hero__grid { grid-template-columns: 1fr; gap: 48px; }
-      .ds-hero__h1 { font-size: 52px; }
+      /* single column now — headline gets the full width back */
+      .ds-hero__h1 { font-size: clamp(40px, 6.4vw, 68px); }
       .ds-colour { grid-template-columns: 1fr; gap: 56px; }
       .ds-foundations__split { grid-template-columns: 1fr; }
       .ds-theme-light { display: none; }
@@ -737,7 +742,9 @@
       body { padding-bottom: 100px; }
       .ds-nav__links { display: none; }   /* back-link only, as on the other cases */
       .ds-hero { padding: 48px var(--ds-pad) 0; }
-      .ds-hero__h1 { font-size: 36px; }
+      /* 34px keeps "crypto payroll wallet" on one line at 375px; the lower
+         bound carries that down to 320px screens */
+      .ds-hero__h1 { font-size: clamp(28px, 9vw, 34px); }
       .ds-hero__rule { width: 180px; }
       .ds-hero__sub { font-size: 17px; }
       .ds-h2, .ds-screens__h2 { font-size: 28px; }
