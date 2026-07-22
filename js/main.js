@@ -27,13 +27,8 @@ const CASES = [
     img:   'assets/images/case-erp.jpg',
     url:   'cases/erp-core.html',
   },
-  {
-    tag:   'FINTECH · MOBILE',
-    title: 'Money Track wallet',
-    desc:  'A personal finance wallet that turns messy transactions into clear, motivating insights.',
-    img:   'assets/images/case-moneytrack.jpg',
-    url:   'cases/moneytrack.html',
-  },
+  /* Archived: Money Track wallet — cases/moneytrack.html still exists,
+     just no longer surfaced here or in the work grid. */
   {
     tag:   'E-COMMERCE · MOBILE',
     title: 'Turbo.ua delivery app',
