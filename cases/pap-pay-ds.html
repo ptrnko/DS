@@ -746,7 +746,7 @@
         animation-name: seamMoveV;
       }
       .ds-money { grid-template-columns: 1fr; }
-      .ds-furniture { grid-template-columns: repeat(3, 1fr); }
+      .ds-furniture { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .ds-screens { grid-template-columns: 1fr 1fr; }
       .ds-screens__head { grid-column: 1 / -1; padding-top: 0; }
       .ds-screens__item--raised { margin-bottom: 0; }
@@ -781,7 +781,13 @@
          zeroing it collapsed the flex ratios and overlapped the labels */
       .ds-foundations, .ds-foundations__split { min-height: 0; }
       .ds-ramps { min-height: 360px; }
-      .ds-furniture { grid-template-columns: repeat(2, 1fr); }
+      /* minmax(0,…) or the columns refuse to shrink below the fixed widths
+         inside them (Input 200px, SettingsRow 140px) and the second column
+         gets clipped by the panel's overflow:hidden */
+      .ds-furniture { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ds-furniture__cell { padding: 20px 12px; gap: 16px; }
+      .ds-input, .ds-settings-row { width: 100%; }
+      .ds-segmented span { padding: 0 10px; }
       /* keep the 8×8 square — the grid IS the point; shrink the glyphs instead */
       .ds-icon-grid { gap: 1px; border-radius: 12px; }
       .ds-icon-cell svg { width: 16px; height: 16px; }
