@@ -205,10 +205,11 @@
     }
 
     .pp-mod__over {
-      grid-column: 2 / 4; grid-row: 5 / 6;
-      display: flex; flex-direction: column; gap: clamp(20px, 2.6vw, 44px);
+      grid-column: 2 / 4; grid-row: 5 / 6; z-index: 6; /* above the grid overlay */
+      display: flex; flex-direction: column; justify-content: space-between;
       padding: clamp(24px, 3vw, 46px);
-      background: rgba(217,217,217,0.06);
+      /* opaque so the blueprint grid doesn't run through the copy */
+      background: #161F19;
     }
     .pp-mod__over-body {
       display: flex; flex-direction: column; gap: clamp(12px, 1.4vw, 20px);
