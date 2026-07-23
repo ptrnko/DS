@@ -218,15 +218,15 @@
     }
 
     /* ---- second block: empty-state phone + accent + big logo mark ---- */
-    .pp-mod__screen { grid-column: 1 / 3; grid-row: 6 / 8; overflow: hidden; position: relative; }
+    /* z-index 6 keeps the blueprint overlay off this block */
+    .pp-mod__screen { grid-column: 1 / 3; grid-row: 6 / 8; overflow: hidden; position: relative; z-index: 6; }
     .pp-mod__screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    /* day layer sweeps in over the night one, left → right, then clears
-       to the right — so the leading edge always travels the same way */
-    .pp-mod__screen .is-day { animation: pp-daywipe 9s var(--ease-standard) infinite; }
+    /* day layer sweeps in left → right, then retracts back right → left */
+    .pp-mod__screen .is-day { animation: pp-daywipe 14s var(--ease-standard) infinite; }
     @keyframes pp-daywipe {
       0%,  6%   { clip-path: inset(0 100% 0 0); }
       44%, 56%  { clip-path: inset(0 0 0 0); }
-      94%, 100% { clip-path: inset(0 0 0 100%); }
+      94%, 100% { clip-path: inset(0 100% 0 0); }
     }
     @media (prefers-reduced-motion: reduce) {
       .pp-mod__screen .is-day { animation: none; clip-path: inset(0 100% 0 0); }
