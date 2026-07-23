@@ -46,6 +46,7 @@
       /* layout */
       --pp-max: 1200px;
       --pp-px:  60px;
+      --pp-header-h: 68px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -135,20 +136,34 @@
        Forest-mascot loop as background; logo, meta pills, headline
        and role pill overlaid.
        ============================================================ */
-    .pp-cover { position: relative; min-height: 100vh; overflow: hidden; }
+    /* header sits in flow, so the cover fills what's left of the viewport */
+    .pp-cover { position: relative; min-height: calc(100vh - var(--pp-header-h)); overflow: hidden; }
     .pp-cover__media { position: absolute; inset: 0; }
     .pp-cover__media .pp-media { height: 100%; border: none; border-radius: 0; aspect-ratio: auto; }
     .pp-cover__scrim {
       position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(6,12,8,0.30) 0%, rgba(6,12,8,0.12) 40%, rgba(6,12,8,0.55) 100%);
     }
+    /* Vertical rhythm mirrors the Figma frame: logo ~7%, headline ~32%,
+       bottom pill ~80% of the cover height. */
     .pp-cover__overlay {
       position: relative; z-index: 2;
-      min-height: 100vh; display: flex; flex-direction: column;
-      padding: 104px 0 56px; /* top clears the sticky site header */
+      min-height: calc(100vh - var(--pp-header-h));
+      display: flex; flex-direction: column;
+      padding: clamp(24px, 4vh, 50px) 0 clamp(32px, 13vh, 150px);
+    }
+    /* Cover is full-bleed: rows span the viewport with the design's 80px inset.
+       width:100% is required — auto margins on a flex item would otherwise
+       shrink the row to its content instead of stretching it. */
+    .pp-cover__overlay .pp-container {
+      max-width: none; width: 100%;
+      /* left/right only — a padding shorthand here would wipe the
+         vertical rhythm set on .pp-cover__mid */
+      padding-left: clamp(20px, 5.5vw, 80px);
+      padding-right: clamp(20px, 5.5vw, 80px);
     }
     .pp-cover__top { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .pp-cover__mid { flex: 1; display: flex; align-items: flex-start; padding-top: clamp(24px, 8vh, 96px); }
+    .pp-cover__mid { flex: 1; display: flex; align-items: flex-start; padding-top: clamp(40px, 18vh, 210px); }
     .pp-cover__bottom { display: flex; justify-content: flex-end; }
 
     /* logo */
@@ -172,10 +187,10 @@
 
     /* headline */
     .pp-cover__title {
-      font-weight: 600; font-size: clamp(34px, 5vw, 47px); line-height: 1.15;
-      letter-spacing: -0.005em; color: #fff; max-width: 15ch;
+      font-weight: 700; font-size: clamp(34px, 5vw, 47px); line-height: 1.05;
+      letter-spacing: -0.005em; color: #fff; max-width: min(560px, 100%);
     }
-    .pp-cover__title .accent { font-weight: 300; color: var(--pp-lime); }
+    .pp-cover__title .accent { font-weight: 700; color: var(--pp-lime); }
 
     /* ============================================================
        Block 2 — context (static)
@@ -373,21 +388,18 @@
           <span class="pp-logo__name">pap pay</span>
         </div>
         <div class="pp-cover__meta">
-          <span class="pp-glass">Internal product</span>
-          <span class="pp-dot" aria-hidden="true"></span>
           <span class="pp-glass">February — June 2026</span>
-          <span class="pp-glass pp-glass--wip">In progress</span>
         </div>
       </div>
 
       <!-- middle: headline -->
       <div class="pp-cover__mid pp-container">
-        <h1 class="pp-cover__title">Pap-Pay&nbsp;&mdash; <span class="accent">is a mobile wallet</span> for fiat and cryptocurrencies.</h1>
+        <h1 class="pp-cover__title">Pap-Pay - <span class="accent">is a mobile wallet</span> for fiat and cryptocurrencies.</h1>
       </div>
 
       <!-- bottom: role pill -->
       <div class="pp-cover__bottom pp-container">
-        <span class="pp-glass">Lead Product Designer (hands-on)</span>
+        <span class="pp-glass">Internal Product</span>
       </div>
     </div>
   </section>
