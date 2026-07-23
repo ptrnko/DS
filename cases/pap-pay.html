@@ -230,13 +230,22 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .pp-mod__screen .is-day { animation: none; clip-path: inset(0 100% 0 0); }
+      .pp-mod__mark svg { animation: none; fill: #fff; }
     }
     .pp-mod__olive2 { grid-column: 3 / 4; grid-row: 7 / 8; background: var(--pp-olive); }
     .pp-mod__mark {
       grid-column: 3 / 4; grid-row: 8 / 9;
       display: flex; align-items: center; justify-content: center;
     }
-    .pp-mod__mark svg { width: 45%; height: auto; }
+    /* CSS fill overrides the svg's presentation attribute and inherits
+       down to the shapes, so the whole mark recolours as one */
+    .pp-mod__mark svg { width: 45%; height: auto; fill: #fff; animation: pp-mark-color 6s var(--ease-standard) infinite; }
+    @keyframes pp-mark-color {
+      0%,  12%  { fill: #FFFFFF; }
+      30%, 42%  { fill: #8FAE2E; }
+      60%, 72%  { fill: #C7DE3E; }
+      90%, 100% { fill: #FFFFFF; }
+    }
 
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-500) var(--ease-decelerate), transform var(--dur-500) var(--ease-decelerate); }
