@@ -127,6 +127,34 @@
     .pp-media__ph-label { font-size: 14px; color: var(--pp-text); font-weight: 600; }
     .pp-media__ph-spec  { font-family: var(--pp-num); font-size: 12px; color: var(--pp-dim); }
 
+    /* ============================================================
+       WIP gate — soft, client-side password overlay.
+       NOTE: static site; this hides the page from casual visitors,
+       it is not real security (the source is public).
+       ============================================================ */
+    .pp-locked { overflow: hidden; }
+    .pp-gate {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      background: radial-gradient(120% 80% at 78% 18%, var(--pp-lime-dim), transparent 55%), var(--pp-bg);
+    }
+    .pp-gate[hidden] { display: none; }
+    .pp-gate__card { width: 100%; max-width: 440px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .pp-gate__badge { font-family: var(--pp-num); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pp-lime); border: 1px solid var(--pp-border); border-radius: 999px; padding: 6px 14px; }
+    .pp-gate__title { font-size: clamp(26px, 5vw, 36px); font-weight: 800; letter-spacing: -0.02em; color: var(--pp-text); line-height: 1.1; }
+    .pp-gate__form { display: flex; gap: 10px; width: 100%; margin-top: 6px; }
+    .pp-gate__input { flex: 1; padding: 13px 16px; border-radius: 12px; background: var(--pp-surface); border: 1px solid var(--pp-border); color: var(--pp-text); font-family: var(--pp-num); font-size: 16px; letter-spacing: 0.12em; outline: none; transition: border-color var(--dur-200) var(--ease-standard); }
+    .pp-gate__input:focus { border-color: var(--pp-lime); }
+    .pp-gate__btn { padding: 13px 22px; border-radius: 12px; border: none; cursor: pointer; background: var(--pp-lime); color: #0A140E; font-weight: 700; font-size: 15px; font-family: var(--pp-sans); transition: transform var(--dur-100) var(--ease-standard), opacity var(--dur-200) var(--ease-standard); }
+    .pp-gate__btn:hover { opacity: 0.9; }
+    .pp-gate__btn:active { transform: scale(0.97); }
+    .pp-gate__err { min-height: 18px; font-size: 13px; color: var(--pp-danger); opacity: 0; }
+    .pp-gate.is-error .pp-gate__err { opacity: 1; }
+    /* error feedback faster than the rest, per motion tokens (accelerate) */
+    .pp-gate.is-error .pp-gate__card { animation: pp-shake var(--dur-200) var(--ease-accelerate); }
+    @keyframes pp-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    .pp-gate__foot { margin-top: 6px; font-size: 12px; color: var(--pp-dim); }
+
     /* ---- footer ---- */
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
 
@@ -184,8 +212,9 @@
     }
     .pp-mod__headline .accent { color: var(--pp-lime); }
 
-    .pp-mod__lime  { grid-column: 3 / 4; grid-row: 3 / 4; background: var(--pp-lime); }
-    .pp-mod__olive { grid-column: 1 / 2; grid-row: 5 / 6; background: var(--pp-olive); }
+    /* colour lives on .pp-fill::before so the cell itself stays unclipped */
+    .pp-mod__lime  { grid-column: 3 / 4; grid-row: 3 / 4; --fill: var(--pp-lime); }
+    .pp-mod__olive { grid-column: 1 / 2; grid-row: 5 / 6; --fill: var(--pp-olive); }
 
     .pp-mod__label {
       font-weight: 700; font-size: clamp(15px, 1.25vw, 24px);
@@ -232,7 +261,7 @@
       .pp-mod__screen .is-day { animation: none; clip-path: inset(0 100% 0 0); }
       .pp-mod__mark svg { animation: none; fill: #fff; }
     }
-    .pp-mod__olive2 { grid-column: 3 / 4; grid-row: 7 / 8; background: var(--pp-olive); }
+    .pp-mod__olive2 { grid-column: 3 / 4; grid-row: 7 / 8; --fill: var(--pp-olive); }
     .pp-mod__mark {
       grid-column: 3 / 4; grid-row: 8 / 9;
       display: flex; align-items: center; justify-content: center;
@@ -250,8 +279,23 @@
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-500) var(--ease-decelerate), transform var(--dur-500) var(--ease-decelerate); }
     .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* Accent blocks fill upward from their bottom edge as they scroll in.
+       The clip sits on ::before, not the cell — clipping the observed
+       element itself would zero its visible area and IntersectionObserver
+       would never report it as intersecting. */
+    .pp-fill { position: relative; }
+    .pp-fill::before {
+      content: ""; position: absolute; inset: 0;
+      background: var(--fill);
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path var(--dur-500) var(--ease-decelerate);
+    }
+    .pp-fill.is-visible::before { clip-path: inset(0 0 0 0); }
+
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; transition: none; }
+      .pp-fill::before { clip-path: none; transition: none; }
       html { scroll-behavior: auto; }
     }
 
@@ -288,10 +332,28 @@
       .pp-mod__olive2 { order: 8; height: 90px; }
       .pp-mod__mark   { order: 9; padding: 48px; }
       .pp-mod__mark svg { width: 84px; }
+      .pp-gate__form { flex-direction: column; }
+      .pp-gate__btn { width: 100%; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ============================================================
+       WIP GATE — soft client-side password overlay
+       ============================================================ -->
+  <div class="pp-gate" id="pp-gate" role="dialog" aria-modal="true" aria-label="Work in progress">
+    <div class="pp-gate__card">
+      <span class="pp-gate__badge">Work in progress</span>
+      <h2 class="pp-gate__title">This case is still in&nbsp;development</h2>
+      <form class="pp-gate__form" id="pp-gate-form" autocomplete="off">
+        <input class="pp-gate__input" id="pp-gate-input" type="password" inputmode="numeric" placeholder="Password" aria-label="Password">
+        <button class="pp-gate__btn" type="submit">Unlock</button>
+      </form>
+      <div class="pp-gate__err" id="pp-gate-err" role="alert">Wrong password — try again.</div>
+      <div class="pp-gate__foot">Pap-Pay · internal product under NDA</div>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <header class="pp-header">
@@ -340,7 +402,7 @@
       </div>
 
       <!-- lime accent (col 3, row 3) -->
-      <div class="pp-mod__lime" aria-hidden="true"></div>
+      <div class="pp-mod__lime pp-fill" aria-hidden="true"></div>
 
       <!-- project (col 1, row 4) -->
       <div class="pp-mod__proj">
@@ -349,7 +411,7 @@
       </div>
 
       <!-- olive accent (col 1, row 5) -->
-      <div class="pp-mod__olive" aria-hidden="true"></div>
+      <div class="pp-mod__olive pp-fill" aria-hidden="true"></div>
 
       <!-- overview (cols 2–3, row 5) -->
       <div class="pp-mod__over">
@@ -369,7 +431,7 @@
       </div>
 
       <!-- olive accent (col 3, row 7) -->
-      <div class="pp-mod__olive2" aria-hidden="true"></div>
+      <div class="pp-mod__olive2 pp-fill" aria-hidden="true"></div>
 
       <!-- big pap-pay mark (col 3, row 8) -->
       <div class="pp-mod__mark" aria-hidden="true">
@@ -389,9 +451,46 @@
   </footer>
 
   <script>
+    /* ---- WIP soft gate (client-side; not real security) ---- */
+    (function () {
+      var HASH = '322ac9c5f39fcb8a5cf2d3ad558913ad6b056d8093c50704dda0215ee11c2a3a';
+      var KEY = 'pp-unlocked';
+      var gate = document.getElementById('pp-gate');
+      if (!gate) return;
+      var form = document.getElementById('pp-gate-form');
+      var input = document.getElementById('pp-gate-input');
+      var root = document.documentElement;
+
+      function unlock() {
+        gate.setAttribute('hidden', '');
+        root.classList.remove('pp-locked');
+        try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+      }
+      // already unlocked this session → skip
+      try { if (sessionStorage.getItem(KEY) === '1') { gate.setAttribute('hidden', ''); return; } } catch (e) {}
+
+      root.classList.add('pp-locked');
+      setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+
+      async function sha256(s) {
+        var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+        return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        sha256((input.value || '').trim()).then(function (h) {
+          if (h === HASH) { unlock(); }
+          else {
+            gate.classList.remove('is-error'); void gate.offsetWidth; gate.classList.add('is-error');
+            input.select();
+          }
+        }).catch(function () {});
+      });
+    })();
+
     /* ---- Reveal on scroll (entering = decelerate) ---- */
     (function () {
-      var els = document.querySelectorAll('.reveal');
+      var els = document.querySelectorAll('.reveal, .pp-fill');
       if (!els.length) return;
       if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('is-visible'); }); return; }
       var io = new IntersectionObserver(function (entries) {
@@ -400,6 +499,25 @@
         });
       }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
       els.forEach(function (e) { io.observe(e); });
+
+      /* Scroll fallback — IntersectionObserver is unreliable in some
+         embedded/preview renderers, and a half-painted accent block is
+         worse than no animation. Same class, so the two are idempotent. */
+      function sweep() {
+        var vh = window.innerHeight;
+        var left = document.querySelectorAll('.reveal:not(.is-visible), .pp-fill:not(.is-visible)');
+        left.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < vh * 0.92 && r.bottom > 0) el.classList.add('is-visible');
+        });
+        if (!left.length) {
+          window.removeEventListener('scroll', sweep);
+          window.removeEventListener('resize', sweep);
+        }
+      }
+      window.addEventListener('scroll', sweep, { passive: true });
+      window.addEventListener('resize', sweep);
+      sweep();
     })();
 
     /* ---- Video hydration helper (kept for building blocks) ----
