@@ -307,21 +307,46 @@
     @media (max-width: 768px) {
       :root { --pp-px: 20px; }
       .pp-header__nav { display: none; }   /* back-link only, as on the other cases */
+
+      /* cover — tighter vertical rhythm, viewport height is scarce */
       .pp-cover__top { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .pp-cover__meta { flex-wrap: wrap; }
-      .pp-glass { padding: 8px 18px; font-size: 13px; }
-      .pp-gate__form { flex-direction: column; }
+      .pp-cover__meta { flex-wrap: wrap; gap: 10px; }
+      .pp-glass { padding: 8px 16px; font-size: 13px; }
       .pp-cover__title { max-width: none; }
+      .pp-cover__overlay { padding: clamp(20px, 3vh, 36px) 0 clamp(24px, 6vh, 60px); }
+      .pp-cover__mid { padding-top: clamp(24px, 9vh, 90px); }
+
+      /* stacks */
       .pp-section { padding: 64px 0; }
       .pp-main__grid,
       .pp-context__grid,
       .pp-outcomes { grid-template-columns: 1fr; }
-      .pp-grid { grid-template-columns: 1fr 1fr; }
+      .pp-main__grid { gap: 32px; }
+      .pp-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+
+      /* a full-width 9:19.5 slot is ~730px tall — keep the phone phone-sized */
+      .pp-media--phone { max-width: 260px; margin-inline: auto; }
+
+      /* reclaim horizontal space inside cards */
+      .pp-context__grid { margin-top: 32px; }
+      .pp-context__cell { padding: 20px; }
+      .pp-note { padding: 16px 18px; }
       .pp-proto { aspect-ratio: 3 / 4; }
-      .pp-ds-tile { flex-direction: column; align-items: flex-start; }
+
+      /* outcomes + tile */
+      .pp-outcomes { gap: 26px; margin: 32px 0 40px; }
+      .pp-ds-tile { flex-direction: row; align-items: center; padding: 22px; margin-top: 40px; gap: 16px; }
+      .pp-ds-tile__title { font-size: 19px; }
+      .pp-ds-tile__arrow { flex-shrink: 0; }
+
+      /* gate */
+      .pp-gate__form { flex-direction: column; }
+      .pp-gate__btn { width: 100%; }
+      .pp-footer { flex-direction: column; gap: 8px; }
     }
     @media (max-width: 460px) {
       .pp-grid { grid-template-columns: 1fr; }
+      .pp-media--square { --pp-ratio: 4 / 3; }
     }
   </style>
 </head>
