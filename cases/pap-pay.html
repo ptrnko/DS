@@ -25,7 +25,7 @@
       --pp-lime:      #E3FC53; /* --color-accent-fill / text-accent */
       --pp-lime-dim:  rgba(227,252,83,0.14);
       --pp-olive:     #749A23; /* --color-accent-pressed */
-      --pp-line:      rgba(255,255,255,0.13); /* blueprint grid lines */
+      --pp-line:      rgba(255,255,255,0.16); /* blueprint grid lines */
       --pp-text:      #EAF3EA;
       --pp-muted:     rgba(234,243,234,0.58);
       --pp-dim:       rgba(234,243,234,0.34);
@@ -144,18 +144,23 @@
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(5, 1fr);
       border: 1px solid var(--pp-line);
-      /* hairlines: verticals every 1/3, horizontals every 1/5 */
+    }
+    /* Blueprint overlay — hairlines + corner-dot markers drawn ON TOP of
+       every cell (incl. the hero video and accent squares), as in the comp.
+       Four quarter-dots per cell corner add up to full dots at every
+       shared interior intersection. */
+    .pp-mod::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
       background-image:
+        radial-gradient(circle at 0 0,       #fff 0 3px, transparent 3.5px),
+        radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
+        radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
+        radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px),
         linear-gradient(90deg, var(--pp-line) 1px, transparent 1px),
         linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 33.3333% 100%, 100% 20%;
-    }
-    /* corner markers at grid intersections */
-    .pp-mod::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background-image: radial-gradient(circle at 0 0, #fff 0 2px, transparent 2.5px);
-      background-size: 33.3333% 20%;
-      background-position: 0 0;
+      background-size:
+        33.3333% 20%, 33.3333% 20%, 33.3333% 20%, 33.3333% 20%,
+        33.3333% 100%, 100% 20%;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
 
