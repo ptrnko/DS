@@ -308,13 +308,29 @@
       :root { --pp-px: 20px; }
       .pp-header__nav { display: none; }   /* back-link only, as on the other cases */
 
-      /* cover — tighter vertical rhythm, viewport height is scarce */
-      .pp-cover__top { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .pp-cover__meta { flex-wrap: wrap; gap: 10px; }
-      .pp-glass { padding: 8px 16px; font-size: 13px; }
-      .pp-cover__title { max-width: none; }
-      .pp-cover__overlay { padding: clamp(20px, 3vh, 36px) 0 clamp(24px, 6vh, 60px); }
-      .pp-cover__mid { padding-top: clamp(24px, 9vh, 90px); }
+      /* Cover stacks on mobile: centred copy on the dark ground, then the
+         loop as its own 16:9 block underneath. (Desktop keeps the loop as a
+         full-bleed background with the copy overlaid.) */
+      .pp-cover {
+        min-height: 0;
+        display: flex; flex-direction: column;
+        background: var(--pp-bg);
+      }
+      .pp-cover__scrim { display: none; }
+      .pp-cover__overlay {
+        order: 1; position: static; min-height: 0;
+        padding: clamp(44px, 8vh, 84px) 0 clamp(26px, 5vh, 44px);
+        text-align: center;
+      }
+      .pp-cover__mid { order: 1; flex: none; display: block; padding-top: 0; }
+      .pp-cover__title { max-width: none; font-size: clamp(32px, 9vw, 40px); }
+      .pp-logo { display: none; }
+      .pp-cover__top { order: 2; flex-direction: row; justify-content: center; margin-top: 26px; }
+      /* row-reverse puts the date first, as in the mobile comp */
+      .pp-cover__meta { flex-direction: row-reverse; flex-wrap: nowrap; justify-content: center; gap: 10px; }
+      .pp-glass { padding: 9px 15px; font-size: 13px; }
+      .pp-cover__media { order: 2; position: static; }
+      .pp-cover__media .pp-media { aspect-ratio: 16 / 9; height: auto; }
 
       /* stacks */
       .pp-section { padding: 64px 0; }
