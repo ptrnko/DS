@@ -218,8 +218,19 @@
     }
 
     /* ---- second block: empty-state phone + accent + big logo mark ---- */
-    .pp-mod__screen { grid-column: 1 / 3; grid-row: 6 / 8; overflow: hidden; }
-    .pp-mod__screen img { width: 100%; height: 100%; object-fit: cover; }
+    .pp-mod__screen { grid-column: 1 / 3; grid-row: 6 / 8; overflow: hidden; position: relative; }
+    .pp-mod__screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    /* day layer sweeps in over the night one, left → right, then clears
+       to the right — so the leading edge always travels the same way */
+    .pp-mod__screen .is-day { animation: pp-daywipe 9s var(--ease-standard) infinite; }
+    @keyframes pp-daywipe {
+      0%,  6%   { clip-path: inset(0 100% 0 0); }
+      44%, 56%  { clip-path: inset(0 0 0 0); }
+      94%, 100% { clip-path: inset(0 0 0 100%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pp-mod__screen .is-day { animation: none; clip-path: inset(0 100% 0 0); }
+    }
     .pp-mod__olive2 { grid-column: 3 / 4; grid-row: 7 / 8; background: var(--pp-olive); }
     .pp-mod__mark {
       grid-column: 3 / 4; grid-row: 8 / 9;
@@ -340,9 +351,12 @@
         </div>
       </div>
 
-      <!-- empty-state phone (cols 1–2, rows 6–7) -->
+      <!-- empty-state phone (cols 1–2, rows 6–7).
+           Night → day wipes left-to-right on a loop: the same screen in
+           the system's two colour themes. -->
       <div class="pp-mod__screen">
         <img src="../assets/pap-pay/screen-empty.jpg" alt="Pap-Pay app — empty state: zero balance, add card, no transactions" width="1100" height="1024">
+        <img class="is-day" src="../assets/pap-pay/screen-empty-day.jpg" alt="" aria-hidden="true" width="1100" height="1024">
       </div>
 
       <!-- olive accent (col 3, row 7) -->
