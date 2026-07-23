@@ -203,6 +203,7 @@
       aspect-ratio: 16 / 10; overflow: hidden;
     }
     .pp-proto iframe { width: 100%; height: 100%; border: 0; }
+    .pp-proto video { width: 100%; height: 100%; object-fit: cover; }
     .pp-proto__ph {
       position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 12px; text-align: center; padding: 24px;
@@ -609,47 +610,56 @@
       els.forEach(function (e) { io.observe(e); });
     })();
 
-    /* ---- Hydrate media slots ----
-       For each .pp-media[data-src], if the video files exist they load
-       and autoplay; otherwise the placeholder stays. mp4 + webm + poster,
-       muted + playsinline so iOS autoplays. */
+    /* ---- Video hydration ----
+       Builds an autoplaying loop from a basename (webm + mp4 + poster),
+       muted + playsinline so iOS autoplays. The placeholder is only
+       replaced once a source is actually playable, so a slot whose files
+       aren't in yet degrades to its labelled placeholder. */
+    function ppHydrate(slot, base, poster, phSelector) {
+      if (!base) return;
+      var v = document.createElement('video');
+      v.autoplay = true; v.loop = true; v.muted = true;
+      v.setAttribute('muted', ''); v.playsInline = true; v.setAttribute('playsinline', '');
+      if (poster) v.poster = poster;
+      v.preload = 'metadata';
+      [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (t) {
+        var s = document.createElement('source');
+        s.src = base + '.' + t[0]; s.type = t[1];
+        v.appendChild(s);
+      });
+      v.addEventListener('loadeddata', function () {
+        var ph = slot.querySelector(phSelector);
+        if (ph) ph.remove();
+        slot.appendChild(v);
+        v.play().catch(function () {});
+      }, { once: true });
+      // Kick off load without disturbing the placeholder if it 404s.
+      v.load();
+    }
+
     (function () {
       document.querySelectorAll('.pp-media[data-src]').forEach(function (slot) {
-        var base = slot.getAttribute('data-src');
-        var poster = slot.getAttribute('data-poster') || '';
-        var v = document.createElement('video');
-        v.autoplay = true; v.loop = true; v.muted = true;
-        v.setAttribute('muted', ''); v.playsInline = true; v.setAttribute('playsinline', '');
-        if (poster) v.poster = poster;
-        v.preload = 'metadata';
-        [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (t) {
-          var s = document.createElement('source');
-          s.src = base + '.' + t[0]; s.type = t[1];
-          v.appendChild(s);
-        });
-        // Only replace the placeholder once a source is actually playable.
-        v.addEventListener('loadeddata', function () {
-          var ph = slot.querySelector('.pp-media__ph');
-          if (ph) ph.remove();
-          slot.appendChild(v);
-          v.play().catch(function () {});
-        }, { once: true });
-        // Kick off load without disturbing the placeholder if it 404s.
-        v.load();
+        ppHydrate(slot, slot.getAttribute('data-src'), slot.getAttribute('data-poster') || '', '.pp-media__ph');
       });
     })();
 
-    /* ---- Activate the live prototype embed when a URL is set ---- */
+    /* ---- Block 4: live prototype embed if wired, else video fallback ----
+       A Figma embed doesn't autoplay, so when no data-embed URL is set we
+       fall back to the send-flow loop; if that isn't in yet either, the
+       placeholder stays. */
     (function () {
       var p = document.getElementById('pp-proto');
       if (!p) return;
       var url = p.getAttribute('data-embed');
-      if (!url) return; // keep placeholder / fallback until wired
-      var f = document.createElement('iframe');
-      f.src = url; f.allowFullscreen = true; f.loading = 'lazy';
-      var ph = p.querySelector('.pp-proto__ph');
-      if (ph) ph.remove();
-      p.appendChild(f);
+      if (url) {
+        var f = document.createElement('iframe');
+        f.src = url; f.allowFullscreen = true; f.loading = 'lazy';
+        var ph = p.querySelector('.pp-proto__ph');
+        if (ph) ph.remove();
+        p.appendChild(f);
+        return;
+      }
+      ppHydrate(p, p.getAttribute('data-fallback'), p.getAttribute('data-poster') || '', '.pp-proto__ph');
     })();
   </script>
 </body>
