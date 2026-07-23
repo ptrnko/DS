@@ -289,7 +289,8 @@
       content: ""; position: absolute; inset: 0;
       background: var(--fill);
       clip-path: inset(100% 0 0 0);
-      transition: clip-path var(--dur-500) var(--ease-decelerate);
+      /* 5× the 500ms token — a slow, deliberate fill */
+      transition: clip-path calc(var(--dur-500) * 5) var(--ease-decelerate);
     }
     .pp-fill.is-visible::before { clip-path: inset(0 0 0 0); }
 
