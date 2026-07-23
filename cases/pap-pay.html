@@ -140,6 +140,7 @@
     .pp-cover { position: relative; min-height: calc(100vh - var(--pp-header-h)); overflow: hidden; }
     .pp-cover__media { position: absolute; inset: 0; }
     .pp-cover__media .pp-media { height: 100%; border: none; border-radius: 0; aspect-ratio: auto; }
+    .pp-cover__still { display: none; width: 100%; height: auto; }
     .pp-cover__scrim {
       position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(6,12,8,0.30) 0%, rgba(6,12,8,0.12) 40%, rgba(6,12,8,0.55) 100%);
@@ -329,10 +330,9 @@
       /* row-reverse puts the date first, as in the mobile comp */
       .pp-cover__meta { flex-direction: row-reverse; flex-wrap: nowrap; justify-content: center; gap: 10px; }
       .pp-glass { padding: 9px 15px; font-size: 13px; }
-      .pp-cover__media { order: 2; position: static; }
-      .pp-cover__media .pp-media { aspect-ratio: 16 / 9; height: auto; }
-      /* zoom into the centre of the frame so the mascot reads at phone size */
-      .pp-cover__media .pp-media video { transform: scale(3); transform-origin: center; }
+      /* still image replaces the loop — the video is never fetched here (see JS) */
+      .pp-cover__media { display: none; }
+      .pp-cover__still { display: block; order: 2; }
 
       /* stacks */
       .pp-section { padding: 64px 0; }
@@ -418,6 +418,10 @@
       </div>
     </div>
     <div class="pp-cover__scrim"></div>
+
+    <!-- mobile shows this still instead of the loop (see media query) -->
+    <img class="pp-cover__still" src="../assets/pap-pay/cover-mobile.jpg"
+         alt="Pap-Pay mascot beside the app's main screen" width="1000" height="1038">
 
     <div class="pp-cover__overlay">
       <!-- top: logo + meta pills -->
@@ -690,7 +694,10 @@
     }
 
     (function () {
+      // the cover is a still on mobile, so don't spend bandwidth on its loop
+      var coverIsStill = window.matchMedia('(max-width: 768px)').matches;
       document.querySelectorAll('.pp-media[data-src]').forEach(function (slot) {
+        if (coverIsStill && slot.closest('.pp-cover__media')) return;
         ppHydrate(slot, slot.getAttribute('data-src'), slot.getAttribute('data-poster') || '', '.pp-media__ph');
       });
     })();
