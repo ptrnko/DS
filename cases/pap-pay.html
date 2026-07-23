@@ -331,6 +331,8 @@
       .pp-glass { padding: 9px 15px; font-size: 13px; }
       .pp-cover__media { order: 2; position: static; }
       .pp-cover__media .pp-media { aspect-ratio: 16 / 9; height: auto; }
+      /* zoom into the centre of the frame so the mascot reads at phone size */
+      .pp-cover__media .pp-media video { transform: scale(3); transform-origin: center; }
 
       /* stacks */
       .pp-section { padding: 64px 0; }
