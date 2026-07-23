@@ -139,10 +139,10 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1440 / 2235;
+      aspect-ratio: 1440 / 3576;   /* 8 module-rows of ~447px */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(5, 1fr);
+      grid-template-rows: repeat(8, 1fr);
       border: 1px solid var(--pp-line);
     }
     /* Blueprint overlay — hairlines + corner-dot markers drawn ON TOP of
@@ -159,8 +159,8 @@
         linear-gradient(90deg, var(--pp-line) 1px, transparent 1px),
         linear-gradient(var(--pp-line) 1px, transparent 1px);
       background-size:
-        33.3333% 20%, 33.3333% 20%, 33.3333% 20%, 33.3333% 20%,
-        33.3333% 100%, 100% 20%;
+        33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%,
+        33.3333% 100%, 100% 12.5%;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
 
@@ -217,6 +217,16 @@
       color: #fff; letter-spacing: -0.005em;
     }
 
+    /* ---- second block: empty-state phone + accent + big logo mark ---- */
+    .pp-mod__screen { grid-column: 1 / 3; grid-row: 6 / 8; overflow: hidden; }
+    .pp-mod__screen img { width: 100%; height: 100%; object-fit: cover; }
+    .pp-mod__olive2 { grid-column: 3 / 4; grid-row: 7 / 8; background: var(--pp-olive); }
+    .pp-mod__mark {
+      grid-column: 3 / 4; grid-row: 8 / 9;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pp-mod__mark svg { width: 45%; height: auto; }
+
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-500) var(--ease-decelerate), transform var(--dur-500) var(--ease-decelerate); }
     .reveal.is-visible { opacity: 1; transform: none; }
@@ -254,6 +264,10 @@
       .pp-mod__over  { order: 6; padding: 40px 20px; gap: 24px; }
       .pp-mod__label { font-size: 15px; }
       .pp-mod__meta, .pp-mod__over-body { font-size: 16px; }
+      .pp-mod__screen { order: 7; aspect-ratio: 1 / 1; }
+      .pp-mod__olive2 { order: 8; height: 90px; }
+      .pp-mod__mark   { order: 9; padding: 48px; }
+      .pp-mod__mark svg { width: 84px; }
     }
   </style>
 </head>
@@ -324,6 +338,23 @@
           <p>A corporate mobile app that pays employees in crypto. Staff are onboarded through an admin panel where their documents, personal data, and payroll are managed, and salaries are automatically credited to a crypto account.</p>
           <p>Each employee activates their account with credentials provided by the company, tracks their balance, and can convert crypto to dollars directly inside the app.</p>
         </div>
+      </div>
+
+      <!-- empty-state phone (cols 1–2, rows 6–7) -->
+      <div class="pp-mod__screen">
+        <img src="../assets/pap-pay/screen-empty.jpg" alt="Pap-Pay app — empty state: zero balance, add card, no transactions" width="1100" height="1024">
+      </div>
+
+      <!-- olive accent (col 3, row 7) -->
+      <div class="pp-mod__olive2" aria-hidden="true"></div>
+
+      <!-- big pap-pay mark (col 3, row 8) -->
+      <div class="pp-mod__mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="9" cy="9" r="9"/>
+          <rect x="22" y="0" width="18" height="18" rx="4"/>
+          <rect x="0" y="22" width="18" height="18" rx="4"/>
+        </svg>
       </div>
 
     </section>
