@@ -22,8 +22,10 @@
       --pp-surface-2: #16281E;
       --pp-border:    rgba(227,252,83,0.12);
       --pp-hair:      rgba(234,243,234,0.08);
-      --pp-lime:      #E3FC53; /* --color-text-accent from the Figma system */
+      --pp-lime:      #E3FC53; /* --color-accent-fill / text-accent */
       --pp-lime-dim:  rgba(227,252,83,0.14);
+      --pp-olive:     #749A23; /* --color-accent-pressed */
+      --pp-line:      rgba(255,255,255,0.13); /* blueprint grid lines */
       --pp-text:      #EAF3EA;
       --pp-muted:     rgba(234,243,234,0.58);
       --pp-dim:       rgba(234,243,234,0.34);
@@ -125,17 +127,89 @@
     .pp-media__ph-label { font-size: 14px; color: var(--pp-text); font-weight: 600; }
     .pp-media__ph-spec  { font-family: var(--pp-num); font-size: 12px; color: var(--pp-dim); }
 
-    /* ---- empty-state placeholder for the fresh page ---- */
-    .pp-blank {
-      min-height: calc(100vh - var(--pp-header-h));
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 14px; text-align: center; padding: 40px var(--pp-px);
-    }
-    .pp-blank h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -0.02em; }
-    .pp-blank p { color: var(--pp-muted); max-width: 44ch; }
-
     /* ---- footer ---- */
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
+
+    /* ============================================================
+       Modular blueprint grid — 3 cols × 5 module-rows.
+       Faithful to the Figma frame (1440-wide content, ~447px rows).
+       Whole grid holds a fixed ratio so cells scale proportionally.
+       ============================================================ */
+    .pp-mod {
+      position: relative;
+      width: min(100%, 1440px);
+      margin: 0 auto;
+      aspect-ratio: 1440 / 2235;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      border: 1px solid var(--pp-line);
+      /* hairlines: verticals every 1/3, horizontals every 1/5 */
+      background-image:
+        linear-gradient(90deg, var(--pp-line) 1px, transparent 1px),
+        linear-gradient(var(--pp-line) 1px, transparent 1px);
+      background-size: 33.3333% 100%, 100% 20%;
+    }
+    /* corner markers at grid intersections */
+    .pp-mod::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle at 0 0, #fff 0 2px, transparent 2.5px);
+      background-size: 33.3333% 20%;
+      background-position: 0 0;
+    }
+    .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
+
+    .pp-mod__hero  { grid-column: 1 / 4; grid-row: 1 / 3; overflow: hidden; }
+    .pp-mod__hero video { width: 100%; height: 100%; object-fit: cover; }
+
+    .pp-mod__card {
+      grid-column: 1 / 2; grid-row: 2 / 3; z-index: 3;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: clamp(20px, 2.8vw, 40px);
+      background: rgba(217,217,217,0.10);
+      backdrop-filter: blur(13.5px); -webkit-backdrop-filter: blur(13.5px);
+      border-right: 1px solid var(--pp-line);
+    }
+    .pp-mod__logo { display: flex; align-items: center; gap: 16px; }
+    .pp-mod__logo svg { width: clamp(26px, 2.1vw, 34px); height: auto; flex-shrink: 0; }
+    .pp-mod__logo span { font-weight: 700; font-size: clamp(18px, 1.5vw, 24px); letter-spacing: -0.01em; color: #fff; }
+    .pp-mod__headline {
+      font-weight: 700; font-size: clamp(26px, 3.4vw, 49px); line-height: 1.0;
+      letter-spacing: -0.005em; color: #fff;
+    }
+    .pp-mod__headline .accent { color: var(--pp-lime); }
+
+    .pp-mod__lime  { grid-column: 3 / 4; grid-row: 3 / 4; background: var(--pp-lime); }
+    .pp-mod__olive { grid-column: 1 / 2; grid-row: 5 / 6; background: var(--pp-olive); }
+
+    .pp-mod__label {
+      font-weight: 700; font-size: clamp(15px, 1.25vw, 24px);
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--pp-lime); opacity: 0.5;
+    }
+    .pp-mod__label--olive { color: var(--pp-olive); opacity: 1; }
+
+    .pp-mod__proj {
+      grid-column: 1 / 2; grid-row: 4 / 5;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: clamp(24px, 3vw, 46px);
+    }
+    .pp-mod__meta {
+      font-weight: 400; font-size: clamp(15px, 1.25vw, 24px); line-height: 1.6;
+      color: #fff; letter-spacing: -0.005em;
+    }
+
+    .pp-mod__over {
+      grid-column: 2 / 4; grid-row: 5 / 6;
+      display: flex; flex-direction: column; gap: clamp(20px, 2.6vw, 44px);
+      padding: clamp(24px, 3vw, 46px);
+      background: rgba(217,217,217,0.06);
+    }
+    .pp-mod__over-body {
+      display: flex; flex-direction: column; gap: clamp(12px, 1.4vw, 20px);
+      font-weight: 400; font-size: clamp(14px, 1.25vw, 24px); line-height: 1.55;
+      color: #fff; letter-spacing: -0.005em;
+    }
 
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-500) var(--ease-decelerate), transform var(--dur-500) var(--ease-decelerate); }
@@ -151,6 +225,29 @@
       .pp-header__nav { display: none; }   /* back-link only, as on the other cases */
       .pp-section { padding: 64px 0; }
       .pp-footer { flex-direction: column; gap: 8px; }
+
+      /* modular grid → single-column stack */
+      .pp-mod {
+        width: 100%; aspect-ratio: auto;
+        display: flex; flex-direction: column;
+        background: none; border: none;
+        border-top: 1px solid var(--pp-line);
+      }
+      .pp-mod::after { display: none; }
+      .pp-mod > * { grid-column: auto; grid-row: auto; }
+      .pp-mod__hero { aspect-ratio: 3 / 4; order: 1; }
+      .pp-mod__card {
+        order: 2; border-right: none; border-bottom: 1px solid var(--pp-line);
+        gap: 40px; padding: 32px 20px; min-height: 240px;
+        background: rgba(255,255,255,0.05);
+      }
+      .pp-mod__headline { font-size: clamp(30px, 8.5vw, 44px); }
+      .pp-mod__lime  { order: 3; height: 90px; }
+      .pp-mod__proj  { order: 4; gap: 28px; padding: 40px 20px; border-bottom: 1px solid var(--pp-line); }
+      .pp-mod__olive { order: 5; height: 90px; }
+      .pp-mod__over  { order: 6; padding: 40px 20px; gap: 24px; }
+      .pp-mod__label { font-size: 15px; }
+      .pp-mod__meta, .pp-mod__over-body { font-size: 16px; }
     }
   </style>
 </head>
@@ -175,10 +272,54 @@
        PAGE CONTENT — cleared. Build the case sections here.
        ============================================================ -->
   <main>
-    <section class="pp-blank">
-      <span class="pp-eyebrow">Pap-Pay</span>
-      <h1>Case study in progress</h1>
-      <p>Starting fresh — the write-up is being rebuilt.</p>
+    <!-- ============================================================
+         SCREEN 1–2 — modular blueprint grid
+         ============================================================ -->
+    <section class="pp-mod" aria-label="Pap-Pay overview">
+
+      <!-- hero video (cols 1–3, rows 1–2) -->
+      <div class="pp-mod__hero">
+        <video autoplay loop muted playsinline
+               poster="../assets/pap-pay/posters/cover-loop.jpg">
+          <source src="../assets/pap-pay/cover-loop.webm" type="video/webm">
+          <source src="../assets/pap-pay/cover-loop.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- glass card with logo + headline (col 1, row 2) -->
+      <div class="pp-mod__card">
+        <div class="pp-mod__logo">
+          <svg viewBox="0 0 40 40" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="9" cy="9" r="9"/>
+            <rect x="22" y="0" width="18" height="18" rx="4"/>
+            <rect x="0" y="22" width="18" height="18" rx="4"/>
+          </svg>
+          <span>pap pay</span>
+        </div>
+        <h1 class="pp-mod__headline"><span class="accent">Mobile wallet</span><br>for fiat and cryptocurrencies</h1>
+      </div>
+
+      <!-- lime accent (col 3, row 3) -->
+      <div class="pp-mod__lime" aria-hidden="true"></div>
+
+      <!-- project (col 1, row 4) -->
+      <div class="pp-mod__proj">
+        <span class="pp-mod__label">Project</span>
+        <p class="pp-mod__meta">Client: NDA Media Holding<br>Category: App · Crypto · Fintech<br>Year:&nbsp; 2026</p>
+      </div>
+
+      <!-- olive accent (col 1, row 5) -->
+      <div class="pp-mod__olive" aria-hidden="true"></div>
+
+      <!-- overview (cols 2–3, row 5) -->
+      <div class="pp-mod__over">
+        <span class="pp-mod__label pp-mod__label--olive">Overview</span>
+        <div class="pp-mod__over-body">
+          <p>A corporate mobile app that pays employees in crypto. Staff are onboarded through an admin panel where their documents, personal data, and payroll are managed, and salaries are automatically credited to a crypto account.</p>
+          <p>Each employee activates their account with credentials provided by the company, tracks their balance, and can convert crypto to dollars directly inside the app.</p>
+        </div>
+      </div>
+
     </section>
   </main>
 
