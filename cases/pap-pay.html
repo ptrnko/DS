@@ -288,11 +288,11 @@
     .pp-fill::before {
       content: ""; position: absolute; inset: 0;
       background: var(--fill);
-      clip-path: inset(100% 0 0 0);
-      /* 5× the 500ms token — a slow, deliberate fill */
-      transition: clip-path calc(var(--dur-500) * 5) var(--ease-decelerate);
+      /* --p is driven by scroll position (see script); no transition,
+         the scrub itself is the animation */
+      clip-path: inset(calc(100% - var(--p, 0%)) 0 0 0);
+      will-change: clip-path;
     }
-    .pp-fill.is-visible::before { clip-path: inset(0 0 0 0); }
 
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; transition: none; }
@@ -491,7 +491,7 @@
 
     /* ---- Reveal on scroll (entering = decelerate) ---- */
     (function () {
-      var els = document.querySelectorAll('.reveal, .pp-fill');
+      var els = document.querySelectorAll('.reveal');
       if (!els.length) return;
       if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('is-visible'); }); return; }
       var io = new IntersectionObserver(function (entries) {
@@ -506,7 +506,7 @@
          worse than no animation. Same class, so the two are idempotent. */
       function sweep() {
         var vh = window.innerHeight;
-        var left = document.querySelectorAll('.reveal:not(.is-visible), .pp-fill:not(.is-visible)');
+        var left = document.querySelectorAll('.reveal:not(.is-visible)');
         left.forEach(function (el) {
           var r = el.getBoundingClientRect();
           if (r.top < vh * 0.92 && r.bottom > 0) el.classList.add('is-visible');
@@ -519,6 +519,35 @@
       window.addEventListener('scroll', sweep, { passive: true });
       window.addEventListener('resize', sweep);
       sweep();
+    })();
+
+    /* ---- Accent blocks: fill scrubbed by scroll position ----
+       Empty as the block enters from the bottom, complete once it has
+       fully travelled into view. Writes --p; the ::before clip reads it. */
+    (function () {
+      var fills = document.querySelectorAll('.pp-fill');
+      if (!fills.length) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      function update() {
+        var vh = window.innerHeight;
+        var doc = document.documentElement;
+        var atBottom = (window.scrollY + vh) >= (doc.scrollHeight - 2);
+        fills.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          // scrub over the block's own height, but never less than 40% of
+          // the viewport, so short accent bands still read as a fill
+          var range = Math.max(r.height, vh * 0.4);
+          var p = atBottom ? 1 : (vh - r.top) / range;
+          p = p < 0 ? 0 : p > 1 ? 1 : p;
+          el.style.setProperty('--p', (p * 100).toFixed(2) + '%');
+        });
+      }
+      // updated synchronously: three elements is cheap, and rAF gets
+      // throttled in background/embedded renderers
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
     })();
 
     /* ---- Video hydration helper (kept for building blocks) ----
