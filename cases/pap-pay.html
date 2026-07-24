@@ -186,6 +186,22 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(8, 1fr);
+      border: 1px solid var(--pp-line);
+    }
+    /* Blueprint overlay inside the container — dot markers + vertical column
+       dividers (horizontal lines come from the full-width rails above).
+       Four quarter-dots per corner add up to full dots at each intersection. */
+    .pp-mod::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
+      background-image:
+        radial-gradient(circle at 0 0,       #fff 0 3px, transparent 3.5px),
+        radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
+        radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
+        radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px),
+        linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
+      background-size:
+        33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%,
+        33.3333% 100%;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
 
@@ -312,6 +328,8 @@
         border-top: 1px solid var(--pp-line);
       }
       .pp-mod-rails::after { display: none; }
+      .pp-mod { border: none; }
+      .pp-mod::after { display: none; }
       .pp-mod > * { grid-column: auto; grid-row: auto; }
       .pp-mod__hero { aspect-ratio: 3 / 4; order: 1; }
       .pp-mod__card {
