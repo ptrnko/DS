@@ -523,7 +523,7 @@
 
     /* ---- Accent blocks: fill scrubbed by scroll position ----
        Empty as the block enters from the bottom, complete once it has
-       fully travelled into view. Writes --p; the ::before clip reads it. */
+       risen to the top of the screen. Writes --p; ::before clips on it. */
     (function () {
       var fills = document.querySelectorAll('.pp-fill');
       if (!fills.length) return;
@@ -531,14 +531,16 @@
 
       function update() {
         var vh = window.innerHeight;
-        var doc = document.documentElement;
-        var atBottom = (window.scrollY + vh) >= (doc.scrollHeight - 2);
+        var y = window.scrollY;
+        var maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
         fills.forEach(function (el) {
-          var r = el.getBoundingClientRect();
-          // scrub over the block's own height, but never less than 40% of
-          // the viewport, so short accent bands still read as a fill
-          var range = Math.max(r.height, vh * 0.4);
-          var p = atBottom ? 1 : (vh - r.top) / range;
+          var top = el.getBoundingClientRect().top;
+          // Scrub from "entering at the bottom" to "pinned at the top".
+          // Blocks near the page end can never reach 0 — the page runs out
+          // of scroll — so end at the highest position they can reach.
+          var endTop = Math.max(0, (top + y) - maxScroll);
+          var span = vh - endTop;
+          var p = span > 0 ? (vh - top) / span : 1;
           p = p < 0 ? 0 : p > 1 ? 1 : p;
           el.style.setProperty('--p', (p * 100).toFixed(2) + '%');
         });
