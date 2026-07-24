@@ -163,6 +163,23 @@
        Faithful to the Figma frame (1440-wide content, ~447px rows).
        Whole grid holds a fixed ratio so cells scale proportionally.
        ============================================================ */
+    /* Rails frame the whole width — the margins around the 1440 content
+       are bounded by side lines with dot markers, as in the comp. */
+    .pp-mod-rails {
+      position: relative;
+      width: min(100%, 1920px);
+      margin: 0 auto;
+      border-left: 1px solid var(--pp-line);
+      border-right: 1px solid var(--pp-line);
+    }
+    .pp-mod-rails::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 7;
+      background-image:
+        radial-gradient(circle at 0 0,    #fff 0 3px, transparent 3.5px),
+        radial-gradient(circle at 100% 0, #fff 0 3px, transparent 3.5px);
+      background-size: 100% 12.5%;   /* one dot per module-row on each rail */
+    }
+
     .pp-mod {
       position: relative;
       width: min(100%, 1440px);
@@ -315,6 +332,8 @@
         border-top: 1px solid var(--pp-line);
       }
       .pp-mod::after { display: none; }
+      .pp-mod-rails { border: none; }
+      .pp-mod-rails::before { display: none; }
       .pp-mod > * { grid-column: auto; grid-row: auto; }
       .pp-mod__hero { aspect-ratio: 3 / 4; order: 1; }
       .pp-mod__card {
@@ -378,6 +397,7 @@
     <!-- ============================================================
          SCREEN 1–2 — modular blueprint grid
          ============================================================ -->
+    <div class="pp-mod-rails">
     <section class="pp-mod" aria-label="Pap-Pay overview">
 
       <!-- hero video (cols 1–3, rows 1–2) -->
@@ -444,6 +464,7 @@
       </div>
 
     </section>
+    </div>
   </main>
 
   <footer class="pp-footer">
