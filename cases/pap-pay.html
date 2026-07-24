@@ -163,21 +163,19 @@
        Faithful to the Figma frame (1440-wide content, ~447px rows).
        Whole grid holds a fixed ratio so cells scale proportionally.
        ============================================================ */
-    /* Rails frame the whole width — the margins around the 1440 content
-       are bounded by side lines with dot markers, as in the comp. */
+    /* Only horizontal module lines, extended across the full screen width.
+       Drawn on the full-width wrapper and lifted above every cell so the
+       lines carry over the margins, the video and the accent blocks alike. */
     .pp-mod-rails {
       position: relative;
-      width: min(100%, 1920px);
+      width: 100%;
       margin: 0 auto;
-      border-left: 1px solid var(--pp-line);
-      border-right: 1px solid var(--pp-line);
     }
-    .pp-mod-rails::before {
+    .pp-mod-rails::after {
       content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 7;
-      background-image:
-        radial-gradient(circle at 0 0,    #fff 0 3px, transparent 3.5px),
-        radial-gradient(circle at 100% 0, #fff 0 3px, transparent 3.5px);
-      background-size: 100% 12.5%;   /* one dot per module-row on each rail */
+      background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
+      background-size: 100% 12.5%;   /* one line per module-row (8 rows) */
+      border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
     .pp-mod {
@@ -188,24 +186,6 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(8, 1fr);
-      border: 1px solid var(--pp-line);
-    }
-    /* Blueprint overlay — hairlines + corner-dot markers drawn ON TOP of
-       every cell (incl. the hero video and accent squares), as in the comp.
-       Four quarter-dots per cell corner add up to full dots at every
-       shared interior intersection. */
-    .pp-mod::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
-      background-image:
-        radial-gradient(circle at 0 0,       #fff 0 3px, transparent 3.5px),
-        radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
-        radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
-        radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px),
-        linear-gradient(90deg, var(--pp-line) 1px, transparent 1px),
-        linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size:
-        33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%,
-        33.3333% 100%, 100% 12.5%;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
 
@@ -331,9 +311,7 @@
         background: none; border: none;
         border-top: 1px solid var(--pp-line);
       }
-      .pp-mod::after { display: none; }
-      .pp-mod-rails { border: none; }
-      .pp-mod-rails::before { display: none; }
+      .pp-mod-rails::after { display: none; }
       .pp-mod > * { grid-column: auto; grid-row: auto; }
       .pp-mod__hero { aspect-ratio: 3 / 4; order: 1; }
       .pp-mod__card {
