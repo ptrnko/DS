@@ -4,27 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bet Route registration redesign — Anastasiia Petrenko</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
   <style>
-    * { box-sizing: border-box; }
-    html,
     body {
-      margin: 0;
-      min-height: 100%;
       background: #08080a;
     }
-    img {
+    .betroute-stack img {
       display: block;
-      width: 100vw;
+      width: min(100vw, 1440px);
+      margin: 0 auto;
       height: auto;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
   </style>
 </head>
 <body>
-  <img src="../assets/images/betroute-01.png" alt="Bet Route registration redesign section 1">
-  <img src="../assets/images/betroute-02.jpg" alt="Bet Route registration redesign section 2">
-  <img src="../assets/images/betroute-05.jpg" alt="Bet Route registration redesign section 3">
-  <img src="../assets/images/betroute-03.jpg" alt="Bet Route registration redesign section 4">
-  <img src="../assets/images/betroute-06.jpg" alt="Bet Route registration redesign section 5">
-  <img src="../assets/images/betroute-04.jpg" alt="Bet Route registration redesign section 6">
+  <header class="site-header">
+    <a href="../index.html" class="logo case-back">&larr; Back to works</a>
+    <nav class="nav">
+      <a href="../index.html#work" class="nav__link">Work</a>
+      <a href="../index.html#about" class="nav__link">About</a>
+      <a href="mailto:petrenkoag95@gmail.com" class="nav__link">Contact</a>
+    </nav>
+  </header>
+
+  <main class="betroute-stack">
+    <h1 class="visually-hidden">Bet Route registration redesign</h1>
+    <img src="../assets/images/betroute-01.png" alt="Bet Route registration redesign section 1">
+    <img src="../assets/images/betroute-02.jpg" alt="Bet Route registration redesign section 2" loading="lazy">
+    <img src="../assets/images/betroute-05.jpg" alt="Bet Route registration redesign section 3" loading="lazy">
+    <img src="../assets/images/betroute-03.jpg" alt="Bet Route registration redesign section 4" loading="lazy">
+    <img src="../assets/images/betroute-06.jpg" alt="Bet Route registration redesign section 5" loading="lazy">
+    <img src="../assets/images/betroute-04.jpg" alt="Bet Route registration redesign section 6" loading="lazy">
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="footer__columns">
+      <div class="footer__col">
+        <p class="footer__col-label">Contact</p>
+        <p class="footer__col-item">Montpellier, France</p>
+        <a href="mailto:petrenkoag95@gmail.com" class="footer__col-link">petrenkoag95@gmail.com</a>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-label">Links</p>
+        <a href="https://drive.google.com/file/d/1lW0wBeHOealteHQ4DFXHL2F3lOfM674Y/view?usp=sharing" class="footer__col-link">CV</a>
+        <a href="https://www.linkedin.com/in/anastasia-petrenko/" class="footer__col-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-label">Navigate</p>
+        <a href="../index.html#work" class="footer__col-link">Work</a>
+        <a href="../index.html#about" class="footer__col-link">About</a>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>Anastasiia Petrenko &mdash; Lead Product Designer</span>
+      <span>&copy; 2026</span>
+    </div>
+  </footer>
 </body>
 </html>

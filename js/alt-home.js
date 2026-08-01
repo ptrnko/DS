@@ -9,6 +9,7 @@ function initBurger() {
 
   function open() {
     burger.classList.add('is-open');
+    burger.setAttribute('aria-expanded', 'true');
     overlay.style.display = 'flex';
     requestAnimationFrame(() => overlay.classList.add('is-open'));
     document.body.style.overflow = 'hidden';
@@ -16,6 +17,7 @@ function initBurger() {
 
   function close() {
     burger.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
     overlay.classList.remove('is-open');
     document.body.style.overflow = '';
     overlay.addEventListener('transitionend', function handler() {
@@ -210,6 +212,7 @@ function initAboutImageSlider() {
   const frame = slider?.querySelector('.about-section__media-frame');
   const image = frame?.querySelector('.about-section__media-image');
   if (!slider || !frame || !image) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const images = (slider.dataset.images || '')
     .split(',')

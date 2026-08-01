@@ -21,7 +21,7 @@
         <a href="#about" class="nav__link">About</a>
         <a href="mailto:petrenkoag95@gmail.com" class="btn btn--ghost">Get in touch</a>
       </nav>
-      <button class="burger" aria-label="Open menu" type="button">
+      <button class="burger" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false" type="button">
         <div class="burger-line"></div>
         <div class="burger-line"></div>
         <div class="burger-line"></div>
@@ -29,7 +29,7 @@
     </div>
   </header>
 
-  <div class="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation">
+  <div class="menu-overlay" id="site-menu" role="dialog" aria-modal="true" aria-label="Navigation">
     <div class="menu-overlay__header">
       <span class="logo">AP</span>
       <button class="menu-overlay__close" aria-label="Close menu" type="button">
@@ -93,7 +93,7 @@
             <span></span>
           </div>
           <div class="about-section__media-frame">
-            <img class="about-section__media-image" src="assets/about/slider/frame-833507.jpg" alt="">
+            <img class="about-section__media-image" src="assets/about/slider/frame-833507.jpg" alt="" loading="lazy">
           </div>
           <img class="about-cursor about-cursor--graphic" src="assets/about/cursors/cursor-2.svg" alt="">
           <img class="about-cursor about-cursor--product" src="assets/about/cursors/cursor-1.svg" alt="">
@@ -103,13 +103,13 @@
 
       <section class="portfolio-section" id="work" aria-label="Portfolio">
         <p class="portfolio-section__label">PORTFOLIO</p>
-        <h2>Resent work</h2>
+        <h2>Recent work</h2>
         <div class="portfolio-work-grid">
           <a class="portfolio-work-card portfolio-work-card--accent" href="cases/pap-pay.html">
             <span class="portfolio-work-card__tag">Crypto &middot; Mobile</span>
             <h3>Pap-Pay payroll wallet</h3>
             <span class="portfolio-work-card__image">
-              <img src="assets/images/case-pap-pay.jpg" alt="Pap-Pay crypto payroll wallet">
+              <img src="assets/images/case-pap-pay.jpg" alt="Pap-Pay crypto payroll wallet" loading="lazy">
             </span>
             <span class="portfolio-work-card__link">View case &rarr;</span>
           </a>
@@ -118,7 +118,7 @@
             <span class="portfolio-work-card__tag">ERP &amp; CRM</span>
             <h3>Enhancing the ERP core</h3>
             <span class="portfolio-work-card__image">
-              <img src="assets/images/case-erp.jpg" alt="Enhancing the ERP core">
+              <img src="assets/images/case-erp.jpg" alt="Enhancing the ERP core" loading="lazy">
             </span>
             <span class="portfolio-work-card__link">View case &rarr;</span>
           </a>
@@ -127,7 +127,7 @@
             <span class="portfolio-work-card__tag">ERP &amp; CRM</span>
             <h3>Unified ERP &amp; CRM payments flow</h3>
             <span class="portfolio-work-card__image">
-              <img src="assets/images/case-erp-payments.jpg" alt="Unified ERP and CRM payments flow">
+              <img src="assets/images/case-erp-payments.jpg" alt="Unified ERP and CRM payments flow" loading="lazy">
             </span>
             <span class="portfolio-work-card__link">View case &rarr;</span>
           </a>
@@ -136,7 +136,7 @@
             <span class="portfolio-work-card__tag">E-Commerce &middot; Mobile</span>
             <h3>Turbo.ua delivery app</h3>
             <span class="portfolio-work-card__image">
-              <img src="assets/images/case-turbo.jpg" alt="Turbo.ua delivery app">
+              <img src="assets/images/case-turbo.jpg" alt="Turbo.ua delivery app" loading="lazy">
             </span>
             <span class="portfolio-work-card__link">View case &rarr;</span>
           </a>
@@ -145,7 +145,7 @@
             <span class="portfolio-work-card__tag">Branding</span>
             <h3>Packaging &amp; brand identity</h3>
             <span class="portfolio-work-card__image">
-              <img src="assets/images/case-branding.jpg" alt="Packaging and brand identity">
+              <img src="assets/images/case-branding.jpg" alt="Packaging and brand identity" loading="lazy">
             </span>
             <span class="portfolio-work-card__link">View case &rarr;</span>
           </a>
@@ -154,7 +154,7 @@
             <span class="portfolio-work-card__tag">Mobile</span>
             <h3>Design system</h3>
             <span class="portfolio-work-card__image">
-              <img src="assets/pap-pay-ds/brand-a.png" alt="Design system for a crypto payroll wallet">
+              <img src="assets/pap-pay-ds/brand-a.png" alt="Design system for a crypto payroll wallet" loading="lazy">
             </span>
             <span class="portfolio-work-card__link">View case &rarr;</span>
           </a>
@@ -163,7 +163,7 @@
             <span class="portfolio-work-card__tag">iGaming &middot; Mobile</span>
             <h3>Bet Route registration redesign</h3>
             <span class="portfolio-work-card__image">
-              <img src="assets/images/case-betroute.jpg" alt="Bet Route registration redesign">
+              <img src="assets/images/case-betroute.jpg" alt="Bet Route registration redesign" loading="lazy">
             </span>
             <span class="portfolio-work-card__link">View case &rarr;</span>
           </a>
@@ -185,7 +185,7 @@
       <div class="footer__col">
         <p class="footer__col-label">Links</p>
         <a href="https://drive.google.com/file/d/1lW0wBeHOealteHQ4DFXHL2F3lOfM674Y/view?usp=sharing" class="footer__col-link">CV</a>
-        <a href="https://www.linkedin.com/in/anastasia-petrenko/" class="footer__col-link" target="_blank">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/anastasia-petrenko/" class="footer__col-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
       <div class="footer__col">
         <p class="footer__col-label">Navigate</p>

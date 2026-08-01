@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pap-Pay — crypto payroll wallet · Anastasiia Petrenko</title>
   <meta name="description" content="Pap-Pay — an iOS crypto payroll wallet. Employees are paid in BTC and cash out to their card. Case study in progress." />
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -188,20 +189,27 @@
       grid-template-rows: repeat(8, 1fr);
       border: 1px solid var(--pp-line);
     }
-    /* Blueprint overlay inside the container — dot markers + vertical column
-       dividers (horizontal lines come from the full-width rails above).
-       Four quarter-dots per corner add up to full dots at each intersection. */
+    /* Vertical column dividers inside the container (horizontal lines come
+       from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
       content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
+      background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
+      background-size: 33.3333% 100%;
+    }
+    /* Dot markers, drawn over the centred content area on the TOP-MOST layer
+       so no cell or line ever covers them. Four quarter-dots per corner add
+       up to full dots at each interior intersection. */
+    .pp-mod-rails::before {
+      content: ""; position: absolute; top: 0; bottom: 0;
+      left: 50%; transform: translateX(-50%);
+      width: min(100%, 1440px);
+      pointer-events: none; z-index: 8;
       background-image:
         radial-gradient(circle at 0 0,       #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
-        radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px),
-        linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
-      background-size:
-        33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%, 33.3333% 12.5%,
-        33.3333% 100%;
+        radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
+      background-size: 33.3333% 12.5%;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
 
@@ -327,7 +335,8 @@
         background: none; border: none;
         border-top: 1px solid var(--pp-line);
       }
-      .pp-mod-rails::after { display: none; }
+      .pp-mod-rails::after,
+      .pp-mod-rails::before { display: none; }
       .pp-mod { border: none; }
       .pp-mod::after { display: none; }
       .pp-mod > * { grid-column: auto; grid-row: auto; }
@@ -443,8 +452,8 @@
            Night → day wipes left-to-right on a loop: the same screen in
            the system's two colour themes. -->
       <div class="pp-mod__screen">
-        <img src="../assets/pap-pay/screen-empty.jpg" alt="Pap-Pay app — empty state: zero balance, add card, no transactions" width="1100" height="1024">
-        <img class="is-day" src="../assets/pap-pay/screen-empty-day.jpg" alt="" aria-hidden="true" width="1100" height="1024">
+        <img loading="lazy" src="../assets/pap-pay/screen-empty.jpg" alt="Pap-Pay app — empty state: zero balance, add card, no transactions" width="1100" height="1024">
+        <img loading="lazy" class="is-day" src="../assets/pap-pay/screen-empty-day.jpg" alt="" aria-hidden="true" width="1100" height="1024">
       </div>
 
       <!-- olive accent (col 3, row 7) -->
