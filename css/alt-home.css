@@ -307,7 +307,7 @@ body {
   font-family: Raleway, Inter, system-ui, sans-serif;
   font-size: 36px;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.3;
   letter-spacing: 0;
   color: #ffffff;
 }
@@ -805,7 +805,7 @@ body {
   }
 
   .about-section__copy p {
-    margin-top: 40px;
+    margin-top: 24px;
     font-size: 16px;
   }
 
