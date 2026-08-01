@@ -4,258 +4,177 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anastasiia Petrenko &mdash; Lead Product Designer</title>
-  <meta name="description" content="Lead Product Designer specialising in high-load systems. I build senior product design teams from scratch and the systems they ship." />
+  <meta name="description" content="Lead Product Designer building high-load product systems, senior design teams, and AI-native workflows.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Raleway:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/about-bento.css">
+  <link rel="stylesheet" href="css/alt-home.css">
 </head>
 <body>
-
-  <!-- HEADER -->
-  <header class="site-header">
-    <span class="logo">Portfolio</span>
-    <nav class="nav">
-      <a href="#work"  class="nav__link">Work</a>
-      <a href="#about" class="nav__link">About</a>
-      <a href="mailto:petrenkoag95@gmail.com" class="btn btn--ghost">Get in touch</a>
-    </nav>
-    <button class="burger" aria-label="Open menu">
-      <div class="burger-line"></div>
-      <div class="burger-line"></div>
-      <div class="burger-line"></div>
-    </button>
+  <header class="site-header alt-site-header">
+    <div class="alt-container alt-header__inner">
+      <span class="logo">Portfolio</span>
+      <nav class="nav">
+        <a href="#work" class="nav__link">Work</a>
+        <a href="#about" class="nav__link">About</a>
+        <a href="mailto:petrenkoag95@gmail.com" class="btn btn--ghost">Get in touch</a>
+      </nav>
+      <button class="burger" aria-label="Open menu" type="button">
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+      </button>
+    </div>
   </header>
 
-  <!-- MOBILE MENU OVERLAY -->
   <div class="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation">
     <div class="menu-overlay__header">
       <span class="logo">AP</span>
-      <button class="menu-overlay__close" aria-label="Close menu">
+      <button class="menu-overlay__close" aria-label="Close menu" type="button">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path d="M3 3l14 14M17 3L3 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
     <nav class="menu-overlay__nav">
-      <a href="#work"  class="menu-link">Work</a>
+      <a href="#work" class="menu-link">Work</a>
       <a href="#about" class="menu-link">About</a>
       <a href="mailto:petrenkoag95@gmail.com" class="menu-link menu-link--muted">Get in touch</a>
     </nav>
     <div class="menu-overlay__footer">Montpellier, France</div>
   </div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <svg class="hero__grid-bg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,black 40%,transparent 100%);mask-image:linear-gradient(to bottom,black 40%,transparent 100%);">
-      <defs>
-        <pattern id="heroGrid" width="240" height="240" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="240" height="240" fill="none" stroke="rgba(68,147,250,0.13)" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#heroGrid)"/>
-      <circle cx="240" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="4s" begin="0s" repeatCount="indefinite"/></circle>
-      <circle cx="480" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="4s" begin="0.6s" repeatCount="indefinite"/></circle>
-      <circle cx="720" cy="480" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="4s" begin="1.2s" repeatCount="indefinite"/></circle>
-      <circle cx="960" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="4s" begin="1.8s" repeatCount="indefinite"/></circle>
-      <circle cx="480" cy="480" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="4s" begin="0.9s" repeatCount="indefinite"/></circle>
-      <circle cx="720" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="4s" begin="2.4s" repeatCount="indefinite"/></circle>
-      <rect x="480" y="240" width="240" height="240" fill="rgba(68,147,250,0)" opacity="0"><animate attributeName="fill" values="rgba(68,147,250,0);rgba(68,147,250,0.09);rgba(68,147,250,0)" dur="6s" begin="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="6s" begin="1s" repeatCount="indefinite"/></rect>
-      <rect x="720" y="0" width="240" height="240" fill="rgba(68,147,250,0)" opacity="0"><animate attributeName="fill" values="rgba(68,147,250,0);rgba(68,147,250,0.09);rgba(68,147,250,0)" dur="6s" begin="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="6s" begin="3s" repeatCount="indefinite"/></rect>
-    </svg>
-    <div class="hero__glow" aria-hidden="true"></div>
-
-    <!-- Left: content -->
-    <div class="hero__content fade-up">
-      <h1 class="hero__headline">
-        Hi! I&rsquo;m Anastasiia, Lead Product Designer specializing in
-        <span class="text-accent">high&#8209;load systems</span>
-      </h1>
-
-      <div class="stats-row">
-        <div class="stat">
-          <span class="stat__value">2</span>
-          <span class="stat__label">design teams<br>built from zero</span>
+  <main class="alt-main">
+    <div class="alt-container">
+      <section class="hero-card" aria-label="Portfolio introduction">
+        <video class="hero-card__video" autoplay muted loop playsinline>
+          <source src="assets/hero/clouds-hero.mp4" type="video/mp4">
+        </video>
+        <img class="hero-card__overlay" src="assets/hero/rectangle-1938.png" alt="" aria-hidden="true">
+        <div class="hero-card__grid" aria-hidden="true"></div>
+        <div class="hero-card__marker-grid" aria-hidden="true"></div>
+        <div class="hero-card__hover-grid" aria-hidden="true"></div>
+        <div class="hero-card__content">
+          <h1 class="hero-card__title" aria-label="Hi! I&rsquo;m Anastasiia!"><span data-type-target="hero-hi"></span><span data-type-target="hero-name"></span></h1>
+          <p class="hero-card__subtitle" aria-label="Lead Product Designer specializing in high-load systems"><span data-type-target="hero-subtitle-main"></span><br><span data-type-target="hero-subtitle-prefix"></span><span class="hero-card__accent" data-type-target="hero-subtitle-accent"></span></p>
         </div>
-        <div class="stat stat--bordered">
-          <span class="stat__value">5</span>
-          <span class="stat__label">industries: ERP, CRM,<br>Trading, B2B SaaS, E-commerce</span>
-        </div>
-        <div class="stat stat--bordered">
-          <span class="stat__value text-accent">AI</span>
-          <span class="stat__label">Claude Code + Git<br>in daily workflow</span>
-        </div>
-      </div>
+      </section>
 
-      <div class="hero__ctas">
-        <a href="#work" class="btn btn--primary">View selected work <span aria-hidden="true">&rarr;</span></a>
-        <a href="https://drive.google.com/file/d/1lW0wBeHOealteHQ4DFXHL2F3lOfM674Y/view?usp=sharing" class="btn btn--outline">Download CV</a>
-      </div>
+      <section class="about-section" id="about" aria-label="About">
+        <div class="about-section__copy">
+          <p class="about-section__label">ABOUT</p>
+          <h2>
+            7+ years leading design for<br>
+            complex products.
+          </h2>
+          <p>
+            <span>Built design departments from scratch twice, scaling to 10+ specialists. Consolidated fragmented interfaces into unified design systems. Now building AI into the daily design process.</span>
+          </p>
+          <div class="about-section__tags" aria-label="Experience areas">
+            <span>ERP</span>
+            <span>CRM</span>
+            <span>Fintech</span>
+            <span>E-Commerce</span>
+            <span>AI Products</span>
+            <span>IGaming</span>
+            <span>HR Platforms</span>
+          </div>
+        </div>
+        <div
+          class="about-section__media"
+          aria-hidden="true"
+          data-images="assets/about/slider/frame-833507.jpg,assets/about/slider/frame-833508.jpg,assets/about/slider/frame-833509.jpg,assets/about/slider/frame-833501.jpg,assets/about/slider/frame-833503.jpg,assets/about/slider/frame-833511.jpg,assets/about/slider/frame-833505.jpg,assets/about/slider/frame-833502.jpg,assets/about/slider/frame-833512.jpg,assets/about/slider/frame-833504.jpg"
+        >
+          <div class="about-section__media-chrome">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="about-section__media-frame">
+            <img class="about-section__media-image" src="assets/about/slider/frame-833507.jpg" alt="">
+          </div>
+          <img class="about-cursor about-cursor--graphic" src="assets/about/cursors/cursor-2.svg" alt="">
+          <img class="about-cursor about-cursor--product" src="assets/about/cursors/cursor-1.svg" alt="">
+          <img class="about-cursor about-cursor--ui" src="assets/about/cursors/cursor-3.svg" alt="">
+        </div>
+      </section>
+
+      <section class="portfolio-section" id="work" aria-label="Portfolio">
+        <p class="portfolio-section__label">PORTFOLIO</p>
+        <h2>Resent work</h2>
+        <div class="portfolio-work-grid">
+          <a class="portfolio-work-card portfolio-work-card--accent" href="cases/pap-pay.html">
+            <span class="portfolio-work-card__tag">Crypto &middot; Mobile</span>
+            <h3>Pap-Pay payroll wallet</h3>
+            <span class="portfolio-work-card__image">
+              <img src="assets/images/case-pap-pay.jpg" alt="Pap-Pay crypto payroll wallet">
+            </span>
+            <span class="portfolio-work-card__link">View case &rarr;</span>
+          </a>
+
+          <a class="portfolio-work-card portfolio-work-card--accent" href="cases/erp-core.html">
+            <span class="portfolio-work-card__tag">ERP &amp; CRM</span>
+            <h3>Enhancing the ERP core</h3>
+            <span class="portfolio-work-card__image">
+              <img src="assets/images/case-erp.jpg" alt="Enhancing the ERP core">
+            </span>
+            <span class="portfolio-work-card__link">View case &rarr;</span>
+          </a>
+
+          <a class="portfolio-work-card portfolio-work-card--accent" href="cases/erp-wave.html">
+            <span class="portfolio-work-card__tag">ERP &amp; CRM</span>
+            <h3>Unified ERP &amp; CRM payments flow</h3>
+            <span class="portfolio-work-card__image">
+              <img src="assets/images/case-erp-payments.jpg" alt="Unified ERP and CRM payments flow">
+            </span>
+            <span class="portfolio-work-card__link">View case &rarr;</span>
+          </a>
+
+          <a class="portfolio-work-card" href="cases/turbo.html">
+            <span class="portfolio-work-card__tag">E-Commerce &middot; Mobile</span>
+            <h3>Turbo.ua delivery app</h3>
+            <span class="portfolio-work-card__image">
+              <img src="assets/images/case-turbo.jpg" alt="Turbo.ua delivery app">
+            </span>
+            <span class="portfolio-work-card__link">View case &rarr;</span>
+          </a>
+
+          <a class="portfolio-work-card" href="cases/turbo-branding.html">
+            <span class="portfolio-work-card__tag">Branding</span>
+            <h3>Packaging &amp; brand identity</h3>
+            <span class="portfolio-work-card__image">
+              <img src="assets/images/case-branding.jpg" alt="Packaging and brand identity">
+            </span>
+            <span class="portfolio-work-card__link">View case &rarr;</span>
+          </a>
+
+          <a class="portfolio-work-card" href="cases/pap-pay-ds.html">
+            <span class="portfolio-work-card__tag">Mobile</span>
+            <h3>Design system</h3>
+            <span class="portfolio-work-card__image">
+              <img src="assets/pap-pay-ds/brand-a.png" alt="Design system for a crypto payroll wallet">
+            </span>
+            <span class="portfolio-work-card__link">View case &rarr;</span>
+          </a>
+
+          <a class="portfolio-work-card" href="cases/betroute.html">
+            <span class="portfolio-work-card__tag">iGaming &middot; Mobile</span>
+            <h3>Bet Route registration redesign</h3>
+            <span class="portfolio-work-card__image">
+              <img src="assets/images/case-betroute.jpg" alt="Bet Route registration redesign">
+            </span>
+            <span class="portfolio-work-card__link">View case &rarr;</span>
+          </a>
+        </div>
+      </section>
     </div>
-
-    <!-- Right: featured case carousel -->
-    <div class="featured-case fade-up-delayed">
-      <div class="case-card">
-        <div class="case-card__header">
-          <span class="case-card__label">Featured case</span>
-          <span class="case-card__counter" id="js-case-counter">01 / 03</span>
-        </div>
-
-        <div class="case-card__image" id="js-case-image">
-          <span class="case-card__placeholder">[ case cover &middot; 1600&times;1000 ]</span>
-        </div>
-
-        <div class="case-card__body" id="js-case-body">
-          <div class="case-card__meta">
-            <span class="case-card__tag"   id="js-case-tag"></span>
-            <h2   class="case-card__title" id="js-case-title"></h2>
-            <p    class="case-card__desc"  id="js-case-desc"></p>
-          </div>
-          <div class="case-card__footer">
-            <a href="#work" class="case-card__link">View case &rarr;</a>
-            <div class="case-dots" id="js-case-dots"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="about-1b" id="about" aria-labelledby="about-heading">
-    <div class="ab1-inner">
-
-      <!-- Tier A -->
-      <p class="ab1-eyebrow ab1-anim" style="--delay:0ms">About</p>
-      <h2 id="about-heading" class="ab1-heading ab1-anim ab1-anim--blur" style="--delay:80ms">
-        I build <span class="text-accent">senior&nbsp;product design&nbsp;teams</span>
-        from scratch, and the systems they&nbsp;ship
-      </h2>
-
-      <!-- Tier B — metric strip -->
-      <div class="ab1-metrics">
-        <span class="ab1-metrics__rule" aria-hidden="true"></span>
-        <div class="ab1-metrics__grid">
-          <div class="ab1-metric ab1-anim" role="group" style="--delay:420ms">
-            <p class="ab1-metric__label">Building teams</p>
-            <p class="ab1-metric__value">0 <span aria-hidden="true">&rarr;</span> <span class="ab1-count" data-count-to="10">10</span></p>
-            <p class="ab1-metric__desc">Designers hired, coached, and scaled into an aligned, high-performance unit.</p>
-          </div>
-          <div class="ab1-metric ab1-anim" role="group" style="--delay:540ms">
-            <p class="ab1-metric__label">Production experience</p>
-            <p class="ab1-metric__value"><span class="ab1-count" data-count-to="7">7</span>+ YRS</p>
-            <p class="ab1-metric__desc">Years of shipping complex, end-to-end web and mobile applications.</p>
-          </div>
-          <div class="ab1-metric ab1-anim" role="group" style="--delay:660ms">
-            <p class="ab1-metric__label">Design Ops + AI</p>
-            <p class="ab1-metric__value"><span class="ab1-count" data-count-to="50">50</span>%</p>
-            <p class="ab1-metric__desc">Cut 50% off design-to-dev handoff with Claude Code &amp; Git — Figma stays the source of truth.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tier C — footer row -->
-      <div class="ab1-footer">
-        <p class="ab1-intro ab1-anim" style="--delay:700ms">
-          I've built design departments twice — scaling teams to 10 specialists, and turning
-          fragmented interfaces into high-performance design systems. Currently doing the same
-          with AI in the loop: Claude Code and Git are active partners in my process, not side
-          experiments.
-        </p>
-        <div class="ab1-disciplines">
-          <p class="ab1-label ab1-anim" style="--delay:780ms">System disciplines</p>
-          <ul class="ab1-chips">
-            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:860ms">Cross-functional leadership</li>
-            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:930ms">Hiring &amp; mentorship</li>
-            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1000ms">AI-native workflows</li>
-            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1070ms">Process ownership</li>
-            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1140ms">Design system at scale</li>
-            <li class="ab1-chip ab1-anim ab1-anim--pop" style="--delay:1210ms">Rebrand &amp; visual identity</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- WORK -->
-  <section class="work" id="work">
-    <p class="section-label">Work</p>
-
-    <div class="work-grid">
-      <!-- Row 1 — accent top border -->
-      <article class="work-card work-card--accent" data-href="cases/pap-pay.html">
-        <span class="work-card__tag">Crypto &middot; Mobile</span>
-        <h3 class="work-card__title">Pap-Pay payroll wallet</h3>
-        <div class="work-card__image">
-          <img src="assets/images/case-pap-pay.jpg" alt="Pap-Pay crypto payroll wallet">
-        </div>
-        <span class="work-card__link">View case &rarr;</span>
-      </article>
-
-      <article class="work-card work-card--accent" data-href="cases/erp-core.html">
-        <span class="work-card__tag">ERP &amp; CRM &middot; B2B</span>
-        <h3 class="work-card__title">Enhancing the ERP core</h3>
-        <div class="work-card__image">
-          <img src="assets/images/case-erp.jpg" alt="Enhancing the ERP core">
-        </div>
-        <span class="work-card__link">View case &rarr;</span>
-      </article>
-
-      <article class="work-card work-card--accent" data-href="cases/erp-wave.html">
-        <span class="work-card__tag">ERP &amp; CRM &middot; B2B</span>
-        <h3 class="work-card__title">Unified ERP &amp; CRM payments flow</h3>
-        <div class="work-card__image">
-          <img src="assets/images/case-erp-payments.jpg" alt="Unified ERP &amp; CRM payments flow">
-        </div>
-        <span class="work-card__link">View case &rarr;</span>
-      </article>
-
-      <!-- Row 2 — subtle top divider -->
-      <!-- Archived: Money Track wallet (cases/moneytrack.html) — page and assets
-           kept in the repo, unlinked from the grid and the featured carousel. -->
-      <article class="work-card" data-href="cases/turbo.html">
-        <span class="work-card__tag">E-Commerce &middot; Mobile</span>
-        <h3 class="work-card__title">Turbo.ua delivery app</h3>
-        <div class="work-card__image">
-          <img src="assets/images/case-turbo.jpg" alt="Turbo.ua delivery app">
-        </div>
-        <span class="work-card__link">View case &rarr;</span>
-      </article>
-
-      <article class="work-card" data-href="cases/turbo-branding.html">
-        <span class="work-card__tag">Branding</span>
-        <h3 class="work-card__title">Packaging &amp; brand identity</h3>
-        <div class="work-card__image">
-          <img src="assets/images/case-branding.jpg" alt="Packaging &amp; brand identity">
-        </div>
-        <span class="work-card__link">View case &rarr;</span>
-      </article>
-
-      <article class="work-card" data-href="cases/pap-pay-ds.html">
-        <span class="work-card__tag">Mobile</span>
-        <h3 class="work-card__title">Design system</h3>
-        <div class="work-card__image">
-          <img src="assets/pap-pay-ds/brand-a.png" alt="Design system for a crypto payroll wallet">
-        </div>
-        <span class="work-card__link">View case &rarr;</span>
-      </article>
-
-      <article class="work-card" data-href="cases/betroute.html">
-        <span class="work-card__tag">iGaming &middot; Mobile</span>
-        <h3 class="work-card__title">Bet Route registration redesign</h3>
-        <div class="work-card__image">
-          <img src="assets/images/case-betroute.jpg" alt="Bet Route registration redesign">
-        </div>
-        <span class="work-card__link">View case &rarr;</span>
-      </article>
-
-    </div>
-  </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer" id="contact">
-    <p class="footer__cta">Let&rsquo;s build the next big thing together.</p>
+    <p class="footer__cta">Let&rsquo;s build the next<br>big thing together.</p>
 
     <div class="footer__columns">
       <div class="footer__col">
@@ -265,22 +184,18 @@
       </div>
       <div class="footer__col">
         <p class="footer__col-label">Links</p>
-        <a href="https://drive.google.com/file/d/1lW0wBeHOealteHQ4DFXHL2F3lOfM674Y/view?usp=sharing"        class="footer__col-link">CV</a>
+        <a href="https://drive.google.com/file/d/1lW0wBeHOealteHQ4DFXHL2F3lOfM674Y/view?usp=sharing" class="footer__col-link">CV</a>
         <a href="https://www.linkedin.com/in/anastasia-petrenko/" class="footer__col-link" target="_blank">LinkedIn</a>
       </div>
       <div class="footer__col">
         <p class="footer__col-label">Navigate</p>
-        <a href="#work"  class="footer__col-link">Work</a>
+        <a href="#work" class="footer__col-link">Work</a>
         <a href="#about" class="footer__col-link">About</a>
       </div>
     </div>
 
-    <div class="footer__bottom">
-      <span>Anastasiia Petrenko &mdash; Lead Product Designer</span>
-      <span>&copy; 2026</span>
-    </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/alt-home.js"></script>
 </body>
 </html>
