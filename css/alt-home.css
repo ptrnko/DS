@@ -691,7 +691,7 @@ body {
 
 .footer {
   margin-top: 200px;
-  padding-inline: var(--alt-container-px);
+  padding: 80px var(--alt-container-px) 40px;
 }
 
 .footer__cta {
@@ -868,7 +868,7 @@ body {
 
   .footer {
     margin-top: 96px;
-    padding-inline: 14px;
+    padding: 36px 14px 44px;
   }
 }
 
