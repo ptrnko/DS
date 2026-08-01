@@ -777,7 +777,7 @@ body {
   .about-section {
     display: grid;
     grid-template-columns: 1fr;
-    margin-top: 96px;
+    margin-top: 64px;
   }
 
   .about-section__label,
@@ -787,7 +787,8 @@ body {
   }
 
   .about-section__copy h2 {
-    font-size: 30px;
+    max-width: 390px;
+    font-size: 27px;
   }
 
   .about-section__copy p {
