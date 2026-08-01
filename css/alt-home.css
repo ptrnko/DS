@@ -312,6 +312,10 @@ body {
   color: #ffffff;
 }
 
+.about-title__mobile {
+  display: none;
+}
+
 .about-section__copy p {
   margin: 40px 0 0;
   max-width: 610px;
@@ -789,6 +793,14 @@ body {
   .about-section__copy h2 {
     max-width: 390px;
     font-size: 27px;
+  }
+
+  .about-title__desktop {
+    display: none;
+  }
+
+  .about-title__mobile {
+    display: inline;
   }
 
   .about-section__copy p {
