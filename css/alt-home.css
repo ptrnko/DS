@@ -747,14 +747,15 @@ body {
     --hero-marker-size: 3px;
     --hero-grid-offset: 1.5px;
     aspect-ratio: auto;
+    height: 450px;
     border-radius: 24px;
   }
 
   .hero-card__content {
-    position: relative;
-    inset: auto;
+    position: absolute;
+    inset: 0;
     min-height: auto;
-    padding: 100px 28px;
+    padding: 40px 28px;
   }
 
   .hero-card__content h1 {
