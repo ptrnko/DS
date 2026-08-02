@@ -1,93 +1,70 @@
 # Anastasiia Petrenko — Portfolio
 
-Personal portfolio of Anastasiia Petrenko, Lead Product Designer specializing in high-load systems: CRM/ERP, Trading, Logistics, Finance, HR, E-commerce and Analytics platforms.
+Personal portfolio of Anastasiia Petrenko, Lead Product Designer specializing in complex product systems: ERP/CRM, fintech, e-commerce, mobile products, iGaming, branding, and design systems.
 
-## Project structure
+## Project Structure
 
-```
+```text
 /
-├── index.html          # Main page
+├── index.html              # Main portfolio page
+├── CNAME                   # Custom domain config
 ├── css/
-│   ├── tokens.css      # Design tokens (colors, typography, spacing)
-│   └── style.css       # Component styles
+│   ├── styles.css          # Global styles, main page, shared layout
+│   ├── about-bento.css     # Current About section variant
+│   └── case.css            # Shared case-study styles for several cases
 ├── js/
-│   └── main.js         # Scroll behavior, interactions
+│   └── main.js             # Carousel, mobile menu, reveals, counters
+├── cases/
+│   ├── betroute.html       # Bet Route image-stack case
+│   ├── erp-core.html       # ERP core case
+│   ├── erp-wave.html       # ERP/CRM payments flow case
+│   ├── pap-pay.html        # Pap-Pay product case
+│   ├── pap-pay-ds.html     # Pap-Pay design system case
+│   ├── turbo.html          # Turbo.ua delivery app case
+│   └── turbo-branding.html # Turbo.ua brand identity case
 └── assets/
-    └── images/         # Photos, case thumbnails, 3D visuals
+    ├── images/             # Shared images and case thumbnails
+    ├── pap-pay/            # Pap-Pay motion assets and encoding notes
+    └── pap-pay-ds/         # Pap-Pay design system assets
 ```
 
-## Design system
+## Current Work Grid
 
-Design source: [Figma — Petrenko Portfolio Redesign](https://www.figma.com/design/SZtgi6KM5C7eNJK2mJ4QXy)
+The main page currently shows these case cards:
 
-All design tokens live in `css/tokens.css`. Never hardcode colors, font sizes, or spacing — always reference a token.
+1. Pap-Pay payroll wallet
+2. Enhancing the ERP core
+3. Unified ERP & CRM payments flow
+4. Turbo.ua delivery app
+5. Packaging & brand identity
+6. Design system
+7. Bet Route registration redesign
 
-### Colors
+## Styling Notes
 
-| Token | Value | Usage |
-|---|---|---|
-| `--c-bg` | `#0a0a0c` | Page background |
-| `--c-bg-card` | `#0f0f12` | Card background |
-| `--c-bg-footer` | `#101013` | Footer background |
-| `--c-surface` | `#2a2a2e` | Dividers, gaps between cards |
-| `--c-accent` | `#4493fa` | Labels, highlights, links |
-| `--c-accent-border` | `#125bba` | Card top border |
-| `--c-text` | `#ffffff` | Headings, primary text |
-| `--c-text-nav` | `#cccccc` | Navigation, footer links |
-| `--c-text-muted` | `#999999` | Logo, secondary labels |
-| `--c-text-body` | `rgba(153,153,153,0.67)` | Body copy |
-| `--c-text-label` | `#666666` | Footer column headers |
-| `--c-text-copyright` | `#545454` | Copyright line |
+- `css/styles.css` is the main global stylesheet.
+- `css/about-bento.css` styles the current About section.
+- `css/case.css` is shared by older structured case pages.
+- Some large case pages include their own embedded CSS because they use custom layouts.
+- `css/style.css` and `css/tokens.css` were removed during cleanup and are no longer part of the live site.
 
-### Typography
+## Bet Route
 
-Font: **Inter** (Regular 400, Medium 500, Bold 700)
+`cases/betroute.html` is intentionally simple: it renders six full-width images one after another.
 
-| Token | Size | Weight | Usage |
-|---|---|---|---|
-| `--fs-hero-label` | 24px | Regular | "Hi! I'm …" greeting |
-| `--fs-hero-title` | 48px | Bold | Hero headline |
-| `--fs-hero-body` | 22px | Regular | Hero subtitle |
-| `--fs-section-title` | 24px | Medium | Section headings |
-| `--fs-about-quote` | 36px | Medium | About quote |
-| `--fs-about-body` | 22px | Regular | About paragraphs |
-| `--fs-card-label` | 16px | Medium | Card category tag |
-| `--fs-card-title` | 20px | Bold | Card project name |
-| `--fs-card-link` | 12px | Regular | "View case →" |
-| `--fs-nav` | 16px | Regular | Navigation links |
-| `--fs-footer-body` | 18px | Regular | Footer links |
-| `--fs-footer-label` | 14px | Bold | Footer column headers |
-| `--fs-caption` | 12px | Regular | Copyright |
+The images live in `assets/images/`:
 
-### Spacing
+- `betroute-01.png`
+- `betroute-02.jpg`
+- `betroute-03.jpg`
+- `betroute-04.jpg`
+- `betroute-05.jpg`
+- `betroute-06.jpg`
+- `case-betroute.jpg` for the main-page card thumbnail
 
-| Token | Value | Usage |
-|---|---|---|
-| `--sp-page-x` | 80px | Horizontal page padding |
-| `--sp-section-y` | 100px | Section top/bottom padding |
-| `--sp-section-y-lg` | 150px | Large section bottom padding |
-| `--sp-card-gap` | 30px | Gap between grid rows |
-| `--sp-card-pad-x` | 20px | Card horizontal padding |
-| `--sp-card-pad-top` | 30px | Card top padding |
+## Maintenance
 
-### Sections
-
-| Section | Node ID | Description |
-|---|---|---|
-| Header | `1:4` | Sticky nav with logo + 3 links |
-| Hero | `1:10` | Full-width intro with 3D visual |
-| Work Grid | `1:39` | 2×3 case card grid |
-| About | `1:30` | Quote + bio + photo |
-| Footer | `1:84` | Contact / Links / Navigate columns |
-
-## Roadmap
-
-- [x] Project scaffolding (HTML/CSS/JS)
-- [x] Design system tokens
-- [ ] Hero section implementation
-- [ ] Work grid with real case images
-- [ ] About section
-- [ ] Footer
-- [ ] Responsive (tablet + mobile)
-- [ ] Case study pages
-- [ ] Animations & interactions
+- Keep `.DS_Store`, temporary files, and local tool folders out of commits.
+- `.claude/` is local tooling and is not required for the website.
+- Before deleting assets, search for the filename across `index.html`, `cases/`, `css/`, and `js/`.
+- For local preview, run a static server from the project root and open `http://127.0.0.1:8001/`.
