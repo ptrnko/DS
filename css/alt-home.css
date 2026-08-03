@@ -197,10 +197,11 @@ body {
 
 .hero-card__hover-grid {
   position: absolute;
-  inset: 0;
+  top: var(--hero-grid-offset);
+  left: var(--hero-grid-offset);
   display: grid;
-  grid-template-columns: repeat(var(--hero-grid-cols), 220px);
-  grid-auto-rows: 220px;
+  grid-template-columns: repeat(var(--hero-grid-cols), var(--hero-grid-step));
+  grid-auto-rows: var(--hero-grid-step);
   pointer-events: none;
 }
 

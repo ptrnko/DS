@@ -158,8 +158,8 @@ function initHeroHoverGrid() {
     const rect = hero.getBoundingClientRect();
     const cellSize = getCellSize();
     const gridOffset = getGridOffset();
-    const cols = Math.ceil(rect.width / cellSize);
-    const rows = Math.ceil(rect.height / cellSize);
+    const cols = Math.ceil((rect.width - gridOffset) / cellSize);
+    const rows = Math.ceil((rect.height - gridOffset) / cellSize);
     const total = cols * rows;
 
     grid.style.setProperty('--hero-grid-cols', cols);
@@ -190,8 +190,9 @@ function initHeroHoverGrid() {
   function hover(event) {
     const rect = hero.getBoundingClientRect();
     const cellSize = getCellSize();
-    const col = Math.floor((event.clientX - rect.left) / cellSize);
-    const row = Math.floor((event.clientY - rect.top) / cellSize);
+    const gridOffset = getGridOffset();
+    const col = Math.floor((event.clientX - rect.left - gridOffset) / cellSize);
+    const row = Math.floor((event.clientY - rect.top - gridOffset) / cellSize);
     const cols = parseInt(grid.style.getPropertyValue('--hero-grid-cols'), 10);
     const cell = cells[row * cols + col];
     if (!cell) return;
