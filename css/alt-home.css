@@ -1,6 +1,7 @@
 :root {
   --alt-page-bg: #050506;
   --hero-radius: 30px;
+  --alt-container-max: 1600px;
   --alt-container-px: 80px;
   --hero-grid-step: 220px;
   --hero-marker-size: 5px;
@@ -115,6 +116,7 @@ body {
 
 .alt-container {
   width: 100%;
+  max-width: var(--alt-container-max);
   margin: 0 auto;
   padding: 0 var(--alt-container-px);
 }
@@ -759,7 +761,14 @@ body {
 
 .footer {
   margin-top: 120px;
-  padding: 80px var(--alt-container-px) 40px;
+  padding: 80px 0 40px;
+}
+
+.footer__inner {
+  width: 100%;
+  max-width: var(--alt-container-max);
+  margin: 0 auto;
+  padding: 0 var(--alt-container-px);
 }
 
 .footer__cta {
@@ -965,7 +974,11 @@ body {
 
   .footer {
     margin-top: 96px;
-    padding: 36px 14px 20px;
+    padding: 36px 0 20px;
+  }
+
+  .footer__inner {
+    padding: 0 14px;
   }
 }
 
