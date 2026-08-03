@@ -43,7 +43,7 @@ function initHeroVideo() {
 function initPageReveal() {
   const revealItems = [
     ...document.querySelectorAll(
-      '.alt-site-header, .hero-card, .about-section__label, .about-section__copy, .about-section__details, .about-section__media, .portfolio-section__label, .portfolio-section h2, .portfolio-work-card'
+      '.alt-site-header, .hero-card, .about-section__label, .about-section__copy, .about-section__details, .about-section__media, .stats-section, .stats-section__item, .portfolio-section__label, .portfolio-section h2, .portfolio-work-card'
     ),
   ];
   if (!revealItems.length) return;
