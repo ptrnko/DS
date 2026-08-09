@@ -219,19 +219,40 @@
     .pp-mod__card {
       grid-column: 1 / 2; grid-row: 2 / 3; z-index: 3;
       display: flex; flex-direction: column; justify-content: space-between;
-      padding: clamp(20px, 2.8vw, 40px);
-      background: rgba(217,217,217,0.10);
-      backdrop-filter: blur(13.5px); -webkit-backdrop-filter: blur(13.5px);
+      padding: clamp(28px, 2.7vw, 40px);
+      background: rgba(14, 27, 24, 0.34);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       border-right: 1px solid var(--pp-line);
     }
-    .pp-mod__logo { display: flex; align-items: center; gap: 16px; }
-    .pp-mod__logo svg { width: clamp(26px, 2.1vw, 34px); height: auto; flex-shrink: 0; }
-    .pp-mod__logo span { font-weight: 700; font-size: clamp(18px, 1.5vw, 24px); letter-spacing: -0.01em; color: #fff; }
     .pp-mod__headline {
-      font-weight: 700; font-size: clamp(26px, 3.4vw, 49px); line-height: 1.0;
-      letter-spacing: -0.005em; color: #fff;
+      max-width: 10em;
+      font-weight: 800; font-size: 42px; line-height: 1.08;
+      letter-spacing: -0.04em; color: #fff;
     }
     .pp-mod__headline .accent { color: var(--pp-lime); }
+    .pp-mod__hero-meta {
+      display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+      gap: clamp(18px, 2.3vw, 32px);
+      margin: 0;
+    }
+    .pp-mod__hero-meta dt {
+      margin-bottom: 6px; font-size: 14px; font-weight: 800;
+      letter-spacing: 0; text-transform: uppercase; color: rgba(255,255,255,0.48);
+    }
+    .pp-mod__hero-meta dd {
+      font-size: 16px; font-weight: 600; line-height: 1.35; color: #fff;
+      white-space: nowrap;
+    }
+    .pp-mod__scope {
+      margin-top: 0;
+    }
+    .pp-mod__scope dt {
+      margin-bottom: 6px; font-size: 14px; font-weight: 800;
+      letter-spacing: 0; text-transform: uppercase; color: rgba(255,255,255,0.48);
+    }
+    .pp-mod__scope dd {
+      font-size: 16px; font-weight: 600; line-height: 1.35; color: #fff;
+    }
 
     /* colour lives on .pp-fill::before so the cell itself stays unclipped */
     .pp-mod__lime  { grid-column: 3 / 4; grid-row: 3 / 4; --fill: var(--pp-lime); }
@@ -343,10 +364,17 @@
       .pp-mod__hero { aspect-ratio: 3 / 4; order: 1; }
       .pp-mod__card {
         order: 2; border-right: none; border-bottom: 1px solid var(--pp-line);
-        gap: 40px; padding: 32px 20px; min-height: 240px;
+        width: 100%; height: auto; align-self: auto;
+        gap: 32px; padding: 32px 20px; min-height: 0;
         background: rgba(255,255,255,0.05);
       }
-      .pp-mod__headline { font-size: clamp(30px, 8.5vw, 44px); }
+      .pp-mod__headline { max-width: 12em; font-size: clamp(30px, 8.5vw, 44px); }
+      .pp-mod__hero-meta { grid-template-columns: 1fr; gap: 16px; margin: 0; }
+      .pp-mod__hero-meta dt,
+      .pp-mod__scope dt { font-size: 10px; }
+      .pp-mod__hero-meta dd,
+      .pp-mod__scope dd { font-size: 14px; }
+      .pp-mod__scope { margin-top: 0; }
       .pp-mod__lime  { order: 3; height: 90px; }
       .pp-mod__proj  { order: 4; gap: 28px; padding: 40px 20px; border-bottom: 1px solid var(--pp-line); }
       .pp-mod__olive { order: 5; height: 90px; }
@@ -414,17 +442,23 @@
         </video>
       </div>
 
-      <!-- glass card with logo + headline (col 1, row 2) -->
+      <!-- glass card with product framing and project metadata (col 1, row 2) -->
       <div class="pp-mod__card">
-        <div class="pp-mod__logo">
-          <svg viewBox="0 0 40 40" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="9" cy="9" r="9"/>
-            <rect x="22" y="0" width="18" height="18" rx="4"/>
-            <rect x="0" y="22" width="18" height="18" rx="4"/>
-          </svg>
-          <span>pap pay</span>
-        </div>
-        <h1 class="pp-mod__headline"><span class="accent">Mobile wallet</span><br>for fiat and cryptocurrencies</h1>
+        <dl class="pp-mod__hero-meta">
+          <div class="pp-mod__hero-meta-item">
+            <dt>Role</dt>
+            <dd>Lead Product Designer</dd>
+          </div>
+          <div class="pp-mod__hero-meta-item">
+            <dt>Platform</dt>
+            <dd>iOS / Android</dd>
+          </div>
+        </dl>
+        <h1 class="pp-mod__headline">Mobile <span class="accent">wallet<br>for fiat</span> and <span class="accent">crypto</span><br>transactions</h1>
+        <dl class="pp-mod__scope">
+          <dt>Scope</dt>
+          <dd>Research · UX · UI · Brand direction</dd>
+        </dl>
       </div>
 
       <!-- lime accent (col 3, row 3) -->
