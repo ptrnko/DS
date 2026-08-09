@@ -329,12 +329,26 @@
       display: flex; flex-direction: column; justify-content: space-between;
       padding: clamp(24px, 3vw, 46px);
       /* opaque so the blueprint grid doesn't run through the copy */
-      background: #161F19;
+      background: rgba(217,217,217,0.1);
     }
     .pp-mod__over-body {
       display: flex; flex-direction: column; gap: clamp(12px, 1.4vw, 20px);
       font-weight: 400; font-size: clamp(14px, 1.25vw, 24px); line-height: 1.55;
       color: #fff; letter-spacing: -0.005em;
+    }
+    .pp-mod__info {
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: clamp(24px, 3vw, 46px);
+      background: rgba(45, 57, 7, 0.55);
+    }
+    .pp-mod__info--challenge { grid-column: 1 / 2; grid-row: 5 / 6; }
+    .pp-mod__info--outcome { grid-column: 2 / 3; grid-row: 5 / 6; }
+    .pp-mod__info-text {
+      font-weight: 400;
+      font-size: clamp(15px, 1.35vw, 24px);
+      line-height: 1.45;
+      color: #fff;
+      letter-spacing: -0.01em;
     }
 
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
@@ -401,8 +415,11 @@
       .pp-mod__marquee-text { font-size: clamp(64px, 50cqh, 90px); letter-spacing: -0.035em; }
       .pp-mod__olive { order: 6; height: 90px; }
       .pp-mod__over  { order: 7; padding: 40px 20px; gap: 24px; }
+      .pp-mod__info { gap: 48px; padding: 40px 20px; border-bottom: 1px solid var(--pp-line); }
+      .pp-mod__info--challenge { order: 8; }
+      .pp-mod__info--outcome { order: 9; }
       .pp-mod__label { font-size: 15px; }
-      .pp-mod__meta, .pp-mod__over-body { font-size: 16px; }
+      .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text { font-size: 16px; }
       .pp-gate__form { flex-direction: column; }
       .pp-gate__btn { width: 100%; }
     }
@@ -487,9 +504,9 @@
         <p class="pp-mod__meta">Client: NDA Media Holding<br>Category: App · Crypto · Fintech<br>Year:&nbsp; 2026</p>
       </div>
 
-      <!-- about project marquee (col 2, row 3) -->
-      <div class="pp-mod__marquee" aria-label="About projproject">
-        <span class="pp-mod__marquee-text">About projproject</span>
+      <!-- overview marquee (col 2, row 3) -->
+      <div class="pp-mod__marquee" aria-label="Overview">
+        <span class="pp-mod__marquee-text">Overview</span>
       </div>
 
       <!-- olive accent (col 1, row 5) -->
@@ -502,6 +519,18 @@
           <p>A corporate mobile app that pays employees in crypto. Staff are onboarded through an admin panel where their documents, personal data, and payroll are managed, and salaries are automatically credited to a crypto account.</p>
           <p>Each employee activates their account with credentials provided by the company, tracks their balance, and can convert crypto to dollars directly inside the app.</p>
         </div>
+      </div>
+
+      <!-- challenge (col 1, row 5) -->
+      <div class="pp-mod__info pp-mod__info--challenge">
+        <span class="pp-mod__label pp-mod__label--olive">Challenge</span>
+        <p class="pp-mod__info-text">Design a mobile wallet that makes complex financial operations feel approachable for users with different levels of financial literacy.</p>
+      </div>
+
+      <!-- outcome (col 2, row 5) -->
+      <div class="pp-mod__info pp-mod__info--outcome">
+        <span class="pp-mod__label pp-mod__label--olive">Outcome</span>
+        <p class="pp-mod__info-text">Created a scalable mobile experience covering onboarding, account creation, wallet management and core transaction scenarios.</p>
       </div>
 
     </section>
