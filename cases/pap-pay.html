@@ -243,6 +243,12 @@
       letter-spacing: -0.04em; color: #fff;
     }
     .pp-mod__headline .accent { color: var(--pp-lime); }
+    @media (min-width: 900px) {
+      .pp-mod__headline { font-size: 42px; }
+    }
+    @media (min-width: 900px) and (max-width: 1020px) {
+      .pp-mod__card { padding: 24px 20px; }
+    }
     .pp-mod__hero-meta {
       display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
       gap: clamp(18px, 2.3vw, 32px);
@@ -308,36 +314,6 @@
       color: #fff; letter-spacing: -0.005em;
     }
 
-    /* ---- second block: empty-state phone + accent + big logo mark ---- */
-    /* z-index 6 keeps the blueprint overlay off this block */
-    .pp-mod__screen { grid-column: 1 / 3; grid-row: 6 / 8; overflow: hidden; position: relative; z-index: 6; }
-    .pp-mod__screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    /* day layer sweeps in left → right, then retracts back right → left */
-    .pp-mod__screen .is-day { animation: pp-daywipe 14s var(--ease-standard) infinite; }
-    @keyframes pp-daywipe {
-      0%,  6%   { clip-path: inset(0 100% 0 0); }
-      44%, 56%  { clip-path: inset(0 0 0 0); }
-      94%, 100% { clip-path: inset(0 100% 0 0); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .pp-mod__screen .is-day { animation: none; clip-path: inset(0 100% 0 0); }
-      .pp-mod__mark svg { animation: none; fill: #fff; }
-    }
-    .pp-mod__olive2 { grid-column: 3 / 4; grid-row: 7 / 8; --fill: var(--pp-olive); }
-    .pp-mod__mark {
-      grid-column: 3 / 4; grid-row: 8 / 9;
-      display: flex; align-items: center; justify-content: center;
-    }
-    /* CSS fill overrides the svg's presentation attribute and inherits
-       down to the shapes, so the whole mark recolours as one */
-    .pp-mod__mark svg { width: 45%; height: auto; fill: #fff; animation: pp-mark-color 6s var(--ease-standard) infinite; }
-    @keyframes pp-mark-color {
-      0%,  12%  { fill: #FFFFFF; }
-      30%, 42%  { fill: #8FAE2E; }
-      60%, 72%  { fill: #C7DE3E; }
-      90%, 100% { fill: #FFFFFF; }
-    }
-
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-500) var(--ease-decelerate), transform var(--dur-500) var(--ease-decelerate); }
     .reveal.is-visible { opacity: 1; transform: none; }
@@ -382,7 +358,7 @@
       .pp-mod::before,
       .pp-mod::after { display: none; }
       .pp-mod > * { grid-column: auto; grid-row: auto; }
-      .pp-mod__hero { aspect-ratio: 3 / 4; order: 1; }
+      .pp-mod__hero { aspect-ratio: 1600 / 770; order: 1; }
       .pp-mod__card {
         order: 2; border-right: none; border-bottom: 1px solid var(--pp-line);
         width: 100%; height: auto; align-self: auto;
@@ -402,10 +378,6 @@
       .pp-mod__over  { order: 6; padding: 40px 20px; gap: 24px; }
       .pp-mod__label { font-size: 15px; }
       .pp-mod__meta, .pp-mod__over-body { font-size: 16px; }
-      .pp-mod__screen { order: 7; aspect-ratio: 1 / 1; }
-      .pp-mod__olive2 { order: 8; height: 90px; }
-      .pp-mod__mark   { order: 9; padding: 48px; }
-      .pp-mod__mark svg { width: 84px; }
       .pp-gate__form { flex-direction: column; }
       .pp-gate__btn { width: 100%; }
     }
@@ -500,26 +472,6 @@
           <p>A corporate mobile app that pays employees in crypto. Staff are onboarded through an admin panel where their documents, personal data, and payroll are managed, and salaries are automatically credited to a crypto account.</p>
           <p>Each employee activates their account with credentials provided by the company, tracks their balance, and can convert crypto to dollars directly inside the app.</p>
         </div>
-      </div>
-
-      <!-- empty-state phone (cols 1–2, rows 6–7).
-           Night → day wipes left-to-right on a loop: the same screen in
-           the system's two colour themes. -->
-      <div class="pp-mod__screen">
-        <img loading="lazy" src="../assets/pap-pay/screen-empty.jpg" alt="Pap-Pay app — empty state: zero balance, add card, no transactions" width="1100" height="1024">
-        <img loading="lazy" class="is-day" src="../assets/pap-pay/screen-empty-day.jpg" alt="" aria-hidden="true" width="1100" height="1024">
-      </div>
-
-      <!-- olive accent (col 3, row 7) -->
-      <div class="pp-mod__olive2 pp-fill" aria-hidden="true"></div>
-
-      <!-- big pap-pay mark (col 3, row 8) -->
-      <div class="pp-mod__mark" aria-hidden="true">
-        <svg viewBox="0 0 40 40" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="9" cy="9" r="9"/>
-          <rect x="22" y="0" width="18" height="18" rx="4"/>
-          <rect x="0" y="22" width="18" height="18" rx="4"/>
-        </svg>
       </div>
 
     </section>
