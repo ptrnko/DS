@@ -235,10 +235,11 @@
       background: rgba(14, 27, 24, 0.34);
       backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       border-left: 1px solid var(--pp-line);
+      container-type: inline-size;
     }
     .pp-mod__headline {
       max-width: 10em;
-      font-weight: 800; font-size: 42px; line-height: 1.08;
+      font-weight: 800; font-size: clamp(30px, 8.75cqw, 42px); line-height: 1.08;
       letter-spacing: -0.04em; color: #fff;
     }
     .pp-mod__headline .accent { color: var(--pp-lime); }
@@ -248,22 +249,29 @@
       margin: 0;
     }
     .pp-mod__hero-meta dt {
-      margin-bottom: 6px; font-size: 14px; font-weight: 800;
+      margin-bottom: 6px; font-size: clamp(11px, 2.9cqw, 14px); font-weight: 800;
       letter-spacing: 0; text-transform: uppercase; color: rgba(255,255,255,0.48);
     }
     .pp-mod__hero-meta dd {
-      font-size: 16px; font-weight: 600; line-height: 1.35; color: #fff;
+      font-size: clamp(13px, 3.35cqw, 16px); font-weight: 600; line-height: 1.35; color: #fff;
       white-space: nowrap;
     }
     .pp-mod__scope {
       margin-top: 0;
     }
     .pp-mod__scope dt {
-      margin-bottom: 6px; font-size: 14px; font-weight: 800;
+      margin-bottom: 6px; font-size: clamp(11px, 2.9cqw, 14px); font-weight: 800;
       letter-spacing: 0; text-transform: uppercase; color: rgba(255,255,255,0.48);
     }
     .pp-mod__scope dd {
-      font-size: 16px; font-weight: 600; line-height: 1.35; color: #fff;
+      font-size: clamp(13px, 3.35cqw, 16px); font-weight: 600; line-height: 1.35; color: #fff;
+    }
+    @container (max-width: 360px) {
+      .pp-mod__hero-meta {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .pp-mod__hero-meta dd { white-space: normal; }
     }
 
     /* colour lives on .pp-fill::before so the cell itself stays unclipped */
@@ -381,12 +389,12 @@
         gap: 32px; padding: 32px 20px; min-height: 0;
         background: rgba(255,255,255,0.05);
       }
-      .pp-mod__headline { max-width: 12em; font-size: clamp(30px, 8.5vw, 44px); }
+      .pp-mod__headline { max-width: 12em; font-size: clamp(30px, 8.5vw, 42px); }
       .pp-mod__hero-meta { grid-template-columns: 1fr; gap: 16px; margin: 0; }
       .pp-mod__hero-meta dt,
-      .pp-mod__scope dt { font-size: 10px; }
+      .pp-mod__scope dt { font-size: 12px; }
       .pp-mod__hero-meta dd,
-      .pp-mod__scope dd { font-size: 14px; }
+      .pp-mod__scope dd { font-size: 15px; }
       .pp-mod__scope { margin-top: 0; }
       .pp-mod__lime  { order: 3; height: 90px; }
       .pp-mod__proj  { order: 4; gap: 28px; padding: 40px 20px; border-bottom: 1px solid var(--pp-line); }
