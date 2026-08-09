@@ -118,9 +118,13 @@ body {
   background: var(--alt-page-bg);
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .alt-main {
   min-height: 100vh;
-  padding: 20px 0 48px;
+  padding: 8px 0 48px;
 }
 
 .alt-container {
@@ -140,6 +144,12 @@ body {
   align-items: center;
   justify-content: space-between;
   height: 100%;
+}
+
+.alt-site-header .btn--ghost:hover {
+  background: var(--hero-accent);
+  border-color: var(--hero-accent);
+  color: #050506;
 }
 
 .hero-card {
@@ -255,7 +265,7 @@ body {
 
 .hero-card__content h1 {
   margin: 0;
-  font-family: Raleway, Inter, system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: clamp(32px, 4.0278vw, 72px);
   font-weight: 600;
   line-height: 1.172;
@@ -304,7 +314,7 @@ body {
 
 .about-section__label {
   margin: 0;
-  font-family: Raleway, Inter, system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.167;
@@ -321,7 +331,7 @@ body {
 .about-section__copy h2 {
   margin: 20px 0 0;
   max-width: 845px;
-  font-family: Raleway, Inter, system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 42px;
   font-weight: 600;
   line-height: 1.24;
@@ -331,6 +341,10 @@ body {
 
 .about-section__copy h2 span span {
   color: var(--hero-accent);
+}
+
+.about-section__copy h2 .about-title__white {
+  color: #ffffff;
 }
 
 .about-title__mobile {
@@ -594,7 +608,7 @@ body {
 
 .about-card h3 {
   margin: 30px 0 0;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.35;
@@ -650,14 +664,13 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 54px;
-  align-items: center;
+  column-gap: 32px;
+  align-items: start;
   width: 100%;
-  min-height: 329px;
-  margin-top: 160px;
-  padding: 70px 80px;
-  background: rgba(255, 255, 255, 0.02);
-  overflow: hidden;
+  margin-top: 50px;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
 }
 
 .stats-section__item {
@@ -679,7 +692,7 @@ body {
   display: block;
   margin-top: 28px;
   font-family: Inter, system-ui, sans-serif;
-  font-size: clamp(18px, 1.35vw, 22px);
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.25;
   letter-spacing: 0;
@@ -687,23 +700,24 @@ body {
 }
 
 .stats-section__item p {
-  margin: 24px 0 0;
+  margin: 16px 0 0;
   max-width: 260px;
   font-family: Inter, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.4;
   letter-spacing: 0;
   color: rgba(255, 255, 255, 0.32);
 }
 
 .portfolio-section {
   margin-top: 200px;
+  text-align: center;
 }
 
 .portfolio-section__label {
   margin: 0;
-  font-family: Raleway, Inter, system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 600;
   line-height: 1.167;
@@ -713,12 +727,20 @@ body {
 
 .portfolio-section h2 {
   margin: 20px 0 0;
-  font-family: Raleway, Inter, system-ui, sans-serif;
-  font-size: 36px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 42px;
   font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: 0;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
   color: #ffffff;
+}
+
+.portfolio-heading__white {
+  color: #ffffff;
+}
+
+.portfolio-heading__accent {
+  color: var(--hero-accent);
 }
 
 .portfolio-work-grid {
@@ -726,7 +748,7 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: 32px;
   row-gap: 72px;
-  margin-top: 56px;
+  margin-top: 50px;
 }
 
 .portfolio-work-card {
@@ -760,7 +782,7 @@ body {
 .portfolio-work-card h3 {
   grid-column: 1;
   margin: 8px 0 0;
-  font-family: Raleway, Inter, system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 18px;
   font-weight: 700;
   line-height: 1.3;
@@ -833,7 +855,7 @@ body {
 }
 
 .footer__cta {
-  font-family: Raleway, Inter, system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
 }
 
 @media (hover: none) {
@@ -867,7 +889,7 @@ body {
 
 @media (max-width: 768px) {
   .alt-main {
-    padding: 20px 0 32px;
+    padding: 8px 0 32px;
   }
 
   .alt-container {
@@ -982,13 +1004,12 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 32px 18px;
     min-height: 0;
-    margin-top: 96px;
-    padding: 32px 20px;
+    margin-top: 50px;
+    padding: 0;
     overflow: visible;
   }
 
   .stats-section__item {
-    min-height: 178px;
     padding: 24px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 14px;
@@ -1038,7 +1059,7 @@ body {
   .portfolio-work-grid {
     grid-template-columns: 1fr;
     row-gap: 40px;
-    margin-top: 32px;
+    margin-top: 50px;
   }
 
   .portfolio-work-card {
@@ -1076,10 +1097,6 @@ body {
   .stats-section {
     grid-template-columns: 1fr;
     gap: 18px;
-  }
-
-  .stats-section__item {
-    min-height: 150px;
   }
 }
 
