@@ -63,6 +63,7 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
       padding-top: var(--pp-header-h);   /* clears the fixed header */
+      overflow-x: hidden;
     }
     img, video { display: block; max-width: 100%; }
     a { color: inherit; text-decoration: none; }
@@ -173,7 +174,7 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 25%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 19.3955%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
       background-size: 100% 16.6667%;   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
@@ -183,14 +184,14 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 3080;   /* hero keeps the 1600×770 video ratio */
+      aspect-ratio: 1600 / 3970;   /* 1600×770 hero + 6 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(8, 1fr);
+      grid-template-rows: 19.3955% repeat(6, 1fr);
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 25%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 19.3955%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -198,7 +199,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 25%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 19.3955%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -206,7 +207,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(25% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(19.3955% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -220,7 +221,7 @@
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
 
-    .pp-mod__hero  { grid-column: 1 / 4; grid-row: 1 / 3; overflow: hidden; background: #000; }
+    .pp-mod__hero  { grid-column: 1 / 4; grid-row: 1 / 2; overflow: hidden; background: #000; }
     .pp-mod__hero::after {
       content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 4;
       border-left: 1px solid var(--pp-line);
@@ -229,7 +230,7 @@
     .pp-mod__hero video { width: 100%; height: 100%; object-fit: contain; }
 
     .pp-mod__card {
-      grid-column: 1 / 2; grid-row: 1 / 3; z-index: 3;
+      grid-column: 1 / 2; grid-row: 1 / 2; z-index: 3;
       display: flex; flex-direction: column; justify-content: space-between;
       padding: clamp(28px, 2.7vw, 40px);
       background: rgba(14, 27, 24, 0.34);
@@ -281,8 +282,8 @@
     }
 
     /* colour lives on .pp-fill::before so the cell itself stays unclipped */
-    .pp-mod__lime  { grid-column: 3 / 4; grid-row: 3 / 4; --fill: var(--pp-lime); }
-    .pp-mod__olive { grid-column: 1 / 2; grid-row: 5 / 6; --fill: var(--pp-olive); }
+    .pp-mod__lime  { grid-column: 3 / 4; grid-row: 2 / 3; --fill: var(--pp-lime); }
+    .pp-mod__olive { grid-column: 1 / 2; grid-row: 4 / 5; --fill: var(--pp-olive); }
 
     .pp-mod__label {
       font-weight: 700; font-size: clamp(15px, 1.25vw, 24px);
@@ -292,7 +293,7 @@
     .pp-mod__label--olive { color: var(--pp-olive); opacity: 1; }
 
     .pp-mod__proj {
-      grid-column: 1 / 2; grid-row: 4 / 5;
+      grid-column: 1 / 2; grid-row: 3 / 4;
       display: flex; flex-direction: column; justify-content: space-between;
       padding: clamp(24px, 3vw, 46px);
     }
@@ -300,9 +301,31 @@
       font-weight: 400; font-size: clamp(15px, 1.25vw, 24px); line-height: 1.6;
       color: #fff; letter-spacing: -0.005em;
     }
+    .pp-mod__marquee {
+      grid-column: 2 / 3; grid-row: 3 / 4;
+      display: flex; align-items: center;
+      overflow: hidden;
+      container-type: size;
+    }
+    .pp-mod__marquee-text {
+      display: block;
+      white-space: nowrap;
+      font-size: clamp(96px, 50cqh, 216px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.86);
+      animation: pp-marquee-left 18s linear infinite;
+      will-change: transform;
+    }
+    @keyframes pp-marquee-left {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-110%); }
+    }
 
     .pp-mod__over {
-      grid-column: 2 / 4; grid-row: 5 / 6; z-index: 6; /* above the grid overlay */
+      grid-column: 2 / 4; grid-row: 4 / 5; z-index: 6; /* above the grid overlay */
       display: flex; flex-direction: column; justify-content: space-between;
       padding: clamp(24px, 3vw, 46px);
       /* opaque so the blueprint grid doesn't run through the copy */
@@ -374,8 +397,10 @@
       .pp-mod__scope { margin-top: 0; }
       .pp-mod__lime  { order: 3; height: 90px; }
       .pp-mod__proj  { order: 4; gap: 28px; padding: 40px 20px; border-bottom: 1px solid var(--pp-line); }
-      .pp-mod__olive { order: 5; height: 90px; }
-      .pp-mod__over  { order: 6; padding: 40px 20px; gap: 24px; }
+      .pp-mod__marquee { order: 5; height: clamp(120px, 42vw, 180px); border-bottom: 1px solid var(--pp-line); }
+      .pp-mod__marquee-text { font-size: clamp(64px, 50cqh, 90px); letter-spacing: -0.035em; }
+      .pp-mod__olive { order: 6; height: 90px; }
+      .pp-mod__over  { order: 7; padding: 40px 20px; gap: 24px; }
       .pp-mod__label { font-size: 15px; }
       .pp-mod__meta, .pp-mod__over-body { font-size: 16px; }
       .pp-gate__form { flex-direction: column; }
@@ -462,12 +487,17 @@
         <p class="pp-mod__meta">Client: NDA Media Holding<br>Category: App · Crypto · Fintech<br>Year:&nbsp; 2026</p>
       </div>
 
+      <!-- about project marquee (col 2, row 3) -->
+      <div class="pp-mod__marquee" aria-label="About projproject">
+        <span class="pp-mod__marquee-text">About projproject</span>
+      </div>
+
       <!-- olive accent (col 1, row 5) -->
       <div class="pp-mod__olive pp-fill" aria-hidden="true"></div>
 
       <!-- overview (cols 2–3, row 5) -->
       <div class="pp-mod__over">
-        <span class="pp-mod__label pp-mod__label--olive">Overview</span>
+        <span class="pp-mod__label pp-mod__label--olive">About project</span>
         <div class="pp-mod__over-body">
           <p>A corporate mobile app that pays employees in crypto. Staff are onboarded through an admin panel where their documents, personal data, and payroll are managed, and salaries are automatically credited to a crypto account.</p>
           <p>Each employee activates their account with credentials provided by the company, tracks their balance, and can convert crypto to dollars directly inside the app.</p>
