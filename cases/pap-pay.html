@@ -161,8 +161,7 @@
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
 
     /* ============================================================
-       Modular blueprint grid — 3 cols × 5 module-rows.
-       Faithful to the Figma frame (1440-wide content, ~447px rows).
+       Modular blueprint grid — 3 cols × 10 square module-rows below hero.
        Whole grid holds a fixed ratio so cells scale proportionally.
        ============================================================ */
     /* Only horizontal module lines, extended across the full screen width.
@@ -174,9 +173,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 19.3955%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 12.6157%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% 16.6667%;   /* one line per visible module-row */
+      background-size: 100% 10%;   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -184,14 +183,14 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 3970;   /* 1600×770 hero + 6 square rows */
+      aspect-ratio: 1600 / 6103.333;   /* 1600×770 hero + 10 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 19.3955% repeat(6, 1fr);
+      grid-template-rows: 12.6157% repeat(10, 1fr);
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 19.3955%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 12.6157%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -199,7 +198,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 19.3955%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 12.6157%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -207,7 +206,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(19.3955% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(12.6157% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -216,7 +215,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 6);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 10);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -284,6 +283,7 @@
     /* colour lives on .pp-fill::before so the cell itself stays unclipped */
     .pp-mod__lime  { grid-column: 3 / 4; grid-row: 2 / 3; --fill: var(--pp-lime); }
     .pp-mod__olive { grid-column: 1 / 2; grid-row: 4 / 5; --fill: var(--pp-olive); }
+    .pp-mod__lime--onboarding { grid-column: 2 / 3; grid-row: 10 / 11; --fill: var(--pp-lime); }
 
     .pp-mod__label {
       font-weight: 700; font-size: clamp(15px, 1.25vw, 24px);
@@ -307,8 +307,17 @@
       overflow: hidden;
       container-type: size;
     }
+    .pp-mod__marquee-track {
+      display: flex;
+      width: max-content;
+      animation: pp-marquee-left 18s linear infinite paused;
+      will-change: transform;
+    }
+    .pp-mod__marquee.is-visible .pp-mod__marquee-track { animation-play-state: running; }
     .pp-mod__marquee-text {
       display: block;
+      flex: 0 0 auto;
+      padding-right: 0.18em;
       white-space: nowrap;
       font-size: clamp(96px, 50cqh, 216px);
       font-weight: 800;
@@ -316,12 +325,18 @@
       letter-spacing: -0.04em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.86);
-      animation: pp-marquee-left 18s linear infinite;
-      will-change: transform;
     }
     @keyframes pp-marquee-left {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-110%); }
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .pp-mod__marquee--onboarding {
+      grid-column: 1 / 2;
+      grid-row: 7 / 8;
+    }
+    .pp-mod__marquee--scope {
+      grid-column: 1 / 2;
+      grid-row: 11 / 12;
     }
 
     .pp-mod__over {
@@ -343,12 +358,50 @@
     }
     .pp-mod__info--challenge { grid-column: 1 / 2; grid-row: 5 / 6; }
     .pp-mod__info--outcome { grid-column: 2 / 3; grid-row: 5 / 6; }
+    .pp-mod__info--goal {
+      grid-column: 3 / 4;
+      grid-row: 7 / 9;
+      justify-content: flex-start;
+      gap: clamp(28px, 3vw, 48px);
+      background: transparent;
+    }
+    .pp-mod__goal-body {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(26px, 3vw, 48px);
+    }
     .pp-mod__info-text {
       font-weight: 400;
       font-size: clamp(15px, 1.35vw, 24px);
       line-height: 1.45;
       color: #fff;
       letter-spacing: -0.01em;
+    }
+    .pp-mod__screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: clamp(20px, 2vw, 32px);
+    }
+    .pp-mod__screen img {
+      display: block;
+      width: auto;
+      height: min(100%, 980px);
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .pp-mod__screen--salary {
+      grid-column: 1 / 2;
+      grid-row: 8 / 10;
+    }
+    .pp-mod__screen--dollars {
+      grid-column: 2 / 3;
+      grid-row: 8 / 10;
+    }
+    .pp-mod__screen--warning {
+      grid-column: 3 / 4;
+      grid-row: 9 / 11;
     }
 
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
@@ -418,6 +471,24 @@
       .pp-mod__info { gap: 48px; padding: 40px 20px; border-bottom: 1px solid var(--pp-line); }
       .pp-mod__info--challenge { order: 8; }
       .pp-mod__info--outcome { order: 9; }
+      .pp-mod__marquee--onboarding { order: 10; }
+      .pp-mod__info--goal { order: 11; }
+      .pp-mod__screen {
+        height: auto;
+        min-height: 0;
+        padding: 32px 20px;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__screen img {
+        width: min(100%, 360px);
+        height: auto;
+        max-height: none;
+      }
+      .pp-mod__screen--salary { order: 12; }
+      .pp-mod__screen--dollars { order: 13; }
+      .pp-mod__lime--onboarding { order: 14; height: 90px; }
+      .pp-mod__screen--warning { order: 15; }
+      .pp-mod__marquee--scope { order: 16; }
       .pp-mod__label { font-size: 15px; }
       .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text { font-size: 16px; }
       .pp-gate__form { flex-direction: column; }
@@ -498,7 +569,7 @@
       <!-- lime accent (col 3, row 3) -->
       <div class="pp-mod__lime pp-fill" aria-hidden="true"></div>
 
-      <!-- project (col 1, row 4) -->
+      <!-- project (col 1, row 3) -->
       <div class="pp-mod__proj">
         <span class="pp-mod__label">Project</span>
         <p class="pp-mod__meta">Client: NDA Media Holding<br>Category: App · Crypto · Fintech<br>Year:&nbsp; 2026</p>
@@ -506,13 +577,16 @@
 
       <!-- overview marquee (col 2, row 3) -->
       <div class="pp-mod__marquee" aria-label="Overview">
-        <span class="pp-mod__marquee-text">Overview</span>
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">Overview</span>
+          <span class="pp-mod__marquee-text">Overview</span>
+        </div>
       </div>
 
-      <!-- olive accent (col 1, row 5) -->
+      <!-- olive accent (col 1, row 4) -->
       <div class="pp-mod__olive pp-fill" aria-hidden="true"></div>
 
-      <!-- overview (cols 2–3, row 5) -->
+      <!-- overview (cols 2–3, row 4) -->
       <div class="pp-mod__over">
         <span class="pp-mod__label pp-mod__label--olive">About project</span>
         <div class="pp-mod__over-body">
@@ -531,6 +605,46 @@
       <div class="pp-mod__info pp-mod__info--outcome">
         <span class="pp-mod__label pp-mod__label--olive">Outcome</span>
         <p class="pp-mod__info-text">Created a scalable mobile experience covering onboarding, account creation, wallet management and core transaction scenarios.</p>
+      </div>
+
+      <!-- onboarding marquee (col 1, row 6) -->
+      <div class="pp-mod__marquee pp-mod__marquee--onboarding" aria-label="Onboarding">
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">Onboarding</span>
+          <span class="pp-mod__marquee-text">Onboarding</span>
+        </div>
+      </div>
+
+      <!-- onboarding goal and decision (col 3, rows 7–8) -->
+      <div class="pp-mod__info pp-mod__info--goal">
+        <span class="pp-mod__label pp-mod__label--olive">Onboarding goal &amp; decision</span>
+        <div class="pp-mod__goal-body">
+          <p class="pp-mod__info-text">The onboarding goal was to explain the product value before asking users to create an account.</p>
+          <p class="pp-mod__info-text">We reduced onboarding to three messages focused on user benefits rather than product features.</p>
+        </div>
+      </div>
+
+      <!-- onboarding screens (rows 8–10) -->
+      <figure class="pp-mod__screen pp-mod__screen--salary">
+        <img src="../assets/pap-pay/onboarding-salary.png" alt="Pap-Pay onboarding screen explaining salary in crypto">
+      </figure>
+
+      <figure class="pp-mod__screen pp-mod__screen--dollars">
+        <img src="../assets/pap-pay/onboarding-dollars.png" alt="Pap-Pay onboarding screen explaining crypto to dollars conversion">
+      </figure>
+
+      <div class="pp-mod__lime--onboarding pp-fill" aria-hidden="true"></div>
+
+      <figure class="pp-mod__screen pp-mod__screen--warning">
+        <img src="../assets/pap-pay/onboarding-warning.png" alt="Pap-Pay onboarding screen warning that some transfers cannot be undone">
+      </figure>
+
+      <!-- scope of work marquee (col 1, row 11) -->
+      <div class="pp-mod__marquee pp-mod__marquee--scope" aria-label="Scope of work">
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">Scope of work</span>
+          <span class="pp-mod__marquee-text">Scope of work</span>
+        </div>
       </div>
 
     </section>
@@ -610,6 +724,22 @@
       window.addEventListener('scroll', sweep, { passive: true });
       window.addEventListener('resize', sweep);
       sweep();
+    })();
+
+    /* ---- Start marquee loops only when their square is visible ---- */
+    (function () {
+      var marquees = document.querySelectorAll('.pp-mod__marquee');
+      if (!marquees.length) return;
+      if (!('IntersectionObserver' in window)) {
+        marquees.forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          en.target.classList.toggle('is-visible', en.isIntersecting);
+        });
+      }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+      marquees.forEach(function (el) { io.observe(el); });
     })();
 
     /* ---- Accent blocks: fill scrubbed by scroll position ----
