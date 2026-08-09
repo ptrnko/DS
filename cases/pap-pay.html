@@ -173,9 +173,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 25%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% 12.5%;   /* one line per module-row (8 rows) */
+      background-size: 100% 16.6667%;   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -183,16 +183,22 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1440 / 3576;   /* 8 module-rows of ~447px */
+      aspect-ratio: 1600 / 3080;   /* hero keeps the 1600×770 video ratio */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(8, 1fr);
-      border: 1px solid var(--pp-line);
+      border: none;
+    }
+    .pp-mod::before {
+      content: ""; position: absolute; top: 25%; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 5;
+      border-right: 1px solid var(--pp-line);
+      border-bottom: 1px solid var(--pp-line);
     }
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 25%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -200,29 +206,35 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: 0; bottom: 0;
+      content: ""; position: absolute; top: calc(25% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
-      width: min(100%, 1440px);
+      width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
       background-image:
         radial-gradient(circle at 0 0,       #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: 33.3333% 12.5%;
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 6);
+      background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
 
     .pp-mod__hero  { grid-column: 1 / 4; grid-row: 1 / 3; overflow: hidden; background: #000; }
+    .pp-mod__hero::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 4;
+      border-left: 1px solid var(--pp-line);
+      border-right: 1px solid var(--pp-line);
+    }
     .pp-mod__hero video { width: 100%; height: 100%; object-fit: contain; }
 
     .pp-mod__card {
-      grid-column: 1 / 2; grid-row: 2 / 3; z-index: 3;
+      grid-column: 1 / 2; grid-row: 1 / 3; z-index: 3;
       display: flex; flex-direction: column; justify-content: space-between;
       padding: clamp(28px, 2.7vw, 40px);
       background: rgba(14, 27, 24, 0.34);
       backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-      border-right: 1px solid var(--pp-line);
+      border-left: 1px solid var(--pp-line);
     }
     .pp-mod__headline {
       max-width: 10em;
@@ -359,6 +371,7 @@
       .pp-mod-rails::after,
       .pp-mod-rails::before { display: none; }
       .pp-mod { border: none; }
+      .pp-mod::before,
       .pp-mod::after { display: none; }
       .pp-mod > * { grid-column: auto; grid-row: auto; }
       .pp-mod__hero { aspect-ratio: 3 / 4; order: 1; }
