@@ -161,7 +161,7 @@
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
 
     /* ============================================================
-       Modular blueprint grid — 3 cols × 10 square module-rows below hero.
+       Modular blueprint grid — 3 cols × 14 square module-rows below hero.
        Whole grid holds a fixed ratio so cells scale proportionally.
        ============================================================ */
     /* Only horizontal module lines, extended across the full screen width.
@@ -173,9 +173,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 12.6157%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 9.3482%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% 10%;   /* one line per visible module-row */
+      background-size: 100% 7.1429%;   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -183,14 +183,14 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 6103.333;   /* 1600×770 hero + 10 square rows */
+      aspect-ratio: 1600 / 8236.667;   /* 1600×770 hero + 14 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 12.6157% repeat(10, 1fr);
+      grid-template-rows: 9.3482% repeat(14, 1fr);
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 12.6157%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 9.3482%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -198,7 +198,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 12.6157%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 9.3482%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -206,7 +206,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(12.6157% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(9.3482% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -215,7 +215,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 10);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 14);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -284,6 +284,7 @@
     .pp-mod__lime  { grid-column: 3 / 4; grid-row: 2 / 3; --fill: var(--pp-lime); }
     .pp-mod__olive { grid-column: 1 / 2; grid-row: 4 / 5; --fill: var(--pp-olive); }
     .pp-mod__lime--onboarding { grid-column: 2 / 3; grid-row: 10 / 11; --fill: var(--pp-lime); }
+    .pp-mod__lime--scope { grid-column: 1 / 2; grid-row: 14 / 15; --fill: var(--pp-olive); }
 
     .pp-mod__label {
       font-weight: 700; font-size: clamp(15px, 1.25vw, 24px);
@@ -336,7 +337,7 @@
     }
     .pp-mod__marquee--scope {
       grid-column: 1 / 2;
-      grid-row: 11 / 12;
+      grid-row: 12 / 13;
     }
 
     .pp-mod__over {
@@ -370,6 +371,11 @@
       flex-direction: column;
       gap: clamp(26px, 3vw, 48px);
     }
+    .pp-mod__info--workflow {
+      grid-column: 3 / 4;
+      grid-row: 13 / 14;
+      background: transparent;
+    }
     .pp-mod__info-text {
       font-weight: 400;
       font-size: clamp(15px, 1.35vw, 24px);
@@ -402,6 +408,215 @@
     .pp-mod__screen--warning {
       grid-column: 3 / 4;
       grid-row: 9 / 11;
+    }
+    .pp-mod__mascot {
+      grid-column: 2 / 3;
+      grid-row: 13 / 14;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+      padding: clamp(34px, 4vw, 64px) clamp(24px, 3vw, 48px);
+      background: rgba(217,217,217,0.1);
+    }
+    .pp-mod__mascot img {
+      display: block;
+      width: min(78%, 360px);
+      height: auto;
+    }
+    .pp-mod__logo {
+      grid-column: 3 / 4;
+      grid-row: 14 / 15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(56px, 7vw, 112px);
+    }
+    .pp-mod__logo img {
+      display: block;
+      width: min(84%, 440px);
+      height: auto;
+    }
+    .pp-mod__workflow-timeline {
+      --timeline-rail-x: clamp(46px, 5vw, 76px);
+      --timeline-edge-y: clamp(32px, 4vw, 56px);
+      --timeline-label-size: clamp(13px, 1vw, 18px);
+      --timeline-pill-h: clamp(32px, 3.2vw, 46px);
+      --timeline-pill-gap-y: 15px;
+      --timeline-row-1: 22%;
+      --timeline-row-2: calc(var(--timeline-row-1) + var(--timeline-pill-h) + var(--timeline-pill-gap-y));
+      --timeline-row-3: calc(var(--timeline-row-2) + var(--timeline-pill-h) + var(--timeline-pill-gap-y));
+      --timeline-row-4: calc(var(--timeline-row-3) + var(--timeline-pill-h) + var(--timeline-pill-gap-y));
+      --timeline-row-5: calc(var(--timeline-row-4) + var(--timeline-pill-h) + var(--timeline-pill-gap-y));
+      grid-column: 1 / 4;
+      grid-row: 15 / 16;
+      position: relative;
+      z-index: 9;
+      overflow: hidden;
+      padding: clamp(32px, 4vw, 56px);
+      background: #161616;
+    }
+    .pp-mod__timeline-rails {
+      position: absolute;
+      inset: calc(var(--timeline-edge-y) + (var(--timeline-label-size) * 1.1) + 20px) var(--timeline-rail-x);
+      pointer-events: none;
+      opacity: 0.55;
+    }
+    .pp-mod__timeline-rails::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(90deg, rgba(130,130,130,0.8) 0 1px, transparent 1px);
+      background-size: 8.3333% 100%;
+      background-repeat: repeat-x;
+      mask-image: repeating-linear-gradient(0deg, #000 0 10px, transparent 10px 22px);
+      -webkit-mask-image: repeating-linear-gradient(0deg, #000 0 10px, transparent 10px 22px);
+    }
+    .pp-mod__timeline-stage,
+    .pp-mod__timeline-month {
+      position: absolute;
+      z-index: 2;
+      font-weight: 700;
+      font-size: var(--timeline-label-size);
+      line-height: 1.1;
+      color: rgba(155,163,131,0.5);
+      opacity: 1;
+    }
+    .pp-mod__timeline-stage {
+      top: var(--timeline-edge-y);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .pp-mod__timeline-month {
+      bottom: var(--timeline-edge-y);
+      font-weight: 500;
+    }
+    .pp-mod__timeline-stage--discover,
+    .pp-mod__timeline-month--nov { left: calc(var(--timeline-rail-x) - 20px); }
+    .pp-mod__timeline-stage--develop,
+    .pp-mod__timeline-month--dec { left: 42%; }
+    .pp-mod__timeline-stage--deliver { right: clamp(32px, 4vw, 56px); }
+    .pp-mod__timeline-month--jan { right: clamp(32px, 4vw, 56px); }
+    .pp-mod__timeline-pill {
+      position: absolute;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: var(--timeline-pill-h);
+      padding: 0 25px 0 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        0 18px 45px rgba(0,0,0,0.22);
+      color: #fff;
+      font-size: 16px;
+      line-height: 1;
+      white-space: nowrap;
+      backdrop-filter: blur(18px);
+    }
+    .pp-mod__timeline-dot {
+      position: relative;
+      flex: 0 0 auto;
+      width: clamp(14px, 1.4vw, 22px);
+      height: clamp(14px, 1.4vw, 22px);
+      border-radius: 50%;
+      background: rgba(204,255,48,0.22);
+    }
+    .pp-mod__timeline-dot::after {
+      content: "";
+      position: absolute;
+      inset: 28%;
+      border-radius: 50%;
+      background: var(--pp-lime);
+      box-shadow: 0 0 16px rgba(204,255,48,0.75);
+    }
+    .pp-mod__timeline-pill--audit { left: 7%; top: var(--timeline-row-1); }
+    .pp-mod__timeline-pill--story { left: 13%; top: var(--timeline-row-2); }
+    .pp-mod__timeline-pill--flows { left: 34%; top: var(--timeline-row-2); }
+    .pp-mod__timeline-pill--wireframes { left: 38%; top: var(--timeline-row-3); }
+    .pp-mod__timeline-pill--hi-fi { left: 45%; top: var(--timeline-row-4); }
+    .pp-mod__timeline-pill--wireframes,
+    .pp-mod__timeline-pill--hi-fi { padding-right: 85px; }
+    .pp-mod__timeline-pill--prototype { left: 66%; top: var(--timeline-row-5); }
+    .pp-mod__timeline-pill--testing { right: 7%; top: var(--timeline-row-5); }
+    .pp-mod__timeline-pair {
+      position: absolute;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pp-mod__timeline-pair--mapping { left: 13%; top: var(--timeline-row-2); }
+    .pp-mod__timeline-pair--testing { left: 66%; top: var(--timeline-row-5); }
+    .pp-mod__timeline-pair .pp-mod__timeline-pill {
+      position: relative;
+      left: auto;
+      right: auto;
+      top: auto;
+    }
+
+    @media (min-width: 901px) and (max-width: 1180px) {
+      .pp-mod__workflow-timeline {
+        --timeline-edge-y: clamp(26px, 3vw, 38px);
+        --timeline-rail-x: clamp(38px, 4vw, 54px);
+        --timeline-pill-h: clamp(32px, 3vw, 38px);
+        --timeline-pill-gap-y: 12px;
+        --timeline-row-1: 20%;
+        padding: clamp(26px, 3vw, 40px);
+      }
+      .pp-mod__timeline-pill {
+        font-size: 14px;
+        padding: 0 20px 0 12px;
+      }
+      .pp-mod__timeline-pill--wireframes,
+      .pp-mod__timeline-pill--hi-fi { padding-right: 52px; }
+      .pp-mod__timeline-pill--audit { left: 5%; }
+      .pp-mod__timeline-pair--mapping { left: 12%; }
+      .pp-mod__timeline-pill--wireframes { left: 40%; }
+      .pp-mod__timeline-pill--hi-fi { left: 47%; }
+      .pp-mod__timeline-pair--testing { left: 63%; }
+      .pp-mod__timeline-stage--deliver,
+      .pp-mod__timeline-month--jan { right: clamp(24px, 3vw, 40px); }
+    }
+
+    @media (min-width: 769px) and (max-width: 900px) {
+      .pp-mod__workflow-timeline {
+        --timeline-edge-y: 22px;
+        --timeline-rail-x: 30px;
+        --timeline-label-size: 11px;
+        --timeline-pill-h: 30px;
+        --timeline-pill-gap-y: 10px;
+        --timeline-row-1: 18%;
+        padding: 22px;
+      }
+      .pp-mod__timeline-rails {
+        inset: calc(var(--timeline-edge-y) + (var(--timeline-label-size) * 1.1) + 18px) var(--timeline-rail-x) calc(var(--timeline-edge-y) + 22px);
+      }
+      .pp-mod__timeline-rails::before { background-size: 12.5% 100%; }
+      .pp-mod__timeline-pill {
+        gap: 8px;
+        font-size: 12px;
+        padding: 0 14px 0 10px;
+      }
+      .pp-mod__timeline-dot {
+        width: 13px;
+        height: 13px;
+      }
+      .pp-mod__timeline-pill--wireframes,
+      .pp-mod__timeline-pill--hi-fi { padding-right: 24px; }
+      .pp-mod__timeline-stage--discover,
+      .pp-mod__timeline-month--nov { left: 22px; }
+      .pp-mod__timeline-stage--develop,
+      .pp-mod__timeline-month--dec { left: 41%; }
+      .pp-mod__timeline-stage--deliver,
+      .pp-mod__timeline-month--jan { right: 22px; }
+      .pp-mod__timeline-pill--audit { left: 5%; }
+      .pp-mod__timeline-pair--mapping { left: 13%; gap: 8px; }
+      .pp-mod__timeline-pill--wireframes { left: 40%; }
+      .pp-mod__timeline-pill--hi-fi { left: 45%; }
+      .pp-mod__timeline-pair--testing { left: 60%; gap: 8px; }
     }
 
     /* ---- reveal — entering elements use decelerate + 500ms ---- */
@@ -489,6 +704,67 @@
       .pp-mod__lime--onboarding { order: 14; height: 90px; }
       .pp-mod__screen--warning { order: 15; }
       .pp-mod__marquee--scope { order: 16; }
+      .pp-mod__mascot {
+        order: 17;
+        min-height: 320px;
+        padding: 40px 20px 0;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__mascot img { width: min(78%, 300px); }
+      .pp-mod__info--workflow { order: 18; }
+      .pp-mod__lime--scope { order: 19; height: 90px; }
+      .pp-mod__logo {
+        order: 20;
+        min-height: 220px;
+        padding: 48px 20px;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__logo img { width: min(76%, 320px); }
+      .pp-mod__workflow-timeline {
+        order: 21;
+        min-height: 560px;
+        padding: 32px 20px;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__timeline-rails {
+        inset: 72px 28px 64px;
+      }
+      .pp-mod__timeline-rails::before { background-size: 25% 100%; }
+      .pp-mod__timeline-stage {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        display: block;
+        margin-bottom: 18px;
+      }
+      .pp-mod__timeline-stage--develop,
+      .pp-mod__timeline-stage--deliver,
+      .pp-mod__timeline-month { display: none; }
+      .pp-mod__timeline-pill {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        width: fit-content;
+        max-width: 100%;
+        min-height: 36px;
+        padding: 0 20px 0 12px;
+        margin-top: 15px;
+        white-space: normal;
+        line-height: 1.2;
+      }
+      .pp-mod__timeline-pill--wireframes,
+      .pp-mod__timeline-pill--hi-fi { padding-right: 20px; }
+      .pp-mod__timeline-pair {
+        position: relative;
+        left: auto;
+        top: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
       .pp-mod__label { font-size: 15px; }
       .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text { font-size: 16px; }
       .pp-gate__form { flex-direction: column; }
@@ -646,6 +922,42 @@
           <span class="pp-mod__marquee-text">Scope of work</span>
         </div>
       </div>
+
+      <figure class="pp-mod__mascot">
+        <img src="../assets/pap-pay/mascot.png" alt="Pap-Pay mascot">
+      </figure>
+
+      <div class="pp-mod__info pp-mod__info--workflow">
+        <span class="pp-mod__label pp-mod__label--olive">Discovery workflow</span>
+        <p class="pp-mod__info-text">Turning product requirements into clear user flows, interaction logic, and design priorities — creating a solid foundation for the final experience.</p>
+      </div>
+
+      <div class="pp-mod__lime--scope pp-fill" aria-hidden="true"></div>
+
+      <figure class="pp-mod__logo">
+        <img src="../assets/pap-pay/geo-icon.svg" alt="Pap-Pay logo mark">
+      </figure>
+
+      <section class="pp-mod__workflow-timeline" aria-label="Pap-Pay workflow timeline">
+        <div class="pp-mod__timeline-rails" aria-hidden="true"></div>
+        <span class="pp-mod__timeline-stage pp-mod__timeline-stage--discover">Discover &amp; Define</span>
+        <span class="pp-mod__timeline-stage pp-mod__timeline-stage--develop">Develop &amp; Deliver</span>
+        <span class="pp-mod__timeline-stage pp-mod__timeline-stage--deliver">Deliver &amp; Testing</span>
+        <span class="pp-mod__timeline-month pp-mod__timeline-month--nov">November</span>
+        <span class="pp-mod__timeline-month pp-mod__timeline-month--dec">December</span>
+        <span class="pp-mod__timeline-month pp-mod__timeline-month--jan">January</span>
+        <span class="pp-mod__timeline-pill pp-mod__timeline-pill--audit"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>UX Audit</span>
+        <div class="pp-mod__timeline-pair pp-mod__timeline-pair--mapping">
+          <span class="pp-mod__timeline-pill pp-mod__timeline-pill--story"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>Story mapping</span>
+          <span class="pp-mod__timeline-pill pp-mod__timeline-pill--flows"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>User Flows</span>
+        </div>
+        <span class="pp-mod__timeline-pill pp-mod__timeline-pill--wireframes"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>Wireframes</span>
+        <span class="pp-mod__timeline-pill pp-mod__timeline-pill--hi-fi"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>High-fidelity designs</span>
+        <div class="pp-mod__timeline-pair pp-mod__timeline-pair--testing">
+          <span class="pp-mod__timeline-pill pp-mod__timeline-pill--prototype"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>Interactive prototype</span>
+          <span class="pp-mod__timeline-pill pp-mod__timeline-pill--testing"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>UI testing</span>
+        </div>
+      </section>
 
     </section>
     </div>
