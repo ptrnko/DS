@@ -173,9 +173,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 5.4597%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 4.9034%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% 4%;   /* one line per visible module-row */
+      background-size: 100% calc(100% / 28);   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -183,14 +183,14 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 14103.333;   /* 1600×770 hero + 25 square rows */
+      aspect-ratio: 1600 / 15703.333;   /* 1600×770 hero + 28 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 5.4597% repeat(25, 1fr);
+      grid-template-rows: 4.9034% repeat(28, 1fr);
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 5.4597%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 4.9034%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -198,7 +198,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 5.4597%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 4.9034%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -206,7 +206,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(5.4597% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(4.9034% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -215,7 +215,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 25);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 28);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -347,6 +347,10 @@
       grid-column: 1 / 2;
       grid-row: 23 / 24;
     }
+    .pp-mod__marquee--mascot {
+      grid-column: 1 / 2;
+      grid-row: 28 / 29;
+    }
 
     .pp-mod__over {
       grid-column: 2 / 4; grid-row: 4 / 5; z-index: 6; /* above the grid overlay */
@@ -388,6 +392,16 @@
       grid-column: 1 / 2;
       grid-row: 17 / 18;
       background: transparent;
+    }
+    .pp-mod__info--mascot {
+      grid-column: 3 / 4;
+      grid-row: 28 / 29;
+      background: rgba(217,217,217,0.1);
+    }
+    .pp-mod__info--mascot-points {
+      grid-column: 2 / 3;
+      grid-row: 29 / 30;
+      background: rgba(217,217,217,0.1);
     }
     .pp-mod__info-text {
       font-weight: 400;
@@ -971,6 +985,12 @@
         background: rgba(217,217,217,0.1);
       }
       .pp-mod__reg-mascot img { width: min(82%, 300px); }
+      .pp-mod__marquee--mascot { order: 35; }
+      .pp-mod__info--mascot { order: 36; }
+      .pp-mod__info--mascot-points {
+        order: 37;
+        gap: 24px;
+      }
       .pp-mod__timeline-rails {
         inset: 150px var(--timeline-mobile-edge) 162px;
       }
@@ -1311,6 +1331,23 @@
       <figure class="pp-mod__reg-mascot">
         <img src="../assets/pap-pay/mascot-question.png" alt="Pap-Pay mascot">
       </figure>
+
+      <div class="pp-mod__marquee pp-mod__marquee--mascot" aria-label="Mascot">
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">Mascot</span>
+          <span class="pp-mod__marquee-text">Mascot</span>
+        </div>
+      </div>
+
+      <article class="pp-mod__info pp-mod__info--mascot">
+        <span class="pp-mod__label pp-mod__label--olive">Why a mascot?</span>
+        <p class="pp-mod__info-text">A custom mascot was introduced as part of the product’s visual language to make financial interactions feel more approachable, memorable, and human.</p>
+      </article>
+
+      <article class="pp-mod__info pp-mod__info--mascot-points">
+        <span class="pp-mod__label pp-mod__label--olive">Mascot value</span>
+        <p class="pp-mod__info-text">The mascot guides users through onboarding, communicates key product states, and adds warmth to an otherwise functional financial experience.</p>
+      </article>
 
     </section>
     </div>
