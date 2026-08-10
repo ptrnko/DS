@@ -161,7 +161,7 @@
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
 
     /* ============================================================
-       Modular blueprint grid — 3 cols × 19 square module-rows below hero.
+       Modular blueprint grid — 3 cols × 25 square module-rows below hero.
        Whole grid holds a fixed ratio so cells scale proportionally.
        ============================================================ */
     /* Only horizontal module lines, extended across the full screen width.
@@ -173,9 +173,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 7.0621%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 5.4597%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% 5.2632%;   /* one line per visible module-row */
+      background-size: 100% 4%;   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -183,14 +183,14 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 10903.333;   /* 1600×770 hero + 19 square rows */
+      aspect-ratio: 1600 / 14103.333;   /* 1600×770 hero + 25 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 7.0621% repeat(19, 1fr);
+      grid-template-rows: 5.4597% repeat(25, 1fr);
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 7.0621%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 5.4597%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -198,7 +198,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 7.0621%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 5.4597%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -206,7 +206,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(7.0621% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(5.4597% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -215,7 +215,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 19);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 25);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -343,6 +343,10 @@
       grid-column: 3 / 4;
       grid-row: 19 / 20;
     }
+    .pp-mod__marquee--registration {
+      grid-column: 1 / 2;
+      grid-row: 23 / 24;
+    }
 
     .pp-mod__over {
       grid-column: 2 / 4; grid-row: 4 / 5; z-index: 6; /* above the grid overlay */
@@ -439,7 +443,7 @@
       background: rgba(217,217,217,0.1);
     }
     .pp-mod__mascot--thinking img {
-      width: min(72%, 340px);
+      width: min(92%, 510px);
     }
     .pp-mod__logo {
       grid-column: 3 / 4;
@@ -529,6 +533,91 @@
     }
     .pp-mod__quote--dark .pp-mod__quote-text {
       max-width: 100%;
+    }
+    .pp-mod__interview-guide {
+      grid-column: 1 / 3;
+      grid-row: 21 / 22;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(24px, 3vw, 46px);
+      background: #f5f5f2;
+      color: #1f201c;
+      z-index: 6;
+    }
+    .pp-mod__interview-guide .pp-mod__label {
+      color: #6f765f;
+      opacity: 1;
+    }
+    .pp-mod__interview-body {
+      max-width: 46em;
+      font-weight: 400;
+      font-size: clamp(15px, 1.35vw, 24px);
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+    }
+    .pp-mod__interview-body p {
+      margin: 0 0 clamp(18px, 2vw, 32px);
+    }
+    .pp-mod__interview-body ol {
+      margin: 0;
+      padding-left: 1.35em;
+    }
+    .pp-mod__interview-body li + li {
+      margin-top: 0.2em;
+    }
+    .pp-mod__reg-screen,
+    .pp-mod__reg-mascot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 6;
+    }
+    .pp-mod__reg-screen img,
+    .pp-mod__reg-mascot img {
+      display: block;
+      width: auto;
+      height: auto;
+    }
+    .pp-mod__reg-screen img {
+      height: min(100%, 980px);
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .pp-mod__reg-screen--login {
+      grid-column: 1 / 2;
+      grid-row: 24 / 26;
+      align-items: flex-start;
+      padding: clamp(28px, 3vw, 46px) 0;
+    }
+    .pp-mod__reg-screen--phone {
+      grid-column: 2 / 3;
+      grid-row: 24 / 26;
+      align-items: flex-start;
+      padding: clamp(28px, 3vw, 46px) 0;
+    }
+    .pp-mod__reg-screen--signup {
+      grid-column: 3 / 4;
+      grid-row: 23 / 25;
+      align-items: flex-start;
+      padding: clamp(24px, 2.5vw, 40px) 0;
+    }
+    .pp-mod__reg-screen--verify {
+      grid-column: 3 / 4;
+      grid-row: 25 / 27;
+      align-items: flex-start;
+      padding: clamp(24px, 2.5vw, 40px) 0;
+    }
+    .pp-mod__reg-mascot {
+      grid-column: 1 / 2;
+      grid-row: 26 / 27;
+      align-items: flex-end;
+      padding: clamp(24px, 3vw, 42px);
+      background: rgba(217,217,217,0.1);
+    }
+    .pp-mod__reg-mascot img {
+      width: min(86%, 380px);
     }
     .pp-mod__timeline-rails {
       position: absolute;
@@ -853,8 +942,35 @@
         padding: 40px 20px 0;
         border-bottom: 1px solid var(--pp-line);
       }
-      .pp-mod__mascot--thinking img { width: min(72%, 280px); }
+      .pp-mod__mascot--thinking img { width: min(92%, 420px); }
       .pp-mod__quote--dark { order: 27; }
+      .pp-mod__interview-guide {
+        order: 28;
+        min-height: 420px;
+        padding: 40px 20px;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__marquee--registration { order: 29; }
+      .pp-mod__reg-screen,
+      .pp-mod__reg-mascot {
+        min-height: 360px;
+        padding: 32px 20px;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__reg-screen img {
+        width: min(100%, 360px);
+        height: auto;
+        max-height: none;
+      }
+      .pp-mod__reg-screen--signup { order: 30; }
+      .pp-mod__reg-screen--login { order: 31; }
+      .pp-mod__reg-screen--phone { order: 32; }
+      .pp-mod__reg-screen--verify { order: 33; }
+      .pp-mod__reg-mascot {
+        order: 34;
+        background: rgba(217,217,217,0.1);
+      }
+      .pp-mod__reg-mascot img { width: min(82%, 300px); }
       .pp-mod__timeline-rails {
         inset: 150px var(--timeline-mobile-edge) 162px;
       }
@@ -927,7 +1043,7 @@
         display: contents;
       }
       .pp-mod__label { font-size: 15px; }
-      .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text, .pp-mod__quote-text { font-size: 16px; }
+      .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text, .pp-mod__quote-text, .pp-mod__interview-body { font-size: 16px; }
       .pp-gate__form { flex-direction: column; }
       .pp-gate__btn { width: 100%; }
     }
@@ -1155,6 +1271,46 @@
         </div>
         <p class="pp-mod__quote-text">“Managing my salary in cryptocurrency has been quite challenging. I often struggle to understand how to use it effectively, and most apps feel complicated and overwhelming to me.”</p>
       </article>
+
+      <section class="pp-mod__interview-guide" aria-label="User interviews">
+        <span class="pp-mod__label">User interviews</span>
+        <div class="pp-mod__interview-body">
+          <p>Qualitative market research questions are the most effective interviews to understand how your target demographic thinks, feels, and why they make certain choices.</p>
+          <ol>
+            <li>How do you withdraw your salary from cryptocurrency?</li>
+            <li>Share your experience with cryptocurrency wallets.</li>
+            <li>What is the most challenging aspect for you when transferring cryptocurrency?</li>
+            <li>What apps do you use to withdraw cryptocurrency?</li>
+          </ol>
+        </div>
+      </section>
+
+      <div class="pp-mod__marquee pp-mod__marquee--registration" aria-label="Registration">
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">Registration</span>
+          <span class="pp-mod__marquee-text">Registration</span>
+        </div>
+      </div>
+
+      <figure class="pp-mod__reg-screen pp-mod__reg-screen--login">
+        <img src="../assets/pap-pay/registration-login.png" alt="Pap-Pay login screen">
+      </figure>
+
+      <figure class="pp-mod__reg-screen pp-mod__reg-screen--phone">
+        <img src="../assets/pap-pay/registration-phone.png" alt="Pap-Pay phone number login screen">
+      </figure>
+
+      <figure class="pp-mod__reg-screen pp-mod__reg-screen--signup">
+        <img src="../assets/pap-pay/registration-signup.png" alt="Pap-Pay sign up screen">
+      </figure>
+
+      <figure class="pp-mod__reg-screen pp-mod__reg-screen--verify">
+        <img src="../assets/pap-pay/registration-verify.png" alt="Pap-Pay two-factor authentication screen">
+      </figure>
+
+      <figure class="pp-mod__reg-mascot">
+        <img src="../assets/pap-pay/mascot-question.png" alt="Pap-Pay mascot">
+      </figure>
 
     </section>
     </div>
