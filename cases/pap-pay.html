@@ -161,7 +161,7 @@
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
 
     /* ============================================================
-       Modular blueprint grid — 3 cols × 14 square module-rows below hero.
+       Modular blueprint grid — 3 cols × 19 square module-rows below hero.
        Whole grid holds a fixed ratio so cells scale proportionally.
        ============================================================ */
     /* Only horizontal module lines, extended across the full screen width.
@@ -173,9 +173,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 9.3482%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 7.0621%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% 7.1429%;   /* one line per visible module-row */
+      background-size: 100% 5.2632%;   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -183,14 +183,14 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 8236.667;   /* 1600×770 hero + 14 square rows */
+      aspect-ratio: 1600 / 10903.333;   /* 1600×770 hero + 19 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 9.3482% repeat(14, 1fr);
+      grid-template-rows: 7.0621% repeat(19, 1fr);
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 9.3482%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 7.0621%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -198,7 +198,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 9.3482%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 7.0621%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -206,7 +206,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(9.3482% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(7.0621% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -215,7 +215,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 14);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 19);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -299,7 +299,7 @@
       padding: clamp(24px, 3vw, 46px);
     }
     .pp-mod__meta {
-      font-weight: 400; font-size: clamp(15px, 1.25vw, 24px); line-height: 1.6;
+      font-weight: 400; font-size: clamp(15px, 1.35vw, 24px); line-height: 1.45;
       color: #fff; letter-spacing: -0.005em;
     }
     .pp-mod__marquee {
@@ -339,6 +339,10 @@
       grid-column: 1 / 2;
       grid-row: 12 / 13;
     }
+    .pp-mod__marquee--interviews {
+      grid-column: 3 / 4;
+      grid-row: 19 / 20;
+    }
 
     .pp-mod__over {
       grid-column: 2 / 4; grid-row: 4 / 5; z-index: 6; /* above the grid overlay */
@@ -349,7 +353,7 @@
     }
     .pp-mod__over-body {
       display: flex; flex-direction: column; gap: clamp(12px, 1.4vw, 20px);
-      font-weight: 400; font-size: clamp(14px, 1.25vw, 24px); line-height: 1.55;
+      font-weight: 400; font-size: clamp(15px, 1.35vw, 24px); line-height: 1.45;
       color: #fff; letter-spacing: -0.005em;
     }
     .pp-mod__info {
@@ -374,6 +378,11 @@
     .pp-mod__info--workflow {
       grid-column: 3 / 4;
       grid-row: 13 / 14;
+      background: transparent;
+    }
+    .pp-mod__info--empathize {
+      grid-column: 1 / 2;
+      grid-row: 17 / 18;
       background: transparent;
     }
     .pp-mod__info-text {
@@ -424,6 +433,14 @@
       width: min(78%, 360px);
       height: auto;
     }
+    .pp-mod__mascot--thinking {
+      grid-column: 2 / 3;
+      grid-row: 20 / 21;
+      background: rgba(217,217,217,0.1);
+    }
+    .pp-mod__mascot--thinking img {
+      width: min(72%, 340px);
+    }
     .pp-mod__logo {
       grid-column: 3 / 4;
       grid-row: 14 / 15;
@@ -455,6 +472,63 @@
       overflow: hidden;
       padding: clamp(32px, 4vw, 56px);
       background: #161616;
+    }
+    .pp-mod__login-hand {
+      grid-column: 2 / 4;
+      grid-row: 16 / 18;
+      overflow: hidden;
+      background: var(--pp-lime);
+    }
+    .pp-mod__login-hand img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .pp-mod__quote {
+      grid-column: 1 / 2;
+      grid-row: 19 / 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(24px, 3vw, 46px);
+      background: #f5f5f2;
+      color: #1f201c;
+      z-index: 6;
+    }
+    .pp-mod__quote-person {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      font-size: clamp(13px, 1.2vw, 20px);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #6f765f;
+    }
+    .pp-mod__quote-person img {
+      width: clamp(26px, 2.4vw, 38px);
+      height: clamp(26px, 2.4vw, 38px);
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .pp-mod__quote-text {
+      margin: 0;
+      max-width: 100%;
+      font-weight: 400;
+      font-size: clamp(15px, 1.35vw, 24px);
+      line-height: 1.45;
+      letter-spacing: -0.02em;
+    }
+    .pp-mod__quote--dark {
+      grid-column: 3 / 4;
+      grid-row: 20 / 21;
+      background: transparent;
+      color: #fff;
+    }
+    .pp-mod__quote--dark .pp-mod__quote-text {
+      max-width: 100%;
     }
     .pp-mod__timeline-rails {
       position: absolute;
@@ -758,6 +832,29 @@
         padding: 0;
         border-bottom: 1px solid var(--pp-line);
       }
+      .pp-mod__login-hand {
+        order: 22;
+        aspect-ratio: 1 / 1;
+        min-height: 0;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__info--empathize { order: 23; }
+      .pp-mod__marquee--interviews { order: 24; }
+      .pp-mod__quote {
+        order: 25;
+        min-height: 360px;
+        padding: 40px 20px;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__quote-text { font-size: 16px; }
+      .pp-mod__mascot--thinking {
+        order: 26;
+        min-height: 320px;
+        padding: 40px 20px 0;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__mascot--thinking img { width: min(72%, 280px); }
+      .pp-mod__quote--dark { order: 27; }
       .pp-mod__timeline-rails {
         inset: 150px var(--timeline-mobile-edge) 162px;
       }
@@ -830,7 +927,7 @@
         display: contents;
       }
       .pp-mod__label { font-size: 15px; }
-      .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text { font-size: 16px; }
+      .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text, .pp-mod__quote-text { font-size: 16px; }
       .pp-gate__form { flex-direction: column; }
       .pp-gate__btn { width: 100%; }
     }
@@ -1022,6 +1119,42 @@
           <span class="pp-mod__timeline-pill pp-mod__timeline-pill--testing"><span class="pp-mod__timeline-dot" aria-hidden="true"></span>UI testing</span>
         </div>
       </section>
+
+      <figure class="pp-mod__login-hand">
+        <img src="../assets/pap-pay/login-hand.jpg" alt="Pap-Pay login screen in hand">
+      </figure>
+
+      <div class="pp-mod__info pp-mod__info--empathize">
+        <span class="pp-mod__label pp-mod__label--olive">Empathize phase</span>
+        <p class="pp-mod__info-text">Twelve participants aged between 21 and 52 years took part in the survey.</p>
+      </div>
+
+      <article class="pp-mod__quote">
+        <div class="pp-mod__quote-person">
+          <img src="../assets/pap-pay/user-alex-johnson.jpg" alt="">
+          <span>Alex Johnson</span>
+        </div>
+        <p class="pp-mod__quote-text">“My salary is paid in cryptocurrency, so I had to use third-party services to convert it to USD myself.”</p>
+      </article>
+
+      <div class="pp-mod__marquee pp-mod__marquee--interviews" aria-label="User interviews insights">
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">User interviews insights</span>
+          <span class="pp-mod__marquee-text">User interviews insights</span>
+        </div>
+      </div>
+
+      <figure class="pp-mod__mascot pp-mod__mascot--thinking">
+        <img src="../assets/pap-pay/mascot-thinking.png" alt="Pap-Pay mascot thinking">
+      </figure>
+
+      <article class="pp-mod__quote pp-mod__quote--dark">
+        <div class="pp-mod__quote-person">
+          <img src="../assets/pap-pay/user-lusi-folker.png" alt="">
+          <span>Lusi Folker</span>
+        </div>
+        <p class="pp-mod__quote-text">“Managing my salary in cryptocurrency has been quite challenging. I often struggle to understand how to use it effectively, and most apps feel complicated and overwhelming to me.”</p>
+      </article>
 
     </section>
     </div>
