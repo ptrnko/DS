@@ -129,34 +129,6 @@
     .pp-media__ph-label { font-size: 14px; color: var(--pp-text); font-weight: 600; }
     .pp-media__ph-spec  { font-family: var(--pp-num); font-size: 12px; color: var(--pp-dim); }
 
-    /* ============================================================
-       WIP gate — soft, client-side password overlay.
-       NOTE: static site; this hides the page from casual visitors,
-       it is not real security (the source is public).
-       ============================================================ */
-    .pp-locked { overflow: hidden; }
-    .pp-gate {
-      position: fixed; inset: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: center; padding: 24px;
-      background: radial-gradient(120% 80% at 78% 18%, var(--pp-lime-dim), transparent 55%), var(--pp-bg);
-    }
-    .pp-gate[hidden] { display: none; }
-    .pp-gate__card { width: 100%; max-width: 440px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-    .pp-gate__badge { font-family: var(--pp-num); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pp-lime); border: 1px solid var(--pp-border); border-radius: 999px; padding: 6px 14px; }
-    .pp-gate__title { font-size: clamp(26px, 5vw, 36px); font-weight: 800; letter-spacing: -0.02em; color: var(--pp-text); line-height: 1.1; }
-    .pp-gate__form { display: flex; gap: 10px; width: 100%; margin-top: 6px; }
-    .pp-gate__input { flex: 1; padding: 13px 16px; border-radius: 12px; background: var(--pp-surface); border: 1px solid var(--pp-border); color: var(--pp-text); font-family: var(--pp-num); font-size: 16px; letter-spacing: 0.12em; outline: none; transition: border-color var(--dur-200) var(--ease-standard); }
-    .pp-gate__input:focus { border-color: var(--pp-lime); }
-    .pp-gate__btn { padding: 13px 22px; border-radius: 12px; border: none; cursor: pointer; background: var(--pp-lime); color: #0A140E; font-weight: 700; font-size: 15px; font-family: var(--pp-sans); transition: transform var(--dur-100) var(--ease-standard), opacity var(--dur-200) var(--ease-standard); }
-    .pp-gate__btn:hover { opacity: 0.9; }
-    .pp-gate__btn:active { transform: scale(0.97); }
-    .pp-gate__err { min-height: 18px; font-size: 13px; color: var(--pp-danger); opacity: 0; }
-    .pp-gate.is-error .pp-gate__err { opacity: 1; }
-    /* error feedback faster than the rest, per motion tokens (accelerate) */
-    .pp-gate.is-error .pp-gate__card { animation: pp-shake var(--dur-200) var(--ease-accelerate); }
-    @keyframes pp-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-    .pp-gate__foot { margin-top: 6px; font-size: 12px; color: var(--pp-dim); }
-
     /* ---- footer ---- */
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
 
@@ -1102,28 +1074,10 @@
       }
       .pp-mod__label { font-size: 15px; }
       .pp-mod__meta, .pp-mod__over-body, .pp-mod__info-text, .pp-mod__quote-text, .pp-mod__interview-body { font-size: 16px; }
-      .pp-gate__form { flex-direction: column; }
-      .pp-gate__btn { width: 100%; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ============================================================
-       WIP GATE — soft client-side password overlay
-       ============================================================ -->
-  <div class="pp-gate" id="pp-gate" role="dialog" aria-modal="true" aria-label="Work in progress">
-    <div class="pp-gate__card">
-      <span class="pp-gate__badge">Work in progress</span>
-      <h2 class="pp-gate__title">This case is still in&nbsp;development</h2>
-      <form class="pp-gate__form" id="pp-gate-form" autocomplete="off">
-        <input class="pp-gate__input" id="pp-gate-input" type="password" inputmode="numeric" placeholder="Password" aria-label="Password">
-        <button class="pp-gate__btn" type="submit">Unlock</button>
-      </form>
-      <div class="pp-gate__err" id="pp-gate-err" role="alert">Wrong password — try again.</div>
-      <div class="pp-gate__foot">Pap-Pay · internal product under NDA</div>
-    </div>
-  </div>
 
   <!-- HEADER -->
   <header class="pp-header">
@@ -1417,43 +1371,6 @@
   </footer>
 
   <script>
-    /* ---- WIP soft gate (client-side; not real security) ---- */
-    (function () {
-      var HASH = '322ac9c5f39fcb8a5cf2d3ad558913ad6b056d8093c50704dda0215ee11c2a3a';
-      var KEY = 'pp-unlocked';
-      var gate = document.getElementById('pp-gate');
-      if (!gate) return;
-      var form = document.getElementById('pp-gate-form');
-      var input = document.getElementById('pp-gate-input');
-      var root = document.documentElement;
-
-      function unlock() {
-        gate.setAttribute('hidden', '');
-        root.classList.remove('pp-locked');
-        try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
-      }
-      // already unlocked this session → skip
-      try { if (sessionStorage.getItem(KEY) === '1') { gate.setAttribute('hidden', ''); return; } } catch (e) {}
-
-      root.classList.add('pp-locked');
-      setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
-
-      async function sha256(s) {
-        var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-        return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-      }
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        sha256((input.value || '').trim()).then(function (h) {
-          if (h === HASH) { unlock(); }
-          else {
-            gate.classList.remove('is-error'); void gate.offsetWidth; gate.classList.add('is-error');
-            input.select();
-          }
-        }).catch(function () {});
-      });
-    })();
-
     /* ---- Reveal on scroll (entering = decelerate) ---- */
     (function () {
       var els = document.querySelectorAll('.reveal');
