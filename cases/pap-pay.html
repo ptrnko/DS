@@ -402,6 +402,13 @@
       grid-column: 2 / 3;
       grid-row: 29 / 30;
       background: rgba(217,217,217,0.1);
+      justify-content: flex-start;
+      gap: clamp(26px, 3vw, 42px);
+    }
+    .pp-mod__value-group {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(14px, 1.5vw, 24px);
     }
     .pp-mod__info-text {
       font-weight: 400;
@@ -1356,8 +1363,14 @@
       </article>
 
       <article class="pp-mod__info pp-mod__info--mascot-points">
-        <span class="pp-mod__label pp-mod__label--olive">Mascot value</span>
-        <p class="pp-mod__info-text">The mascot guides users through onboarding, communicates key product states, and adds warmth to an otherwise functional financial experience.</p>
+        <div class="pp-mod__value-group">
+          <span class="pp-mod__label pp-mod__label--olive">Guide &amp; Communicate</span>
+          <p class="pp-mod__info-text">Supports users during onboarding and unfamiliar flows. Visualizes success, waiting, errors and other product states.</p>
+        </div>
+        <div class="pp-mod__value-group">
+          <span class="pp-mod__label pp-mod__label--olive">Humanize</span>
+          <p class="pp-mod__info-text">Adds warmth and personality to an otherwise functional financial experience.</p>
+        </div>
       </article>
 
     </section>
