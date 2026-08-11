@@ -145,9 +145,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 4.5915%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 4.1916%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% calc(100% / 30);   /* one line per visible module-row */
+      background-size: 100% calc(100% / 33);   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -155,17 +155,17 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 16770;   /* 1600×770 hero + 30 square rows */
+      aspect-ratio: 1600 / 18370;   /* 1600×770 hero + 33 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       /* minmax(0,1fr) locks every square row to an equal height: content can
          never stretch a row taller than its square, so the evenly-spaced
          blueprint rails and dots stay aligned at any viewport width. */
-      grid-template-rows: 4.5915% repeat(30, minmax(0, 1fr));
+      grid-template-rows: 4.1916% repeat(33, minmax(0, 1fr));
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 4.5915%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 4.1916%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -173,7 +173,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 4.5915%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 4.1916%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -181,7 +181,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(4.5915% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(4.1916% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -190,7 +190,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 30);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 33);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -399,6 +399,24 @@
     .pp-mod__mood--success  { grid-column: 2 / 3; grid-row: 30 / 31; }
     .pp-mod__mood--confused { grid-column: 1 / 2; grid-row: 31 / 32; }
     .pp-mod__mood--empty    { grid-column: 3 / 4; grid-row: 31 / 32; }
+
+    /* ---- Transactions block (marquee + lime accent + three phone screens) ---- */
+    .pp-mod__marquee--transactions { grid-column: 1 / 2; grid-row: 32 / 33; }
+    .pp-mod__lime--transactions    { grid-column: 2 / 3; grid-row: 32 / 33; --fill: var(--pp-lime); }
+    /* phone screens hang from the top of a two-row cell, same as the
+       registration screens above — swap the placeholder for an <img> later. */
+    .pp-mod__tx-screen {
+      display: flex; align-items: flex-start; justify-content: center;
+      overflow: hidden; z-index: 6;
+      padding: clamp(28px, 3vw, 46px) 0;
+    }
+    .pp-mod__tx-screen img {
+      display: block; width: auto; height: min(100%, 980px);
+      max-width: 100%; object-fit: contain;
+    }
+    .pp-mod__tx-screen--list    { grid-column: 1 / 2; grid-row: 33 / 35; }
+    .pp-mod__tx-screen--filters { grid-column: 2 / 3; grid-row: 33 / 35; }
+    .pp-mod__tx-screen--details { grid-column: 3 / 4; grid-row: 33 / 35; }
     .pp-mod__info-text {
       font-weight: 400;
       font-size: clamp(15px, 1.35vw, 24px);
@@ -999,6 +1017,17 @@
       .pp-mod__mood--success  { order: 39; }
       .pp-mod__mood--confused { order: 40; }
       .pp-mod__mood--empty    { order: 41; }
+      .pp-mod__marquee--transactions { order: 42; }
+      .pp-mod__lime--transactions { order: 43; height: 90px; }
+      .pp-mod__tx-screen {
+        min-height: 420px;
+        padding: 32px 20px;
+        border-bottom: 1px solid var(--pp-line);
+      }
+      .pp-mod__tx-screen img { width: min(100%, 360px); height: auto; }
+      .pp-mod__tx-screen--list    { order: 44; }
+      .pp-mod__tx-screen--filters { order: 45; }
+      .pp-mod__tx-screen--details { order: 46; }
       .pp-mod__timeline-rails {
         inset: 154px var(--timeline-mobile-edge) 118px;
       }
@@ -1366,6 +1395,28 @@
       </figure>
       <figure class="pp-mod__mood pp-mod__mood--empty">
         <img src="../assets/pap-pay/mascot-empty.jpg" alt="Pap-Pay mascot with an empty box — empty state mood">
+      </figure>
+
+      <!-- Transactions block (row 32 marquee + lime accent, rows 33–34 phone screens) -->
+      <div class="pp-mod__marquee pp-mod__marquee--transactions" aria-label="Transactions">
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">Transactions</span>
+          <span class="pp-mod__marquee-text">Transactions</span>
+        </div>
+      </div>
+
+      <div class="pp-mod__lime--transactions pp-fill" aria-hidden="true"></div>
+
+      <figure class="pp-mod__tx-screen pp-mod__tx-screen--list">
+        <img src="../assets/pap-pay/transactions-list.png" alt="Pap-Pay all transactions list screen">
+      </figure>
+
+      <figure class="pp-mod__tx-screen pp-mod__tx-screen--filters">
+        <img src="../assets/pap-pay/transactions-filters.png" alt="Pap-Pay transactions filters screen">
+      </figure>
+
+      <figure class="pp-mod__tx-screen pp-mod__tx-screen--details">
+        <img src="../assets/pap-pay/transactions-details.png" alt="Pap-Pay transaction details screen">
       </figure>
 
     </section>
