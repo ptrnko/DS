@@ -158,7 +158,10 @@
       aspect-ratio: 1600 / 16770;   /* 1600×770 hero + 30 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 4.5915% repeat(30, 1fr);
+      /* minmax(0,1fr) locks every square row to an equal height: content can
+         never stretch a row taller than its square, so the evenly-spaced
+         blueprint rails and dots stay aligned at any viewport width. */
+      grid-template-rows: 4.5915% repeat(30, minmax(0, 1fr));
       border: none;
     }
     .pp-mod::before {
@@ -375,7 +378,11 @@
       grid-row: 29 / 30;
       background: rgba(217,217,217,0.1);
       justify-content: flex-start;
-      gap: clamp(26px, 3vw, 42px);
+      /* two value-groups make this cell the densest text block; a tighter
+         padding + gap keeps both groups inside a single square at every
+         width so the row never overflows and the grid stays aligned. */
+      padding: clamp(20px, 2.2vw, 30px);
+      gap: clamp(16px, 1.8vw, 26px);
     }
     .pp-mod__value-group {
       display: flex;
