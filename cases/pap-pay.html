@@ -331,8 +331,9 @@
       grid-column: 2 / 4; grid-row: 4 / 5; z-index: 6; /* above the grid overlay */
       display: flex; flex-direction: column; justify-content: space-between;
       padding: clamp(24px, 3vw, 46px);
-      /* opaque so the blueprint grid doesn't run through the copy */
-      background: rgba(217,217,217,0.1);
+      /* truly opaque (= the 10% grey tint baked over #000) so the blueprint
+         column divider doesn't run through the copy */
+      background: #161616;
     }
     .pp-mod__over-body {
       display: flex; flex-direction: column; gap: clamp(12px, 1.4vw, 20px);
