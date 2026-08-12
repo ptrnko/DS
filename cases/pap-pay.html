@@ -145,9 +145,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 3.0431%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 2.9200%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% calc(100% / 46);   /* one line per visible module-row */
+      background-size: 100% calc(100% / 48);   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -155,17 +155,17 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 25303.333;   /* 1600×770 hero + 46 square rows */
+      aspect-ratio: 1600 / 26370;   /* 1600×770 hero + 48 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       /* minmax(0,1fr) locks every square row to an equal height: content can
          never stretch a row taller than its square, so the evenly-spaced
          blueprint rails and dots stay aligned at any viewport width. */
-      grid-template-rows: 3.0431% repeat(46, minmax(0, 1fr));
+      grid-template-rows: 2.9200% repeat(48, minmax(0, 1fr));
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 3.0431%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 2.9200%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -173,7 +173,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 3.0431%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 2.9200%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -181,7 +181,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(3.0431% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(2.9200% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -190,7 +190,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 46);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 48);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -447,6 +447,18 @@
     .pp-mod__lime--outcome       { grid-column: 1 / 2; grid-row: 46 / 47; --fill: var(--pp-lime); }
     .pp-mod__marquee--outcome    { grid-column: 1 / 2; grid-row: 47 / 48; }
     .pp-mod__info--outcome-final { grid-column: 3 / 4; grid-row: 47 / 48; }
+
+    /* ---- Closing mascot (centred, transparent) — row 47; row 48 stays empty ---- */
+    .pp-mod__mascot-thanks {
+      grid-column: 2 / 3; grid-row: 48 / 49;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; z-index: 8;   /* above the rails/dots — no line across the character */
+      padding: clamp(18px, 2.2vw, 38px);
+    }
+    .pp-mod__mascot-thanks img {
+      display: block; width: auto; height: 100%;
+      max-width: 100%; object-fit: contain;
+    }
     .pp-mod__info-text {
       font-weight: 400;
       font-size: clamp(15px, 1.35vw, 24px);
@@ -1076,6 +1088,7 @@
       .pp-mod__lime--outcome       { order: 59; height: 90px; }
       .pp-mod__marquee--outcome    { order: 60; }
       .pp-mod__info--outcome-final { order: 61; }
+      .pp-mod__mascot-thanks       { order: 62; }
       .pp-mod__timeline-rails {
         inset: 154px var(--timeline-mobile-edge) 118px;
       }
@@ -1533,6 +1546,11 @@
         <span class="pp-mod__label pp-mod__label--olive">Outcome</span>
         <p class="pp-mod__info-text">Designed an end-to-end employee wallet experience covering account activation, salary management, transactions and crypto-to-fiat conversion — creating a scalable product foundation for future financial services.</p>
       </div>
+
+      <!-- Closing mascot — centred (row 47); the row below stays an empty run of squares -->
+      <figure class="pp-mod__mascot-thanks">
+        <img src="../assets/pap-pay/mascot-thanks.png" alt="Pap-Pay mascot holding a “Thanks for your attention!” sign">
+      </figure>
 
     </section>
     </div>
