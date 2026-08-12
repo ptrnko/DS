@@ -145,9 +145,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 4.0734%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 3.9616%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% calc(100% / 34);   /* one line per visible module-row */
+      background-size: 100% calc(100% / 35);   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -155,17 +155,17 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 18903.333;   /* 1600×770 hero + 34 square rows */
+      aspect-ratio: 1600 / 19436.667;   /* 1600×770 hero + 35 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       /* minmax(0,1fr) locks every square row to an equal height: content can
          never stretch a row taller than its square, so the evenly-spaced
          blueprint rails and dots stay aligned at any viewport width. */
-      grid-template-rows: 4.0734% repeat(34, minmax(0, 1fr));
+      grid-template-rows: 3.9616% repeat(35, minmax(0, 1fr));
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 4.0734%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 3.9616%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -173,7 +173,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 4.0734%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 3.9616%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -181,7 +181,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(4.0734% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(3.9616% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -190,7 +190,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 34);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 35);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -404,6 +404,7 @@
     /* row 32 stays an empty run of squares; the label row sits on row 33 */
     .pp-mod__marquee--transactions { grid-column: 1 / 2; grid-row: 33 / 34; }
     .pp-mod__lime--transactions    { grid-column: 3 / 4; grid-row: 33 / 34; --fill: var(--pp-lime); }
+    .pp-mod__lime--transactions-foot { grid-column: 1 / 2; grid-row: 36 / 37; --fill: var(--pp-lime); }
     /* phone screens hang from the top of a two-row cell, same as the
        registration screens above — swap the placeholder for an <img> later. */
     .pp-mod__tx-screen {
@@ -1029,6 +1030,7 @@
       .pp-mod__tx-screen--list    { order: 44; }
       .pp-mod__tx-screen--filters { order: 45; }
       .pp-mod__tx-screen--details { order: 46; }
+      .pp-mod__lime--transactions-foot { order: 47; height: 90px; }
       .pp-mod__timeline-rails {
         inset: 154px var(--timeline-mobile-edge) 118px;
       }
@@ -1419,6 +1421,8 @@
       <figure class="pp-mod__tx-screen pp-mod__tx-screen--details">
         <img src="../assets/pap-pay/transactions-details.png" alt="Pap-Pay transaction details screen">
       </figure>
+
+      <div class="pp-mod__lime--transactions-foot pp-fill" aria-hidden="true"></div>
 
     </section>
     </div>
