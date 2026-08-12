@@ -410,7 +410,7 @@
        registration screens above — swap the placeholder for an <img> later. */
     .pp-mod__tx-screen {
       display: flex; align-items: flex-start; justify-content: center;
-      overflow: hidden; z-index: 6;
+      overflow: hidden; z-index: 8;   /* above the rails/dots — see .pp-mod__screen */
       padding: clamp(28px, 3vw, 46px) 0;
     }
     .pp-mod__tx-screen img {
@@ -433,6 +433,9 @@
       justify-content: center;
       overflow: hidden;
       padding: clamp(20px, 2vw, 32px);
+      /* lift the phones above the blueprint rails (z7) and dots (z8) so no
+         line or marker is drawn across a screen */
+      z-index: 8;
     }
     .pp-mod__screen img {
       display: block;
@@ -603,7 +606,7 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 6;
+      z-index: 8;   /* above the rails/dots — see .pp-mod__screen */
     }
     .pp-mod__reg-screen img,
     .pp-mod__reg-mascot img {
