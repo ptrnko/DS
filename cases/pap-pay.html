@@ -192,7 +192,8 @@
       content: ""; position: absolute; top: 2.9200%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
-      border-bottom: 1px solid var(--pp-line);
+      /* bottom line is drawn once by .pp-mod-rails::after (closes the final
+         row); a second border here would double up and read too bright */
     }
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
