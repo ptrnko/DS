@@ -132,6 +132,30 @@
     /* ---- footer ---- */
     .pp-footer { border-top: 1px solid var(--pp-hair); padding: 40px var(--pp-px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--pp-dim); font-size: 14px; }
 
+    /* ---- Next case ---- */
+    .pp-next {
+      width: min(100%, 1440px); margin: 0 auto;
+      padding: clamp(64px, 8vw, 100px) var(--pp-px);
+      display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      border-top: 1px solid var(--pp-line);
+    }
+    .pp-next__label {
+      font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--pp-muted); margin-bottom: 14px;
+    }
+    .pp-next__title {
+      font-size: clamp(32px, 4vw, 46px); font-weight: 800;
+      letter-spacing: -0.04em; color: var(--pp-text); line-height: 1.05;
+    }
+    .pp-next__link {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 16px; font-weight: 600; color: var(--pp-text);
+      border: 1px solid var(--pp-border); border-radius: 100px;
+      padding: 14px 28px; white-space: nowrap;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .pp-next__link:hover { background: var(--pp-lime-dim); border-color: var(--pp-lime); color: var(--pp-lime); }
+
     /* ============================================================
        Modular blueprint grid — 3 cols × 25 square module-rows below hero.
        Whole grid holds a fixed ratio so cells scale proportionally.
@@ -908,6 +932,8 @@
       .pp-header__nav { display: none; }   /* back-link only, as on the other cases */
       .pp-section { padding: 64px 0; }
       .pp-footer { flex-direction: column; gap: 8px; }
+      .pp-next { flex-direction: column; align-items: flex-start; gap: 28px; padding: 52px 20px; }
+      .pp-next__title { font-size: 32px; }
 
       /* modular grid → single-column stack */
       .pp-mod {
@@ -1555,6 +1581,20 @@
     </section>
     </div>
   </main>
+
+  <!-- NEXT CASE -->
+  <section class="pp-next reveal" aria-label="Next case">
+    <div>
+      <div class="pp-next__label">Next case</div>
+      <div class="pp-next__title">Enhancing the<br>ERP core</div>
+    </div>
+    <a href="erp-core.html" class="pp-next__link">
+      View case
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </section>
 
   <footer class="pp-footer">
     <span>Anastasiia Petrenko — Lead Product Designer</span>
