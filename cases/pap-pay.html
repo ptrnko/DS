@@ -145,9 +145,9 @@
       margin: 0 auto;
     }
     .pp-mod-rails::after {
-      content: ""; position: absolute; top: 3.5698%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
+      content: ""; position: absolute; top: 3.4016%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 7;
       background-image: linear-gradient(var(--pp-line) 1px, transparent 1px);
-      background-size: 100% calc(100% / 39);   /* one line per visible module-row */
+      background-size: 100% calc(100% / 41);   /* one line per visible module-row */
       border-bottom: 1px solid var(--pp-line);  /* closes the final row */
     }
 
@@ -155,17 +155,17 @@
       position: relative;
       width: min(100%, 1440px);
       margin: 0 auto;
-      aspect-ratio: 1600 / 21570;   /* 1600×770 hero + 39 square rows */
+      aspect-ratio: 1600 / 22636.667;   /* 1600×770 hero + 41 square rows */
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       /* minmax(0,1fr) locks every square row to an equal height: content can
          never stretch a row taller than its square, so the evenly-spaced
          blueprint rails and dots stay aligned at any viewport width. */
-      grid-template-rows: 3.5698% repeat(39, minmax(0, 1fr));
+      grid-template-rows: 3.4016% repeat(41, minmax(0, 1fr));
       border: none;
     }
     .pp-mod::before {
-      content: ""; position: absolute; top: 3.5698%; left: 0; right: 0; bottom: 0;
+      content: ""; position: absolute; top: 3.4016%; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 5;
       border-right: 1px solid var(--pp-line);
       border-bottom: 1px solid var(--pp-line);
@@ -173,7 +173,7 @@
     /* Vertical column dividers inside the container (horizontal lines come
        from the full-width rails; dots are a separate top layer, below). */
     .pp-mod::after {
-      content: ""; position: absolute; top: 3.5698%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
+      content: ""; position: absolute; top: 3.4016%; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 5;
       background-image: linear-gradient(90deg, var(--pp-line) 1px, transparent 1px);
       background-size: 33.3333% 100%;
     }
@@ -181,7 +181,7 @@
        so no cell or line ever covers them. Four quarter-dots per corner add
        up to full dots at each interior intersection. */
     .pp-mod-rails::before {
-      content: ""; position: absolute; top: calc(3.5698% - 4px); bottom: -4px;
+      content: ""; position: absolute; top: calc(3.4016% - 4px); bottom: -4px;
       left: 50%; transform: translateX(-50%);
       width: calc(min(100%, 1440px) + 8px);
       pointer-events: none; z-index: 8;
@@ -190,7 +190,7 @@
         radial-gradient(circle at 100% 0,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 0 100%,    #fff 0 3px, transparent 3.5px),
         radial-gradient(circle at 100% 100%, #fff 0 3px, transparent 3.5px);
-      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 39);
+      background-size: calc((100% - 8px) / 3) calc((100% - 8px) / 41);
       background-position: 4px 4px;
     }
     .pp-mod > * { position: relative; z-index: 1; min-width: 0; }
@@ -431,6 +431,11 @@
     .pp-mod__send-screen--amount   { grid-column: 3 / 4; grid-row: 38 / 40; }
     .pp-mod__send-screen--confirm  { grid-column: 1 / 2; grid-row: 39 / 41; }
     .pp-mod__send-screen--success  { grid-column: 2 / 3; grid-row: 39 / 41; }
+
+    /* ---- Crypto-to-fiat conversion (centred lime square, then marquee + text) ---- */
+    .pp-mod__lime--convert    { grid-column: 2 / 3; grid-row: 41 / 42; --fill: var(--pp-lime); }
+    .pp-mod__marquee--convert { grid-column: 1 / 2; grid-row: 42 / 43; }
+    .pp-mod__info--conversion { grid-column: 3 / 4; grid-row: 42 / 43; }
     .pp-mod__info-text {
       font-weight: 400;
       font-size: clamp(15px, 1.35vw, 24px);
@@ -1051,6 +1056,9 @@
       .pp-mod__send-screen--amount   { order: 50; }
       .pp-mod__send-screen--confirm  { order: 51; }
       .pp-mod__send-screen--success  { order: 52; }
+      .pp-mod__lime--convert    { order: 53; height: 90px; }
+      .pp-mod__marquee--convert { order: 54; }
+      .pp-mod__info--conversion { order: 55; }
       .pp-mod__timeline-rails {
         inset: 154px var(--timeline-mobile-edge) 118px;
       }
@@ -1464,6 +1472,22 @@
       <figure class="pp-mod__send-screen pp-mod__send-screen--success">
         <img src="../assets/pap-pay/send-success.png" alt="Pap-Pay transfer successful screen with mascot">
       </figure>
+
+      <!-- Crypto-to-fiat conversion — centred lime square (row 41), then
+           "Convert to USD" marquee + text card (row 42) -->
+      <div class="pp-mod__lime--convert pp-fill" aria-hidden="true"></div>
+
+      <div class="pp-mod__marquee pp-mod__marquee--convert" aria-label="Convert to USD">
+        <div class="pp-mod__marquee-track" aria-hidden="true">
+          <span class="pp-mod__marquee-text">Convert to USD</span>
+          <span class="pp-mod__marquee-text">Convert to USD</span>
+        </div>
+      </div>
+
+      <div class="pp-mod__info pp-mod__info--conversion">
+        <span class="pp-mod__label pp-mod__label--olive">Crypto-to-fiat conversion</span>
+        <p class="pp-mod__info-text">Instead of sending employees to third-party exchanges, conversion was designed as a native wallet flow with transparent rates, fees and confirmation before execution.</p>
+      </div>
 
     </section>
     </div>
