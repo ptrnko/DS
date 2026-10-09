@@ -307,7 +307,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 200px;
+  /* was 200px — a gap that tall left a blank screen below the hero on a
+     laptop, so the page looked finished; keep breathing room but let the
+     ABOUT label peek into the first viewport */
+  margin-top: clamp(56px, 5vw, 104px);
   overflow: visible;
   text-align: center;
 }

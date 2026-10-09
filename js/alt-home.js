@@ -62,8 +62,11 @@ function initPageReveal() {
       observer.unobserve(entry.target);
     });
   }, {
-    rootMargin: '0px 0px -12% 0px',
-    threshold: 0.12,
+    // reveal as soon as an element touches the viewport (no bottom inset),
+    // so a section peeking in below the hero fades in on load instead of
+    // staying invisible and making the page look finished
+    rootMargin: '0px 0px 0px 0px',
+    threshold: 0.06,
   });
 
   revealItems.forEach((item) => observer.observe(item));
