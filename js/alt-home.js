@@ -87,9 +87,9 @@ function initHeroTypewriter() {
   const copy = {
     hi: 'Hi!',
     name: ' I\u2019m Anastasiia!',
-    subtitleMain: 'Lead Product Designer',
-    subtitlePrefix: 'specializing in\u00a0',
-    subtitleAccent: 'high-load systems',
+    subtitleMain: 'Building design teams, products,',
+    subtitlePrefix: 'and scalable systems\u00a0',
+    subtitleAccent: 'from the ground up.',
   };
 
   function setFinalText() {
