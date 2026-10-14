@@ -332,6 +332,47 @@ function initStatCounters() {
   parsed.forEach((p) => { if (p) io.observe(p.el); });
 }
 
+function initHowIWorkPhotoLock() {
+  const section = document.querySelector('.howiwork-section');
+  if (!section) return;
+  const photo = section.querySelector('.howiwork__photo');
+  const content = section.querySelector('.howiwork__content');
+  const rows = [...section.querySelectorAll('.howiwork__row')];
+  if (!photo || !content || !rows.length) return;
+
+  const isDesktop = () => window.matchMedia('(min-width: 961px)').matches;
+
+  // height of the content column with ONLY the first tab open — measured
+  // instantly (transitions off) and with the current open state restored,
+  // so it never flickers and never depends on which tab the viewer opened
+  function referenceHeight() {
+    const openIdx = rows.findIndex((r) => r.classList.contains('is-open'));
+    section.classList.add('is-measuring');
+    rows.forEach((r, i) => r.classList.toggle('is-open', i === 0));
+    const h = content.offsetHeight; // forces layout in the first-tab-open state
+    rows.forEach((r, i) => r.classList.toggle('is-open', i === openIdx));
+    section.classList.remove('is-measuring');
+    return h;
+  }
+
+  function apply() {
+    if (isDesktop()) {
+      photo.style.height = referenceHeight() + 'px';
+    } else {
+      photo.style.height = ''; // mobile keeps the CSS 4:3 crop
+    }
+  }
+
+  apply();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(apply);
+
+  let t;
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(apply, 150);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initBurger();
   initHeroVideo();
@@ -341,4 +382,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initAboutImageSlider();
   initHowIWorkAccordion();
   initStatCounters();
+  initHowIWorkPhotoLock();
 });

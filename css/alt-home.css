@@ -1130,17 +1130,21 @@ body {
   /* photo = 1/5, content = 4/5 */
   grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
   gap: clamp(64px, 8vw, 144px);
-  /* stretch the photo to the full height of the content column */
-  align-items: stretch;
+  /* photo height is locked by JS to the first-tab-open state and does not
+     follow the content when other tabs open (see initHowIWorkPhotoLock) */
+  align-items: start;
 }
 .howiwork__photo {
   position: relative;
   width: 100%;
-  min-height: 420px;   /* floor so it never collapses; grid stretch takes it to full height */
+  min-height: 420px;   /* fallback if the lock script doesn't run; JS sets an exact height */
   border-radius: 20px;
   overflow: hidden;
   background: #1d1d1d;
 }
+/* used only for an instant, flicker-free reference measurement */
+.howiwork-section.is-measuring .howiwork__panel,
+.howiwork-section.is-measuring .howiwork__panel-inner { transition: none !important; }
 .howiwork__photo img {
   position: absolute;
   inset: 0;
