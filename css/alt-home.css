@@ -1220,7 +1220,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 .howiwork__row-title {
-  font-size: clamp(26px, 2.8vw, 40px);
+  font-size: clamp(26px, 2.8vw, 36px);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.03em;
