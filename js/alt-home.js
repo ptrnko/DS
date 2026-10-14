@@ -43,7 +43,7 @@ function initHeroVideo() {
 function initPageReveal() {
   const revealItems = [
     ...document.querySelectorAll(
-      '.alt-site-header, .hero-card, .about-section__label, .about-section__copy, .about-section__details, .about-section__media, .stats-section, .stats-section__item, .portfolio-section__label, .portfolio-section h2, .portfolio-work-card, .howiwork__photo, .howiwork__header, .howiwork__lead, .howiwork__handson'
+      '.alt-site-header, .hero-card, .about-section__label, .about-section__copy, .about-section__details, .about-section__media, .stats-section, .stats-section__item, .portfolio-section__label, .portfolio-section h2, .portfolio-work-card, .howiwork__photo, .howiwork__header, .howiwork__accordion'
     ),
   ];
   if (!revealItems.length) return;
@@ -267,6 +267,31 @@ function initAboutImageSlider() {
   window.setInterval(animateNext, 3000);
 }
 
+function initHowIWorkAccordion() {
+  const rows = [...document.querySelectorAll('.howiwork__row')];
+  if (!rows.length) return;
+
+  function setOpen(target) {
+    rows.forEach((row) => {
+      const open = row === target;
+      const trigger = row.querySelector('.howiwork__row-trigger');
+      const sign = row.querySelector('.howiwork__row-sign');
+      row.classList.toggle('is-open', open);
+      if (trigger) trigger.setAttribute('aria-expanded', String(open));
+      if (sign) sign.textContent = open ? '−' : '+'; // − / +
+    });
+  }
+
+  rows.forEach((row) => {
+    const trigger = row.querySelector('.howiwork__row-trigger');
+    if (!trigger) return;
+    trigger.addEventListener('click', () => {
+      // single-open; clicking the open row closes it (all-closed allowed)
+      setOpen(row.classList.contains('is-open') ? null : row);
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initBurger();
   initHeroVideo();
@@ -274,4 +299,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroTypewriter();
   initHeroHoverGrid();
   initAboutImageSlider();
+  initHowIWorkAccordion();
 });
