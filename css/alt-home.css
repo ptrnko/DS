@@ -677,7 +677,7 @@ body {
   align-items: start;
   width: 100%;
   /* uniform 180px rhythm between homepage blocks */
-  margin-top: 180px;
+  margin-top: 200px;
   padding: 0;
   background: transparent;
   overflow: visible;
@@ -723,7 +723,7 @@ body {
 }
 
 .portfolio-section {
-  margin-top: 180px;
+  margin-top: 200px;
   text-align: center;
 }
 
@@ -1125,7 +1125,7 @@ body {
    ============================================================ */
 .howiwork-section {
   position: relative;
-  margin-top: 180px;
+  margin-top: 200px;
   display: grid;
   /* photo = 1/5, content = 4/5 */
   grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
