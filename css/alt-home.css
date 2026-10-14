@@ -696,6 +696,8 @@ body {
   line-height: 1;
   letter-spacing: 0;
   color: #ffffff;
+  /* fixed-width digits so the count-up animation doesn't jitter the layout */
+  font-variant-numeric: tabular-nums;
 }
 
 .stats-section__item span {
@@ -1234,16 +1236,48 @@ body {
   line-height: 1;
   color: rgba(255, 255, 255, 0.6);
   text-align: right;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 .howiwork__row.is-open .howiwork__row-title { color: var(--hero-accent); }
 .howiwork__row.is-open .howiwork__row-tag { color: rgba(255, 255, 255, 0.6); }
+
+/* hover / keyboard focus on a closed row previews the open (lime) state */
+.howiwork__row:not(.is-open) .howiwork__row-trigger:hover .howiwork__row-title,
+.howiwork__row:not(.is-open) .howiwork__row-trigger:focus-visible .howiwork__row-title {
+  color: var(--hero-accent);
+}
+.howiwork__row:not(.is-open) .howiwork__row-trigger:hover .howiwork__row-sign,
+.howiwork__row:not(.is-open) .howiwork__row-trigger:focus-visible .howiwork__row-sign {
+  color: #fff;
+  transform: scale(1.2);
+}
+.howiwork__row-trigger:focus-visible { outline: none; }
+.howiwork__row-trigger:focus-visible .howiwork__row-num { color: var(--hero-accent); }
+
+/* smooth open/close: animate the row track 0fr -> 1fr + fade */
 .howiwork__panel {
-  display: none;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s ease, opacity 0.25s ease;
+}
+.howiwork__row.is-open .howiwork__panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.howiwork__panel-inner {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 0 0 32px 88px;   /* left pad = num col (72) + gap (16): chips align under the title */
+  /* left pad = num col (72) + gap (16): chips align under the title.
+     bottom padding is 0 when closed so the 0fr track fully collapses;
+     it (and the row height) animate in on open */
+  padding: 0 0 0 88px;
+  transition: padding-bottom 0.3s ease;
 }
-.howiwork__row.is-open .howiwork__panel { display: flex; }
+.howiwork__row.is-open .howiwork__panel-inner { padding-bottom: 32px; }
 .howiwork__chip {
   padding: 8px 14px;
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -1281,5 +1315,12 @@ body {
     padding: 22px 0;
   }
   .howiwork__row-tag { display: none; }
-  .howiwork__panel { padding: 0 0 24px 52px; }
+  .howiwork__panel-inner { padding: 0 0 0 52px; }
+  .howiwork__row.is-open .howiwork__panel-inner { padding-bottom: 24px; }
+}
+
+/* respect reduced-motion: open/close instantly */
+@media (prefers-reduced-motion: reduce) {
+  .howiwork__panel,
+  .howiwork__panel-inner { transition: none; }
 }

@@ -292,6 +292,46 @@ function initHowIWorkAccordion() {
   });
 }
 
+function initStatCounters() {
+  const nums = [...document.querySelectorAll('.stats-section__item strong')];
+  if (!nums.length) return;
+
+  // parse "10+" -> {prefix:'', value:10, suffix:'+'}; keep any non-digits around the number
+  const parsed = nums.map((el) => {
+    const m = el.textContent.trim().match(/^(\D*)(\d+)(\D*)$/);
+    return m ? { el, prefix: m[1], value: +m[2], suffix: m[3] } : null;
+  });
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) return; // leave final text as-is
+
+  // reset to the starting value so the ramp is visible
+  parsed.forEach((p) => { if (p) p.el.textContent = p.prefix + '0' + p.suffix; });
+
+  function run(p) {
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      p.el.textContent = p.prefix + Math.round(eased * p.value) + p.suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const p = parsed.find((x) => x && x.el === entry.target);
+      if (p) run(p);
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.6 });
+
+  parsed.forEach((p) => { if (p) io.observe(p.el); });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initBurger();
   initHeroVideo();
@@ -300,4 +340,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroHoverGrid();
   initAboutImageSlider();
   initHowIWorkAccordion();
+  initStatCounters();
 });
