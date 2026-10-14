@@ -1130,12 +1130,13 @@ body {
   /* photo = 1/5, content = 4/5 */
   grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
   gap: clamp(64px, 8vw, 144px);
-  align-items: start;
+  /* stretch the photo to the full height of the content column */
+  align-items: stretch;
 }
 .howiwork__photo {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;   /* fixed — must not stretch when accordion rows open */
+  min-height: 420px;   /* floor so it never collapses; grid stretch takes it to full height */
   border-radius: 20px;
   overflow: hidden;
   background: #1d1d1d;
@@ -1300,6 +1301,7 @@ body {
   }
   .howiwork__photo {
     aspect-ratio: 4 / 3;
+    min-height: 0;   /* clear the desktop floor; 4:3 defines height here */
     max-width: 560px;
   }
   .howiwork__photo img {
