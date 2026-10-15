@@ -86,6 +86,17 @@
     .erp-view{display:flex;align-items:center;gap:12px;padding:16px 28px;border:1px solid #2e2e31;border-radius:999px;font-size:16px;font-weight:600;transition:background .2s,border-color .2s}
     .erp-nextcase:hover .erp-view{background:#0A1014;border-color:#4a4a4e}
 
+    /* site header + footer (self-contained to match the other case pages) */
+    .erp-backlink{font-size:14px;font-weight:500;color:#b5b5b5;text-decoration:none;transition:color .2s}
+    .erp-backlink:hover{color:#fff}
+    .erp-navlink{font-size:14px;color:#b5b5b5;text-decoration:none;padding:7px 14px;border-radius:999px;transition:color .2s,background .2s}
+    .erp-navlink:hover{color:#fff;background:rgba(255,255,255,0.06)}
+    .erp-flabel{margin:0;font-size:14px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#7d7d82}
+    .erp-flink{font-size:15px;color:#b5b5b5;text-decoration:none;transition:color .2s}
+    .erp-flink:hover{color:#fff}
+    .erp-fcols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-bottom:56px}
+    @media (max-width:640px){.erp-fcols{grid-template-columns:1fr;gap:28px}}
+
     @media (max-width:860px){
       .erp-aside{position:static!important;height:auto!important;padding:56px 0 8px!important}
       .erp-main{padding:24px 0 96px!important}
@@ -100,6 +111,15 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K25V9CTP"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+
+  <header style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px clamp(24px,6vw,112px);background:rgba(0,0,0,0.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
+    <a href="../index.html" class="erp-backlink">&larr; Back to works</a>
+    <nav style="display:flex;align-items:center;gap:6px">
+      <a href="../index.html#work" class="erp-navlink">Work</a>
+      <a href="../index.html#how-i-work" class="erp-navlink">About</a>
+      <a href="mailto:petrenkoag95@gmail.com" class="erp-navlink">Contact</a>
+    </nav>
+  </header>
 
   <div style="min-height:100vh;background:#000;display:flex;flex-wrap:wrap;gap:32px;padding:0 clamp(24px,6vw,112px)">
 
@@ -323,10 +343,35 @@
           </div>
           <span class="erp-view">View case <span style="font-size:18px">→</span></span>
         </a>
-        <div style="font-size:14px;color:#9a9a9a">Anastasiia Petrenko — Lead Product Designer © 2026</div>
       </section>
     </main>
   </div>
+
+  <footer style="background:#0A1014;border-top:1px solid #1e1e22;padding:64px clamp(24px,6vw,112px) 40px">
+    <div style="max-width:1600px;margin:0 auto">
+      <div class="erp-fcols">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <p class="erp-flabel">Contact</p>
+          <p style="margin:0;font-size:15px;color:#b5b5b5;line-height:1.6">Montpellier, France</p>
+          <a href="mailto:petrenkoag95@gmail.com" class="erp-flink">petrenkoag95@gmail.com</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <p class="erp-flabel">Links</p>
+          <a href="https://www.linkedin.com/in/anastasia-petrenko/" target="_blank" rel="noopener noreferrer" class="erp-flink">LinkedIn</a>
+          <a href="https://dribbble.com/AnnastasiiaP2018" target="_blank" rel="noopener noreferrer" class="erp-flink">Dribbble</a>
+          <a href="https://www.behance.net/petrenkoanastasia" target="_blank" rel="noopener noreferrer" class="erp-flink">Behance</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <p class="erp-flabel">Navigate</p>
+          <a href="../index.html#work" class="erp-flink">Work</a>
+          <a href="../index.html#how-i-work" class="erp-flink">About</a>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:28px;border-top:1px solid #1e1e22;font-size:14px;color:#777">
+        <span>Anastasiia Petrenko &mdash; Lead Product Designer</span><span>&copy; 2026</span>
+      </div>
+    </div>
+  </footer>
 
   <script>
   /* ============ Case page: tiles, nav scroll-spy, fullscreen zoom ============ */
