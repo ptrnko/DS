@@ -1184,7 +1184,8 @@ body {
   white-space: nowrap;
 }
 .howiwork__intro {
-  font-size: clamp(16px, 1.25vw, 18px);
+  /* same size as the stat descriptions under the numbers */
+  font-size: 16px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.5);
   text-wrap: pretty;
