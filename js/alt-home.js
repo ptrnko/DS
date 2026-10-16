@@ -383,16 +383,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initHowIWorkAccordion();
   initStatCounters();
   initHowIWorkPhotoLock();
-  initPortfolioVideoSpeed();
 });
-
-// play portfolio card videos at half speed
-function initPortfolioVideoSpeed() {
-  var RATE = 0.5;
-  document.querySelectorAll('.portfolio-work-card__image video').forEach(function (v) {
-    var apply = function () { try { v.playbackRate = RATE; } catch (e) {} };
-    apply();
-    v.addEventListener('loadeddata', apply);
-    v.addEventListener('play', apply);
-  });
-}
