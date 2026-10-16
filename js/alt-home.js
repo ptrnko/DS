@@ -383,4 +383,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initHowIWorkAccordion();
   initStatCounters();
   initHowIWorkPhotoLock();
+  initPortfolioVideoSpeed();
 });
+
+// play portfolio card videos 1.5x slower
+function initPortfolioVideoSpeed() {
+  var RATE = 1 / 1.5;
+  document.querySelectorAll('.portfolio-work-card__image video').forEach(function (v) {
+    var apply = function () { try { v.playbackRate = RATE; } catch (e) {} };
+    apply();
+    v.addEventListener('loadeddata', apply);
+    v.addEventListener('play', apply);
+  });
+}
