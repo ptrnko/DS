@@ -27,345 +27,731 @@
   </script>
   <!-- End Microsoft Clarity -->
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Developing a high-load ERP system — Anastasiia Petrenko</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Developing a high-load system from scratch — Wave ERP & CRM — Anastasiia Petrenko</title>
+  <meta name="description" content="Case study: Wave, an ERP & CRM system built from scratch for one of the bigger media holdings in Ukraine — research, design system, user flows and results.">
   <link rel="icon" type="image/png" href="../assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/case.css">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;overflow-x:clip;background:#FFFFFF;font-family:'Geist',system-ui,sans-serif;color:#3D3D3D;-webkit-font-smoothing:antialiased}
+    html{scroll-behavior:smooth}
+    a{color:#3C757D;text-decoration:none}
+    img{display:block;max-width:100%}
+    input::placeholder{color:#9A9A9A}
+    @keyframes wv-spin{to{transform:rotate(360deg)}}
+
+    .wv-wrap{max-width:1440px;box-sizing:border-box;width:100%;margin:0 auto}
+    .wv-eyebrow{font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+    .wv-h2{margin:0;font-size:clamp(34px,4.6vw,64px);line-height:1.05;letter-spacing:-.03em;font-weight:500}
+    .wv-bleed{width:100vw;max-width:none;margin:0 calc(50% - 50vw)}
+
+    /* header / nav */
+    .wv-head{background:#111111;color:#FFFFFF;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px clamp(20px,4.4vw,56px);font-size:15px}
+    .wv-head a{color:#FFFFFF;transition:color .2s}
+    .wv-head a:hover{color:#8FC2C9}
+    .wv-head nav{display:flex;gap:28px}
+    .wv-chap{position:sticky;top:0;z-index:5;background:rgba(17,17,17,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;flex-wrap:wrap;gap:8px 28px;padding:14px clamp(20px,4.4vw,56px);border-top:1px solid #2A2A2A;border-bottom:1px solid #2A2A2A;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+    .wv-chap a{color:#9A9A9A;transition:color .2s}
+    .wv-chap a:hover,.wv-chap a.is-active{color:#8FC2C9}
+
+    .wv-prob-card{display:flex;flex-direction:column;gap:14px;padding:32px;border:1px solid #2A2A2A;border-radius:6px;transition:border-color .25s,background .25s}
+    .wv-prob-card:hover{border-color:#3C757D;background:#16201F}
+
+    .wv-input{width:100%;box-sizing:border-box;height:48px;padding:0 16px;border:1px solid #E4E4E4;border-radius:4px;background:#FFFFFF;font-family:'Geist',sans-serif;font-size:16px;color:#3D3D3D;outline:none;transition:border-color .15s,box-shadow .15s}
+    .wv-input:hover{border-color:#9BBFC4}
+    .wv-input:focus{border-color:#3C757D;box-shadow:0 0 0 1px #3C757D}
+    .wv-btn{height:48px;padding:0 20px;border-radius:4px;font-family:'Geist',sans-serif;font-size:16px;font-weight:500;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;transition:background .15s,color .15s,transform .1s;border:0}
+    .wv-btn-primary{background:#3C757D;color:#FFFFFF;cursor:pointer}
+    .wv-btn-primary:hover{background:#2F5F66}
+    .wv-btn-primary:active{transform:scale(.98)}
+    .wv-btn-outline{border:1.5px solid #3C757D;background:transparent;color:#3C757D;cursor:pointer}
+    .wv-btn-outline:hover{background:#E6EFF0}
+    .wv-btn-outline:active{transform:scale(.98)}
+    .wv-mini{width:14px;height:14px;border-radius:50%;border:2px dotted currentColor;box-sizing:border-box;display:inline-block;animation:wv-spin 1.4s linear infinite}
+    .wv-icon-tile{aspect-ratio:1;background:#F4F4F2;color:#3D3D3D;border-radius:6px;cursor:pointer;transition:background .2s,color .2s,transform .2s;position:relative}
+    .wv-icon-tile:hover{background:#3C757D;color:#FFFFFF;transform:translateY(-3px)}
+    .wv-icon-tile:active{transform:scale(.96)}
+    .wv-icon-tile>span{position:absolute;inset:0;background-color:currentColor;-webkit-mask-size:50% 50%;mask-size:50% 50%;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+    .wv-listrow{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:4px;font-size:15px;cursor:pointer;user-select:none;white-space:nowrap;transition:background .15s,color .15s}
+    .wv-listrow:hover{background:#F4F4F2}
+    .wv-metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px 56px;align-items:center;padding:44px 0;border-bottom:1px solid #2A2A2A;color:#FFFFFF;transition:color .25s}
+    .wv-metric-row:hover{color:#8FC2C9}
+    .wv-metric-fig{font-size:clamp(72px,8.5vw,120px);line-height:.9;font-weight:500;letter-spacing:-.05em}
+    .wv-figure img{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+    .wv-figure:hover img{transform:scale(1.03)}
+
+    /* footer */
+    .wv-foot{background:#111111;color:#FFFFFF;padding:80px clamp(20px,4.4vw,56px) 40px}
+    .wv-fcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:40px}
+    .wv-flabel{margin:0 0 4px;font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#8FC2C9}
+    .wv-flink{display:block;color:#CDCDCD;font-size:15px;line-height:1.9;transition:color .2s}
+    .wv-flink:hover{color:#FFFFFF}
+
+    @media (max-width:640px){
+      .wv-metric-fig{font-size:clamp(56px,16vw,88px)}
+    }
+  </style>
 </head>
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K25V9CTP"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K25V9CTP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
+<div style="display:flex;flex-direction:column;min-height:100vh">
 
-  <header class="site-header">
-    <a href="../index.html" class="logo case-back">&larr; Back to works</a>
-    <nav class="nav">
-      <a href="../index.html#work"  class="nav__link">Work</a>
-      <a href="../index.html#about" class="nav__link">About</a>
-      <a href="mailto:petrenkoag95@gmail.com" class="nav__link">Contact</a>
-    </nav>
-  </header>
+<header class="wv-head">
+  <a href="../index.html">&larr; Back to works</a>
+  <nav>
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#how-i-work">About</a>
+    <a href="mailto:petrenkoag95@gmail.com">Contact</a>
+  </nav>
+</header>
 
-  <main>
+<nav class="wv-chap">
+  <a href="#problem">01 Problem</a>
+  <a href="#system">02 System</a>
+  <a href="#research">03 Research</a>
+  <a href="#results">04 Results</a>
+</nav>
 
-    <!-- HERO -->
-    <section class="cs-hero">
-      <div class="cs-glow cs-glow--right" aria-hidden="true"></div>
-      <div class="cs-glow cs-glow--left"  aria-hidden="true"></div>
-      <div class="cs-hero__inner">
-        <p class="cs-tag">ERP &amp; CRM &mdash; Wave</p>
-        <h1 class="cs-title">
-          Developing a high-load<br>
-          system from scratch
-        </h1>
-        <div class="cs-meta">
-          <div class="cs-meta__item">
-            <span class="cs-meta__key">Role</span>
-            <span class="cs-meta__val">Founding Product Designer</span>
-          </div>
-          <div class="cs-meta__item">
-            <span class="cs-meta__key">Timeline</span>
-            <span class="cs-meta__val">4 months</span>
-          </div>
-          <div class="cs-meta__item">
-            <span class="cs-meta__key">Sector</span>
-            <span class="cs-meta__val">SaaS &amp; ERP/CRM</span>
-          </div>
-        </div>
+<main style="display:flex;flex-direction:column">
+
+  <!-- HERO -->
+  <div style="background:#111111;color:#FFFFFF;padding-bottom:clamp(56px,7vw,96px)">
+    <section class="wv-wrap" style="padding:150px clamp(20px,4.4vw,56px) 100px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px 56px;align-items:end">
+      <div style="display:flex;flex-direction:column;gap:28px;grid-column:span 2;min-width:0">
+        <div class="wv-eyebrow" style="color:#8FC2C9">ERP &amp; CRM — Wave</div>
+        <h1 style="margin:0;font-size:clamp(44px,6.8vw,96px);line-height:.98;font-weight:500;letter-spacing:-.035em;text-wrap:balance">Developing a high-load system from scratch</h1>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1px solid #2E2E2E;min-width:0">
+        <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #2E2E2E;font-size:15px"><span style="color:#8A8A8A">Role</span><span>Founding Product Designer</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #2E2E2E;font-size:15px"><span style="color:#8A8A8A">Timeline</span><span>2 years</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #2E2E2E;font-size:15px"><span style="color:#8A8A8A">Sector</span><span>SaaS &amp; ERP/CRM</span></div>
       </div>
     </section>
+    <div class="wv-wrap" style="padding:0 clamp(20px,4.4vw,56px)"><img src="../assets/wave/wave-final-home.jpg" alt="Wave home dashboard" style="width:100%;height:auto;background:#2A2A2A;border-radius:6px"></div>
+  </div>
 
-    <!-- OVERVIEW -->
-    <section class="cs-section wave-overview">
-      <div class="wave-overview__grid">
-        <div class="wave-overview__left">
-          <p class="cs-eyebrow">Overview</p>
-          <h2 class="wave-overview__title">Wave is an ERP &amp; CRM System for one of the bigger media holdings in Ukraine.</h2>
-        </div>
-        <div class="wave-overview__right">
-          <p class="wave-overview__body">This System helps to run businesses, supporting automation and processes in finance, human resources, supply chain, services and more.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- THE MAIN PROBLEM -->
-    <section class="cs-section wave-problem">
-      <p class="cs-eyebrow">The main problem</p>
-      <div class="wave-problem__grid">
-        <div class="wave-problem__card">
-          <span class="wave-problem__num">01</span>
-          <h3 class="wave-problem__title">Multiple disconnected tools</h3>
-          <p class="wave-problem__body">Employees had to juggle separate systems for every task &mdash; no single source of truth.</p>
-        </div>
-        <div class="wave-problem__card">
-          <span class="wave-problem__num">02</span>
-          <h3 class="wave-problem__title">No unified workspace</h3>
-          <p class="wave-problem__body">Context-switching between apps created friction and reduced overall productivity.</p>
-        </div>
-        <div class="wave-problem__card">
-          <span class="wave-problem__num">03</span>
-          <h3 class="wave-problem__title">Manual, error-prone processes</h3>
-          <p class="wave-problem__body">Without automation, finance and HR teams spent hours on tasks that should take minutes.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- BRANDING -->
-    <section class="cs-section cs-section--bordered">
-      <div class="cs-solution-head">
-        <p class="cs-eyebrow">Branding</p>
-        <h2 class="cs-solution-title">Typography and colors</h2>
-      </div>
-
-      <!-- Typography + Logo -->
-      <div class="wave-brand-grid">
-        <div class="wave-logo-card">
-          <img src="../assets/images/wave-logo.svg" alt="Wave logo — W.">
-        </div>
-        <div class="wave-type-card">
-          <p class="wave-type-name">Inter</p>
-          <div class="wave-type-chars">
-            <span>Aa</span><span>Bb</span><span>Cc</span><span>Dd</span><span>Ee</span><span>Ff</span><span>Gg</span><span>Hh</span>
-            <span>Ii</span><span>Jj</span><span>Kk</span><span>Ll</span><span>Mm</span><span>Nn</span><span>Oo</span><span>Qq</span>
-            <span>Rr</span><span>Ss</span><span>Tt</span><span>Uu</span><span>Vv</span><span>Ww</span><span>Yy</span><span>Zz</span>
-            <span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Colors + Photos -->
-      <div class="wave-palette-grid">
-
-        <!-- Col 1: Photo (tall) + Dark grey (short) -->
-        <div class="wave-palette-col">
-          <div class="wave-photo-card wave-palette-photo">
-            <img loading="lazy" src="../assets/images/wave-photo-1.jpg" alt="Wave workspace">
-          </div>
-          <div class="wave-color-card" style="background:#3D3D3D">
-            <span class="wave-color-name">Dark grey</span>
-            <span class="wave-color-hex">#3D3D3D</span>
-          </div>
-        </div>
-
-        <!-- Col 2: Ming full height -->
-        <div class="wave-color-card" style="background:#368793">
-          <span class="wave-color-name">Ming</span>
-          <span class="wave-color-hex">#3C757D</span>
-        </div>
-
-        <!-- Col 3: Light grey (short) + White (tall) -->
-        <div class="wave-palette-col">
-          <div class="wave-color-card wave-color-card--short" style="background:#CDCDCD">
-            <span class="wave-color-name wave-color-name--dark">Light grey</span>
-            <span class="wave-color-hex wave-color-hex--dark">#CDCDCD</span>
-          </div>
-          <div class="wave-color-card wave-color-card--tall" style="background:#FFFFFF">
-            <span class="wave-color-name wave-color-name--dark">White</span>
-            <span class="wave-color-hex wave-color-hex--dark">#FFFFFF</span>
-          </div>
-        </div>
-
-        <!-- Col 4: iMac photo full height -->
-        <div class="wave-photo-card">
-          <img loading="lazy" src="../assets/images/wave-photo-2.jpg" alt="Wave on monitor">
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ICONS -->
-    <section class="cs-section cs-section--bordered">
-      <div class="cs-solution-head">
-        <p class="cs-eyebrow">Branding</p>
-        <h2 class="cs-solution-title">Icons</h2>
-      </div>
-      <img loading="lazy" src="../assets/images/wave-icons-grid.png" alt="Wave icon library" class="wave-icons-img">
-    </section>
-
-    <!-- DESIGN SYSTEM -->
-    <section class="cs-section cs-section--bordered">
-      <div class="cs-solution-head">
-        <p class="cs-eyebrow">Design system</p>
-        <h2 class="cs-solution-title">Main components preview</h2>
-      </div>
-      <img loading="lazy" src="../assets/images/wave-design-system.png" alt="Wave design system — main components preview" class="wave-icons-img">
-    </section>
-
-    <!-- FEATURED SCREEN: PAYMENT -->
-    <section class="cs-section cs-section--bordered">
-      <img loading="lazy" src="../assets/images/wave-screen-payment.png" alt="Wave — New payment screen" class="wave-icons-img">
-    </section>
-
-    <!-- USER SURVEY -->
-    <section class="cs-section cs-section--bordered wave-survey">
-
-      <!-- Header -->
-      <div class="wave-survey__head">
-        <div class="wave-survey__dot-stack" aria-hidden="true">
-          <img loading="lazy" src="../assets/images/wave-survey-dot1.svg" class="wave-survey__dot wave-survey__dot--lg" alt="">
-          <img loading="lazy" src="../assets/images/wave-survey-dot2.svg" class="wave-survey__dot wave-survey__dot--md" alt="">
-          <img loading="lazy" src="../assets/images/wave-survey-dot3.svg" class="wave-survey__dot wave-survey__dot--sm" alt="">
-        </div>
-        <div class="wave-survey__text">
-          <p class="cs-eyebrow">User survey</p>
-          <p class="wave-survey__desc">A user Survey was conducted on 20 participants. As a result, a few additional insights were also received and these data give confidence in next initial desk research findings.</p>
-        </div>
-      </div>
-
-      <!-- Photo + quote cards overlay -->
-      <div class="wave-survey__visual">
-        <img loading="lazy" src="../assets/images/wave-survey-bg.jpg" alt="Office workspace" class="wave-survey__bg">
-
-        <!-- Left column quotes -->
-        <div class="wave-survey__col wave-survey__col--left">
-          <div class="wave-quote wave-quote--tl">
-            <img loading="lazy" src="../assets/images/wave-survey-avatar1.png" class="wave-quote__avatar" alt="">
-            <p class="wave-quote__text"><span class="wave-quote__mark">"</span>I'll be honest — our team needs something simple. I'd like everyone knew what they were working with, and we had no misunderstandings<span class="wave-quote__mark">"</span></p>
-          </div>
-          <div class="wave-quote wave-quote--tl">
-            <img loading="lazy" src="../assets/images/wave-survey-avatar2.png" class="wave-quote__avatar" alt="">
-            <p class="wave-quote__text"><span class="wave-quote__mark">"</span>I want to have one system where I can perform all work processes without using additional resources<span class="wave-quote__mark">"</span></p>
-          </div>
-        </div>
-
-        <!-- Right column quotes -->
-        <div class="wave-survey__col wave-survey__col--right">
-          <div class="wave-quote wave-quote--tr">
-            <img loading="lazy" src="../assets/images/wave-survey-avatar3.png" class="wave-quote__avatar" alt="">
-            <p class="wave-quote__text"><span class="wave-quote__mark">"</span>I need to track the status of payments and applications. In the system that our company uses, I do not have such an opportunity<span class="wave-quote__mark">"</span></p>
-          </div>
-          <div class="wave-quote wave-quote--tr">
-            <img loading="lazy" src="../assets/images/wave-survey-avatar4.png" class="wave-quote__avatar" alt="">
-            <p class="wave-quote__text"><span class="wave-quote__mark">"</span>I have an issue with the time management, and its would be great if tools would help me get my time right<span class="wave-quote__mark">"</span></p>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- USER FLOW -->
-    <section class="cs-section cs-section--bordered">
-      <div class="cs-solution-head">
-        <p class="cs-eyebrow">User flow</p>
-        <h2 class="cs-solution-title">User Flow Overview</h2>
-      </div>
-      <img loading="lazy" src="../assets/images/wave-userflow.png" alt="Wave user flow overview" class="wave-icons-img wave-userflow-img">
-    </section>
-
-    <!-- FULL-WIDTH PHOTO -->
-    <section class="wave-fullwidth-photo">
-      <img loading="lazy" src="../assets/images/wave-photo-meetings.jpg" alt="Wave — meetings in office" class="wave-fullwidth-photo__img">
-    </section>
-
-    <!-- WIREFRAMES -->
-    <section class="cs-section cs-section--bordered wave-wireframes-section">
-      <div class="cs-solution-head">
-        <p class="cs-eyebrow wave-eyebrow--dark">Wireframes</p>
-        <h2 class="cs-solution-title wave-title--dark">The next step was to create wireframes based on research and user flows.</h2>
-      </div>
-      <img loading="lazy" src="../assets/images/wave-wireframes.jpg" alt="Wave wireframes" class="wave-wireframes-img">
-    </section>
-
-    <!-- FINAL RESULTS -->
-    <section class="cs-section cs-section--bordered wave-final">
-      <div class="cs-solution-head">
-        <p class="cs-eyebrow">Final results</p>
-        <h2 class="cs-solution-title">Pre-designed layouts for main pages</h2>
-      </div>
-
-      <div class="wave-final__card">
-        <p class="cs-eyebrow wave-final__label">Sign up / Log in page</p>
-        <img loading="lazy" src="../assets/images/wave-final-signup.jpg" alt="Sign up page" class="wave-final__img">
-      </div>
-
-      <div class="wave-final__card">
-        <p class="cs-eyebrow wave-final__label">Home page</p>
-        <img loading="lazy" src="../assets/images/wave-final-home.jpg" alt="Home page — Meetings dashboard" class="wave-final__img">
-      </div>
-
-      <div class="wave-final__card">
-        <p class="cs-eyebrow wave-final__label">New payment page</p>
-        <img loading="lazy" src="../assets/images/wave-final-payment.jpg" alt="New payment page" class="wave-final__img">
-      </div>
-
-      <div class="wave-final__card">
-        <p class="cs-eyebrow wave-final__label">Pivot table</p>
-        <img loading="lazy" src="../assets/images/wave-final-pivot.jpg" alt="Pivot table — Sales order" class="wave-final__img">
-      </div>
-
-      <div class="wave-final__card">
-        <p class="cs-eyebrow wave-final__label">Filters</p>
-        <img loading="lazy" src="../assets/images/wave-final-filters.jpg" alt="Filters panel" class="wave-final__img">
-      </div>
-
-      <div class="wave-final__card">
-        <p class="cs-eyebrow wave-final__label">Analytics</p>
-        <img loading="lazy" src="../assets/images/wave-final-analytics.jpg" alt="Analytics page" class="wave-final__img">
-      </div>
-    </section>
-
-    <!-- SUCCESS METRICS -->
-    <section class="wave-metrics">
-      <div class="wave-metrics__head">
-        <p class="wave-metrics__eyebrow">Success metrics</p>
-        <h2 class="wave-metrics__title">Quantifiable improvements in workflow efficiency and data accuracy.</h2>
-      </div>
-      <div class="wave-metrics__row">
-        <div class="wave-metrics__item">
-          <span class="wave-metrics__num" data-count="1" data-pad="2">00</span>
-          <p class="wave-metrics__desc">Payment creation was reduced from many screens across a few systems to a single unified flow</p>
-        </div>
-        <div class="wave-metrics__item">
-          <span class="wave-metrics__num" data-count="2" data-pad="2">00</span>
-          <p class="wave-metrics__desc">Time-on-task cut from 40 min to 10 min per payment cycle</p>
-        </div>
-        <div class="wave-metrics__item">
-          <span class="wave-metrics__num" data-count="3" data-pad="2">00</span>
-          <p class="wave-metrics__desc">Reconciliation errors were eliminated through system-level validation, with no additional headcount</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer" style="margin-top:0">
-    <div class="footer__bottom">
-      <span class="footer__copy">Anastasiia Petrenko &mdash; Lead Product Designer</span>
-      <span class="footer__copy">&copy; 2026</span>
+  <!-- OVERVIEW -->
+  <section class="wv-wrap" style="padding:150px clamp(20px,4.4vw,56px);display:flex;flex-direction:column;gap:100px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="wv-eyebrow" style="color:#8A8A8A">Overview</div>
+      <h2 class="wv-h2" style="max-width:1100px;text-wrap:balance">Wave is an ERP &amp; CRM System for one of the bigger media holdings in Ukraine.</h2>
     </div>
-  </footer>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px 56px;border-top:1px solid #E4E4E4;padding-top:28px">
+      <div></div>
+      <p style="margin:0;font-size:20px;line-height:1.55;color:#5A5A5A;text-wrap:pretty">This System helps to run businesses, supporting automation and processes in finance, human resources, supply chain, services and more.</p>
+    </div>
+  </section>
+
+  <!-- STAGES -->
+  <section style="background:#F4F4F2">
+    <div class="wv-wrap" style="padding:150px clamp(20px,4.4vw,56px);display:flex;flex-direction:column;gap:100px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px 56px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px"><span class="wv-eyebrow" style="color:#8A8A8A">Process</span><h2 class="wv-h2">Stages</h2></div>
+        <p style="margin:0;font-size:20px;line-height:1.55;color:#5A5A5A;text-wrap:pretty">My work involved several stages from creating a strategy to producing a visual outcome.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <div style="position:relative;min-width:980px;padding:64px 0;display:flex;flex-direction:column;gap:20px;background-image:linear-gradient(90deg,#DADAD8 1px,transparent 1px);background-size:11.111% 100%">
+          <div id="wv-stages-bars" style="display:flex;flex-direction:column;gap:20px"></div>
+          <div id="wv-stages-info" style="width:min(360px,30%);min-height:120px;padding-top:12px;display:flex;flex-direction:column;gap:10px;transition:margin-left .35s ease"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section id="problem" style="background:#111111;color:#FFFFFF;scroll-margin-top:44px">
+    <div class="wv-wrap" style="padding:150px clamp(20px,4.4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:48px 80px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:14px"><span class="wv-eyebrow" style="color:#9A9A9A">Problem</span><h2 class="wv-h2">The main problem</h2></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="wv-prob-card">
+          <div style="display:flex;align-items:center;gap:12px"><span style="width:8px;height:8px;border-radius:999px;background:#8FC2C9"></span><h3 style="margin:0;font-size:26px;font-weight:500;letter-spacing:-.015em">Multiple disconnected tools</h3></div>
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#A3A3A3;padding-left:20px">Employees had to juggle separate systems for every task — no single source of truth.</p>
+        </div>
+        <div class="wv-prob-card">
+          <div style="display:flex;align-items:center;gap:12px"><span style="width:8px;height:8px;border-radius:999px;background:#8FC2C9"></span><h3 style="margin:0;font-size:26px;font-weight:500;letter-spacing:-.015em">No unified workspace</h3></div>
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#A3A3A3;padding-left:20px">Context-switching between apps created friction and reduced overall productivity.</p>
+        </div>
+        <div class="wv-prob-card">
+          <div style="display:flex;align-items:center;gap:12px"><span style="width:8px;height:8px;border-radius:999px;background:#8FC2C9"></span><h3 style="margin:0;font-size:26px;font-weight:500;letter-spacing:-.015em">Manual, error-prone processes</h3></div>
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#A3A3A3;padding-left:20px">Without automation, finance and HR teams spent hours on tasks that should take minutes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM -->
+  <section id="system" style="scroll-margin-top:44px;padding:150px clamp(20px,4.4vw,56px) 0;display:flex;flex-direction:column;gap:clamp(72px,8vw,112px);max-width:1440px;box-sizing:border-box;width:100%;margin:0 auto">
+    <!-- Branding -->
+    <div style="display:flex;flex-direction:column;gap:100px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <span class="wv-eyebrow" style="color:#8A8A8A">Branding</span>
+        <h2 class="wv-h2">Typography and colors</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px">
+          <div style="background-color:#3D3D3D;background-image:linear-gradient(#565656 1px,transparent 1px),linear-gradient(90deg,#565656 1px,transparent 1px);background-size:25% 25%;background-position:-1px -1px;border-radius:6px;min-height:380px;display:flex;align-items:center;justify-content:center"><img src="../assets/wave/wave-logo.svg" alt="Wave logo — W." style="width:62%;max-width:300px"></div>
+          <div style="background:#F4F4F2;border-radius:6px;min-height:380px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:32px">
+            <div style="font-family:Inter,'Helvetica Neue',sans-serif;font-size:36px;font-weight:500;letter-spacing:-.02em">Inter</div>
+            <div id="wv-glyphs" style="display:grid;grid-template-columns:repeat(8,minmax(0,1fr));row-gap:22px;font-family:Inter,'Helvetica Neue',sans-serif;font-size:20px;color:#3D3D3D"></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(6,minmax(64px,96px));gap:12px">
+          <img src="../assets/wave/wave-photo-1.jpg" alt="Wave workspace" style="grid-column:1;grid-row:1 / 5;width:100%;height:100%;object-fit:cover;border-radius:6px;background:#CDCDCD">
+          <div style="grid-column:1;grid-row:5 / 7;background:#3D3D3D;border-radius:6px;padding:20px 22px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px"><span style="font-size:16px;color:#FFFFFF">Dark grey</span><span style="font-family:'Geist Mono',monospace;font-size:13px;color:#CDCDCD">#3D3D3D</span></div>
+          <div style="grid-column:2;grid-row:1 / 7;background:#3C757D;border-radius:6px;padding:20px 22px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px"><span style="font-size:16px;color:#FFFFFF">Ming</span><span style="font-family:'Geist Mono',monospace;font-size:13px;color:#E3F0F1">#3C757D</span></div>
+          <div style="grid-column:3;grid-row:1 / 3;background:#CDCDCD;border-radius:6px;padding:20px 22px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px"><span style="font-size:16px;color:#3D3D3D">Light grey</span><span style="font-family:'Geist Mono',monospace;font-size:13px;color:#5A5A5A">#CDCDCD</span></div>
+          <div style="grid-column:3;grid-row:3 / 7;background:#FFFFFF;border-radius:6px;padding:20px 22px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;border:1px solid #E4E4E4"><span style="font-size:16px;color:#3D3D3D">White</span><span style="font-family:'Geist Mono',monospace;font-size:13px;color:#8A8A8A">#FFFFFF</span></div>
+          <img src="../assets/wave/wave-photo-2.jpg" alt="Wave on monitor" style="grid-column:4;grid-row:1 / 7;width:100%;height:100%;object-fit:cover;border-radius:6px;background:#CDCDCD">
+        </div>
+        <div id="wv-icons" style="display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:12px;align-items:start;padding-top:12px"></div>
+      </div>
+    </div>
+
+    <!-- Design system -->
+    <div style="display:flex;flex-direction:column;gap:100px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <span class="wv-eyebrow" style="color:#8A8A8A">Design system</span>
+        <h2 class="wv-h2">Main components preview</h2>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:stretch">
+
+        <!-- Col 1: inputs -->
+        <div style="flex:2.1 1 0;min-width:min(100%,360px);box-sizing:border-box;background:#F4F4F2;border-radius:6px;padding:28px;display:flex;flex-direction:column;gap:22px">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:#5A5A5A">Label</span><input class="wv-input" placeholder="Placeholder text"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:#5A5A5A">Label</span>
+            <div style="position:relative"><input id="wv-pw" class="wv-input" type="password" placeholder="Placeholder text" style="padding-right:48px">
+            <button id="wv-pw-toggle" type="button" aria-label="Show password" style="position:absolute;right:8px;top:8px;width:32px;height:32px;border:0;background:transparent;border-radius:4px;cursor:pointer;color:#8A8A8A;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></div></label>
+          <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:#5A5A5A">Label</span><input class="wv-input" placeholder="Placeholder text">
+            <a href="#" onclick="return false" style="align-self:flex-end;font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:3px">Button</a></div>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:#5A5A5A">Label</span><input class="wv-input" placeholder="" style="border-color:#3C757D;box-shadow:0 0 0 1px #3C757D"></label>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;color:#5A5A5A">Label</span>
+            <div id="wv-err-wrap" style="position:relative;color:#D92D20"><input id="wv-err" class="wv-input" value="Placeholder" style="border-color:#D92D20;box-shadow:0 0 0 1px #D92D20;padding-right:48px">
+            <span id="wv-err-icon" style="position:absolute;right:16px;top:14px;display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></span></div>
+            <span id="wv-err-msg" style="font-size:14px;color:#D92D20">Error message</span></label>
+        </div>
+
+        <!-- Col 2: buttons -->
+        <div style="flex:1 1 0;min-width:200px;display:flex;flex-direction:column;gap:24px">
+          <div style="background:#F4F4F2;border-radius:6px;padding:28px;display:flex;flex-direction:column;gap:14px;flex:1">
+            <button id="wv-btn-p" type="button" class="wv-btn wv-btn-primary">Login</button>
+            <button type="button" class="wv-btn" disabled style="background:#9BBFC4;color:#FFFFFF;cursor:not-allowed">Login</button>
+            <button type="button" class="wv-btn wv-btn-primary" style="cursor:default"><span class="wv-mini"></span>Login</button>
+            <button type="button" class="wv-btn wv-btn-primary" style="cursor:default"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Login</button>
+            <button id="wv-btn-o" type="button" class="wv-btn wv-btn-outline">Login</button>
+            <button type="button" class="wv-btn wv-btn-outline" style="cursor:default"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Login</button>
+          </div>
+          <div style="background:#3C757D;border-radius:6px;min-height:220px;display:flex;align-items:center;justify-content:center"><div id="wv-bigspin" style="width:84px;height:84px;position:relative;animation:wv-spin 1.2s steps(12) infinite"></div></div>
+        </div>
+
+        <!-- Col 3: photo + status + pagination -->
+        <div style="flex:2.1 1 0;min-width:min(100%,360px);display:flex;flex-direction:column;gap:24px">
+          <div style="width:100%;aspect-ratio:826/722;border-radius:6px;overflow:hidden;background:#CDCDCD"><img src="../assets/wave/wave-building.jpg" alt="Office building" style="width:100%;height:100%;object-fit:cover;transform:scale(1.12)"></div>
+          <div style="background:#F4F4F2;border-radius:6px;padding:28px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:16px;margin-bottom:4px">Status</span>
+            <div id="wv-status" style="display:flex;flex-direction:column;gap:10px"></div>
+          </div>
+          <div id="wv-pager" style="background:#F4F4F2;border-radius:6px;padding:28px;display:flex;align-items:center;justify-content:center;gap:8px"></div>
+        </div>
+
+        <!-- Col 4: lists -->
+        <div style="flex:1 1 0;min-width:220px;box-sizing:border-box;background:#F4F4F2;border-radius:6px;padding:28px;display:flex;flex-direction:column;gap:12px">
+          <div id="wv-list1" style="background:#FFFFFF;border-top:2px solid #3C757D;border-radius:0 0 4px 4px;padding:8px;display:flex;flex-direction:column"></div>
+          <div id="wv-list2" style="background:#FFFFFF;border-top:2px solid #3C757D;border-radius:0 0 4px 4px;padding:8px;display:flex;flex-direction:column"></div>
+          <div id="wv-list3" style="background:#FFFFFF;border-top:2px solid #3C757D;border-radius:0 0 4px 4px;padding:8px;display:flex;flex-direction:column"></div>
+        </div>
+
+      </div>
+      <img src="../assets/wave/wave-payment.png" alt="Wave — New payment screen" class="wv-bleed" style="height:auto;background:#F4F4F2">
+    </div>
+  </section>
+
+  <!-- RESEARCH / survey -->
+  <section id="research" style="background:#111111;color:#FFFFFF;scroll-margin-top:44px">
+    <div class="wv-wrap" style="padding:150px clamp(20px,4.4vw,56px);display:flex;flex-direction:column;gap:100px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 56px;align-items:end">
+        <div style="display:flex;flex-direction:column;gap:14px"><span class="wv-eyebrow" style="color:#9A9A9A">User survey</span>
+          <div style="font-size:clamp(104px,12vw,168px);line-height:.85;font-weight:500;letter-spacing:-.05em">20<span style="font-size:.25em;letter-spacing:-.01em;color:#8FC2C9;font-weight:400"> participants</span></div></div>
+        <p style="margin:0;font-size:20px;line-height:1.55;color:#A3A3A3;text-wrap:pretty">A user Survey was conducted on 20 participants. As a result, a few additional insights were also received and these data give confidence in next initial desk research findings.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px 56px;border-top:1px solid #2A2A2A;padding-top:48px">
+        <div id="wv-people" style="display:flex;flex-direction:column;gap:6px;min-width:0"></div>
+        <blockquote id="wv-quote" style="margin:0;grid-column:span 2;font-size:clamp(28px,3.2vw,44px);line-height:1.2;letter-spacing:-.02em;font-weight:400;text-wrap:pretty;min-height:4.8em"></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER FLOW + meetings + wireframes -->
+  <section style="padding:0 clamp(20px,4.4vw,56px);display:flex;flex-direction:column;gap:clamp(72px,8vw,112px);max-width:1440px;box-sizing:border-box;width:100%;margin:0 auto">
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div id="wv-flow-section" style="background:#F4F4F2;margin:0 calc(50% - 50vw);padding:150px calc(50vw - 50%);display:flex;flex-direction:column;gap:100px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <span class="wv-eyebrow" style="color:#8A8A8A">User flow</span>
+          <h2 class="wv-h2">User Flow Overview</h2>
+        </div>
+        <div style="overflow-x:auto">
+          <div id="wv-flow" style="position:relative;min-width:760px;container-type:inline-size">
+            <svg id="wv-flow-svg" viewBox="0 0 1120 700" style="width:100%;display:block" role="img" aria-label="Wave user flow overview"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="wv-meetings-wrap" style="position:relative;width:100vw;margin:0 calc(50% - 50vw);aspect-ratio:2416/1512;border-radius:0;overflow:hidden;background:#CDCDCD;container-type:inline-size">
+      <img src="../assets/wave/wave-office.jpg" alt="Wave — meetings in office" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+      <div style="position:absolute;top:0;bottom:0;left:11%;width:25%;background:rgba(255,255,255,.18);backdrop-filter:blur(14px) saturate(1.1);-webkit-backdrop-filter:blur(14px) saturate(1.1);border-left:1px solid rgba(255,255,255,.35);border-right:1px solid rgba(255,255,255,.35);display:flex;flex-direction:column;justify-content:center;gap:1.4cqi;padding:0 1.6cqi;box-sizing:border-box">
+        <div id="wv-meetings" style="display:flex;flex-direction:column;gap:1.4cqi"></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:100px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px 56px">
+        <span class="wv-eyebrow" style="color:#8A8A8A">Wireframes</span>
+        <h2 class="wv-h2" style="grid-column:span 3;text-wrap:pretty">The next step was to create wireframes based on research and user flows.</h2>
+      </div>
+      <img src="../assets/wave/wave-wireframes.jpg" alt="Wave wireframes" class="wv-bleed" style="height:auto;background:#FFFFFF">
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" style="background:#F4F4F2;scroll-margin-top:44px">
+    <div class="wv-wrap" style="padding:150px clamp(20px,4.4vw,56px);display:flex;flex-direction:column;gap:100px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <span class="wv-eyebrow" style="color:#8A8A8A">Final results</span>
+        <h2 class="wv-h2">Pre-designed layouts for main pages</h2>
+      </div>
+      <div id="wv-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px 24px"></div>
+    </div>
+  </section>
+
+  <!-- SUCCESS METRICS -->
+  <section style="background:#111111;color:#FFFFFF">
+    <div class="wv-wrap" style="padding:150px clamp(20px,4.4vw,56px);display:flex;flex-direction:column;gap:100px">
+      <div style="display:flex;flex-direction:column;gap:14px"><span class="wv-eyebrow" style="color:#9A9A9A">Success metrics</span>
+        <h2 class="wv-h2" style="max-width:900px">Quantifiable improvements in workflow efficiency and data accuracy.</h2></div>
+      <div style="display:flex;flex-direction:column;border-top:1px solid #2A2A2A">
+        <div class="wv-metric-row">
+          <div class="wv-metric-fig">1<span style="font-size:40px;letter-spacing:-.01em"> flow</span></div>
+          <p style="margin:0;font-size:20px;line-height:1.5;color:#A3A3A3">Payment creation was reduced from many screens across a few systems to a single unified flow</p></div>
+        <div class="wv-metric-row">
+          <div class="wv-metric-fig"><span style="color:#5A5A5A;text-decoration:line-through;text-decoration-thickness:.05em;margin-right:.18em">40</span>10<span style="font-size:40px;letter-spacing:-.01em"> min</span></div>
+          <p style="margin:0;font-size:20px;line-height:1.5;color:#A3A3A3">Time-on-task cut from 40 min to 10 min per payment cycle</p></div>
+        <div class="wv-metric-row">
+          <div class="wv-metric-fig">0<span style="font-size:40px;letter-spacing:-.01em"> errors</span></div>
+          <p style="margin:0;font-size:20px;line-height:1.5;color:#A3A3A3">Reconciliation errors were eliminated through system-level validation, with no additional headcount</p></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wv-foot">
+  <div style="max-width:1440px;margin:0 auto">
+    <div class="wv-fcols">
+      <div>
+        <p class="wv-flabel">Contact</p>
+        <p style="margin:0 0 6px;font-size:15px;color:#CDCDCD;line-height:1.6">Montpellier, France</p>
+        <a href="mailto:petrenkoag95@gmail.com" class="wv-flink">petrenkoag95@gmail.com</a>
+      </div>
+      <div>
+        <p class="wv-flabel">Links</p>
+        <a href="https://www.linkedin.com/in/anastasia-petrenko/" target="_blank" rel="noopener noreferrer" class="wv-flink">LinkedIn</a>
+        <a href="https://dribbble.com/AnnastasiiaP2018" target="_blank" rel="noopener noreferrer" class="wv-flink">Dribbble</a>
+        <a href="https://www.behance.net/petrenkoanastasia" target="_blank" rel="noopener noreferrer" class="wv-flink">Behance</a>
+      </div>
+      <div>
+        <p class="wv-flabel">Navigate</p>
+        <a href="../index.html#work" class="wv-flink">Work</a>
+        <a href="../index.html#how-i-work" class="wv-flink">About</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:28px;margin-top:48px;border-top:1px solid #2A2A2A;font-size:14px;color:#8A8A8A">
+      <span>Anastasiia Petrenko &mdash; Lead Product Designer</span><span>&copy; 2026</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<!-- Lightbox -->
+<div id="wv-lb" style="position:fixed;inset:0;z-index:50;background:rgba(17,17,17,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:clamp(16px,5vw,72px);box-sizing:border-box;cursor:zoom-out">
+  <img id="wv-lb-img" src="" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;border-radius:6px;box-shadow:0 24px 80px rgba(0,0,0,.5)">
+  <span id="wv-lb-cap" style="position:absolute;left:50%;bottom:20px;transform:translateX(-50%);color:#CDCDCD;font-size:14px;white-space:nowrap"></span>
+  <button id="wv-lb-prev" type="button" aria-label="Previous" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:999px;border:1px solid #3A3A3A;background:#1A1A1A;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <button id="wv-lb-next" type="button" aria-label="Next" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:999px;border:1px solid #3A3A3A;background:#1A1A1A;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button>
+  <button id="wv-lb-close" type="button" aria-label="Close" style="position:absolute;right:20px;top:20px;width:44px;height:44px;border-radius:999px;border:1px solid #3A3A3A;background:#1A1A1A;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
 
 <script>
-  const counters = document.querySelectorAll('.wave-metrics__num[data-count]');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      observer.unobserve(entry.target);
-      const el = entry.target;
-      const target = +el.dataset.count;
-      const pad = +el.dataset.pad || 0;
-      const suffix = el.dataset.suffix || '';
-      const duration = 1000 + target * 200;
-      const start = performance.now();
-      function update(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const val = Math.round(eased * target);
-        el.textContent = pad ? String(val).padStart(pad, '0') + suffix : val + suffix;
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
+(function(){
+  var B='../assets/wave/';
+  var CHECK='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>';
+  var el=function(id){return document.getElementById(id);};
+
+  function nb(t){var p;do{p=t;t=t.replace(/(^|[\s ])(a|an|the|of|in|on|to|for|and|or|by|at|from|with|as|is|into|its|plus|one|then|I|I'll|we|no|my|our|me|be)\s+/gi,function(x,s1,w){return s1+w+' ';});}while(t!==p);return t;}
+
+  /* ---------- Big spinner ---------- */
+  (function(){
+    var box=el('wv-bigspin');if(!box)return;var h='';
+    for(var i=0;i<12;i++){h+='<span style="position:absolute;left:50%;top:0;width:10px;height:15px;margin-left:-5px;border-radius:2.5px;background:#FFFFFF;opacity:'+(0.25+0.75*(i/11))+';transform-origin:5px 42px;transform:rotate('+(i*30)+'deg)"></span>';}
+    box.innerHTML=h;
+  })();
+
+  /* ---------- Glyphs ---------- */
+  (function(){
+    var g=['Aa','Bb','Cc','Dd','Ee','Ff','Gg','Hh','Ii','Jj','Kk','Ll','Mm','Nn','Oo','Qq','Rr','Ss','Tt','Uu','Vv','Ww','Yy','Zz','9','8','7','6','5','4','3','2'];
+    el('wv-glyphs').innerHTML=g.map(function(x){return '<span>'+x+'</span>';}).join('');
+  })();
+
+  /* ---------- Icon grid ---------- */
+  (function(){
+    var heights=[4,5,6,3,2,3,4,5,3],k=0,cols=[];
+    for(var c=0;c<heights.length;c++){var col=[];for(var j=0;j<heights[c];j++){k++;col.push(k);}cols.push(col);}
+    el('wv-icons').innerHTML=cols.map(function(col){
+      return '<div style="display:flex;flex-direction:column;gap:12px">'+col.map(function(n){
+        var src=B+'icons/wave-icon-'+String(n).padStart(2,'0')+'.svg';
+        return '<div class="wv-icon-tile"><span style="-webkit-mask-image:url('+src+');mask-image:url('+src+')"></span></div>';
+      }).join('')+'</div>';
+    }).join('');
+  })();
+
+  /* ---------- Stages ---------- */
+  (function(){
+    var data=[['Discovery phase',0,33.3],['UX Research',22.2,27],['Design',33.3,26.5],['Development',50,29.5],['QA',70,30]];
+    var text={
+      'Discovery phase':'Desk research into how the media holding runs finance, HR, supply chain and services, and an audit of the disconnected tools teams used every day.',
+      'UX Research':'A user survey with 20 participants. Key needs: one system for all work processes, payment and application status tracking, and help with time management.',
+      'Design':'User flows, wireframes, Wave branding, an icon set and a design system, then pre-designed layouts for the main pages.',
+      'Development':'Handoff to engineering with component specs and states, plus support for the team while the main flows were built.',
+      'QA':'Design review of builds against layouts, with a focus on the payment flow and system-level validation.'
+    };
+    var act='Design';
+    var barsEl=el('wv-stages-bars'),infoEl=el('wv-stages-info');
+    function chevron(color){return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>';}
+    function render(){
+      barsEl.innerHTML=data.map(function(r){
+        var label=r[0],on=act===label;
+        var bg=on?'#3C757D':'#F4F4F2',ink=on?'#FFFFFF':'#3D3D3D',halo=on?'rgba(255,255,255,.3)':'#DCE9EA',dot=on?'#FFFFFF':'#3C757D',arrow=on?'#FFFFFF':'#3C757D';
+        return '<button type="button" data-stage="'+label+'" style="all:unset;box-sizing:border-box;cursor:pointer;margin-left:'+r[1]+'%;width:'+r[2]+'%;min-width:max-content;gap:16px;height:64px;padding:6px;border-radius:999px;background:#FFFFFF;border:1px solid #E4E4E4;display:flex;align-items:center;justify-content:space-between;transition:background .2s">'
+          +'<span style="height:100%;display:flex;align-items:center;gap:12px;padding:0 22px 0 14px;border-radius:999px;background:'+bg+';color:'+ink+';font-size:18px;white-space:nowrap;transition:background .25s,color .25s">'
+          +'<span style="width:24px;height:24px;border-radius:999px;background:'+halo+';display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:999px;background:'+dot+'"></span></span>'+label+'</span>'
+          +'<span style="width:52px;height:52px;border-radius:999px;background:'+bg+';display:flex;align-items:center;justify-content:center;flex:none;transition:background .25s">'+chevron(arrow)+'</span></button>';
+      }).join('');
+      var row=data.find(function(r){return r[0]===act;});
+      infoEl.style.marginLeft=Math.min(row[1],70)+'%';
+      infoEl.innerHTML='<span class="wv-eyebrow" style="color:#3C757D">'+act+'</span><p style="margin:0;font-size:16px;line-height:1.55;color:#3D3D3D;text-wrap:pretty">'+nb(text[act])+'</p>';
+    }
+    barsEl.addEventListener('click',function(e){var b=e.target.closest('[data-stage]');if(b){act=b.getAttribute('data-stage');render();}});
+    barsEl.addEventListener('mouseover',function(e){var b=e.target.closest('[data-stage]');if(b&&b.getAttribute('data-stage')!==act){act=b.getAttribute('data-stage');render();}});
+    render();
+  })();
+
+  /* ---------- Components: password ---------- */
+  (function(){
+    var inp=el('wv-pw'),btn=el('wv-pw-toggle'),shown=false;
+    btn.addEventListener('click',function(){shown=!shown;inp.type=shown?'text':'password';btn.style.color=shown?'#3C757D':'#8A8A8A';});
+  })();
+
+  /* ---------- Components: error input ---------- */
+  (function(){
+    var inp=el('wv-err'),wrap=el('wv-err-wrap'),icon=el('wv-err-icon'),msg=el('wv-err-msg');
+    function upd(){
+      var err=inp.value.trim().length<12;
+      inp.style.borderColor=err?'#D92D20':'#3C757D';
+      inp.style.boxShadow='0 0 0 1px '+(err?'#D92D20':'#3C757D');
+      icon.style.display=err?'flex':'none';
+      msg.style.display=err?'':'none';
+    }
+    inp.addEventListener('input',upd);upd();
+  })();
+
+  /* ---------- Components: run buttons ---------- */
+  (function(){
+    function wire(btn){
+      var state='idle';
+      btn.addEventListener('click',function(){
+        if(state!=='idle')return;state='loading';
+        btn.innerHTML='<span class="wv-mini"></span>Login';
+        setTimeout(function(){state='done';btn.innerHTML=CHECK+'Login';},1200);
+        setTimeout(function(){state='idle';btn.innerHTML='Login';},2600);
+      });
+    }
+    wire(el('wv-btn-p'));wire(el('wv-btn-o'));
+  })();
+
+  /* ---------- Components: status ---------- */
+  (function(){
+    var data=[['New',31,'#6BB3D6'],['In progress',1,'#3C757D'],['In payment',15,'#DD7A22']];
+    var sel=null,wrap=el('wv-status');
+    function render(){
+      wrap.innerHTML=data.map(function(r){
+        var label=r[0],val=r[1],bg=r[2];
+        var w=Math.max(30,(val/31)*55)+'%';
+        var op=(sel&&sel!==label)?0.35:1;
+        return '<button type="button" data-st="'+label+'" style="all:unset;cursor:pointer;display:block;background:#FFFFFF;border-radius:999px;opacity:'+op+';transition:opacity .2s">'
+          +'<span style="display:flex;justify-content:space-between;align-items:center;height:28px;padding:0 14px;box-sizing:border-box;border-radius:999px;background:'+bg+';color:#FFFFFF;font-size:13px;font-weight:500;white-space:nowrap;gap:12px;min-width:max-content;width:'+w+';transition:width .4s"><span>'+label+'</span><span>'+val+'</span></span></button>';
+      }).join('');
+    }
+    wrap.addEventListener('click',function(e){var b=e.target.closest('[data-st]');if(b){var l=b.getAttribute('data-st');sel=sel===l?null:l;render();}});
+    render();
+  })();
+
+  /* ---------- Components: pagination ---------- */
+  (function(){
+    var N=5,page=2,wrap=el('wv-pager');
+    function arrow(dir,color){return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="'+(dir==='prev'?'M15 18l-6-6 6-6':'M9 18l6-6-6-6')+'"></path></svg>';}
+    function render(){
+      var h='<button type="button" data-nav="prev" aria-label="Previous" style="flex:none;width:40px;height:40px;border:0;border-radius:999px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center">'+arrow('prev',page>1?'#3D3D3D':'#CDCDCD')+'</button>';
+      for(var i=1;i<=N;i++){var cur=page===i;h+='<button type="button" data-pg="'+i+'" style="flex:none;width:40px;height:40px;border:0;border-radius:999px;background:'+(cur?'#3C757D':'transparent')+';color:'+(cur?'#FFFFFF':'#3D3D3D')+';font-family:Geist,sans-serif;font-size:15px;cursor:pointer;transition:background .15s">'+i+'</button>';}
+      h+='<button type="button" data-nav="next" aria-label="Next" style="flex:none;width:40px;height:40px;border:0;border-radius:999px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center">'+arrow('next',page<N?'#3D3D3D':'#CDCDCD')+'</button>';
+      wrap.innerHTML=h;
+    }
+    wrap.addEventListener('click',function(e){
+      var pg=e.target.closest('[data-pg]'),nav=e.target.closest('[data-nav]');
+      if(pg){page=+pg.getAttribute('data-pg');render();}
+      else if(nav){var d=nav.getAttribute('data-nav');if(d==='prev'&&page>1)page--;if(d==='next'&&page<N)page++;render();}
     });
-  }, { threshold: 0.4 });
-  counters.forEach(el => observer.observe(el));
+    wrap.addEventListener('mouseover',function(e){var b=e.target.closest('button');if(b&&b.style.background==='transparent'){b.style.background='#C5DADC';}});
+    wrap.addEventListener('mouseout',function(e){var b=e.target.closest('button');if(b){var isCur=b.getAttribute('data-pg')&&+b.getAttribute('data-pg')===page;if(!isCur&&b.style.background==='rgb(197, 218, 220)')b.style.background='transparent';}});
+    render();
+  })();
+
+  /* ---------- Components: lists ---------- */
+  (function(){
+    var items=['All','Request Date','Number','Amount','Currency'];
+    /* single-select */
+    var sel='Request Date',l1=el('wv-list1');
+    function r1(){l1.innerHTML=items.map(function(label){var on=sel===label;return '<div class="wv-listrow" data-v="'+label+'" style="color:'+(on?'#3C757D':'#3D3D3D')+';background:'+(on?'#EEF4F4':'transparent')+'">'+label+'</div>';}).join('');}
+    l1.addEventListener('click',function(e){var d=e.target.closest('[data-v]');if(d){sel=d.getAttribute('data-v');r1();}});
+    r1();
+    /* checkbox */
+    var checks={'Request Date':true},l2=el('wv-list2');
+    function allChecked(){return items.slice(1).every(function(x){return checks[x];});}
+    function r2(){
+      l2.innerHTML=items.map(function(label){
+        var checked=label==='All'?allChecked():!!checks[label];
+        var box='<span style="width:18px;height:18px;box-sizing:border-box;border:1px solid '+(checked?'#3C757D':'#CDCDCD')+';border-radius:3px;display:flex;align-items:center;justify-content:center;color:#3C757D;flex:none">'+(checked?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>':'')+'</span>';
+        return '<div class="wv-listrow" data-v="'+label+'">'+box+label+'</div>';
+      }).join('');
+    }
+    l2.addEventListener('click',function(e){
+      var d=e.target.closest('[data-v]');if(!d)return;var label=d.getAttribute('data-v');
+      if(label==='All'){var want=!allChecked();var c={};items.slice(1).forEach(function(x){c[x]=want;});checks=c;}
+      else checks[label]=!checks[label];
+      r2();
+    });
+    r2();
+    /* drag reorder */
+    var order=['All','Request Date','Number','Amount'],drag=null,l3=el('wv-list3');
+    var grip='<svg width="10" height="16" viewBox="0 0 10 16" fill="#CDCDCD"><circle cx="2.5" cy="2.5" r="1.5"></circle><circle cx="7.5" cy="2.5" r="1.5"></circle><circle cx="2.5" cy="8" r="1.5"></circle><circle cx="7.5" cy="8" r="1.5"></circle><circle cx="2.5" cy="13.5" r="1.5"></circle><circle cx="7.5" cy="13.5" r="1.5"></circle></svg>';
+    function r3(){
+      l3.innerHTML=order.map(function(label,i){
+        return '<div class="wv-listrow" draggable="true" data-i="'+i+'" style="justify-content:space-between;cursor:grab;opacity:'+(drag===i?0.4:1)+';background:'+(drag===i?'#EEF4F4':'transparent')+'">'+label+grip+'</div>';
+      }).join('');
+    }
+    l3.addEventListener('dragstart',function(e){var d=e.target.closest('[data-i]');if(d){drag=+d.getAttribute('data-i');e.dataTransfer.effectAllowed='move';r3();}});
+    l3.addEventListener('dragover',function(e){
+      e.preventDefault();var d=e.target.closest('[data-i]');if(!d||drag===null)return;var i=+d.getAttribute('data-i');if(i===drag)return;
+      var m=order.splice(drag,1)[0];order.splice(i,0,m);drag=i;r3();
+    });
+    l3.addEventListener('dragend',function(){drag=null;r3();});
+    r3();
+  })();
+
+  /* ---------- Research survey ---------- */
+  (function(){
+    var people=[
+      ['Olena Kovalenko','Team Lead, Marketing',"I'll be honest — our team needs something simple. I'd like everyone knew what they were working with, and we had no misunderstandings"],
+      ['Iryna Melnyk','Operations Manager','I want to have one system where I can perform all work processes without using additional resources'],
+      ['Andrii Bondar','Accountant, Finance','I need to track the status of payments and applications. In the system that our company uses, I do not have such an opportunity'],
+      ['Taras Shevchuk','Project Manager','I have an issue with the time management, and its would be great if tools would help me get my time right']
+    ];
+    var qa=0,pEl=el('wv-people'),qEl=el('wv-quote');
+    function render(){
+      pEl.innerHTML=people.map(function(p,i){
+        var on=qa===i;
+        return '<button type="button" data-i="'+i+'" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:6px;background:'+(on?'#1F1F1F':'transparent')+';opacity:'+(on?1:0.5)+';transition:background .2s,opacity .2s">'
+          +'<img src="'+B+'wave-survey-avatar'+(i+1)+'.png" alt="'+p[0]+'" style="width:44px;height:44px;border-radius:999px;object-fit:cover;flex:none">'
+          +'<span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:500">'+p[0]+'</span><span style="font-size:14px;color:#A3A3A3">'+p[1]+'</span></span></button>';
+      }).join('');
+      qEl.innerHTML='<span style="color:#8FC2C9">“</span>'+nb(people[qa][2])+'<span style="color:#8FC2C9">”</span>';
+    }
+    pEl.addEventListener('click',function(e){var b=e.target.closest('[data-i]');if(b){qa=+b.getAttribute('data-i');render();}});
+    pEl.addEventListener('mouseover',function(e){var b=e.target.closest('[data-i]');if(b&&+b.getAttribute('data-i')!==qa){qa=+b.getAttribute('data-i');render();}});
+    render();
+  })();
+
+  /* ---------- User flow ---------- */
+  (function(){
+    var svg=el('wv-flow-svg'),wrap=el('wv-flow');if(!svg)return;
+    var SVGNS='http://www.w3.org/2000/svg';
+    function N(id,label,cx,cy,w,st,kind,d){return {id:id,label:label,cx:cx,cy:cy,w:w,st:st,kind:kind||'box',d:d||0};}
+    var nodes=[
+      N('entry','Entry',90,440,130,0,'term'),
+      N('dec','User has account?',300,440,0,1,'diamond'),
+      N('yes','Yes',300,300,100,2,'term'),
+      N('login','Login form',480,300,170,3),
+      N('dash','Dashboard',720,300,170,4)
+    ];
+    [['Statistics',60],['Payments',140],['Analytics',220],['My tasks',300],['Notification',380]].forEach(function(a,i){nodes.push(N(a[0],a[0],990,a[1],180,5,'box',i));});
+    nodes.push(N('no','No',300,580,100,6,'term'));
+    nodes.push(N('onb','Onboarding',480,580,170,7));
+    nodes.push(N('reg','Registration form',720,580,200,8));
+    nodes.push(N('create','Create new project',990,520,200,9,'box',0));
+    nodes.push(N('join','Join existing',990,640,200,9,'box',1));
+
+    function R(x,y){return 'M'+(x-7)+' '+(y-6)+' L'+x+' '+y+' L'+(x-7)+' '+(y+6);}
+    function br(x0,y0,xt,x1,y){if(y===y0)return 'M'+x0+' '+y0+' H'+x1;var s=Math.sign(y-y0),r=14;return 'M'+x0+' '+y0+' H'+(xt-r)+' Q'+xt+' '+y0+' '+xt+' '+(y0+s*r)+' V'+(y-s*r)+' Q'+xt+' '+y+' '+(xt+r)+' '+y+' H'+x1;}
+    function E(d,arrow,st,i){return {d:d,arrow:arrow,st:st,i:i||0,x:0};}
+    var edges=[
+      E('M162 440 H176',R(176,440),1),
+      E('M300 352 V334','M294 341 L300 334 L306 341',2),
+      E('M350 300 H392',R(392,300),3),
+      E('M570 300 H632',R(632,300),4)
+    ];
+    [60,140,220,300,380].forEach(function(y,i){edges.push(E(br(810,300,850,892,y),R(892,y),5,i));});
+    edges.push(E('M300 528 V546','M294 539 L300 546 L306 539',6));
+    edges.push(E('M350 580 H392',R(392,580),7));
+    edges.push(E('M570 580 H612',R(612,580),8));
+    [520,640].forEach(function(y,i){edges.push(E(br(825,580,860,882,y),R(882,y),9,i));});
+    [[60,1088],[220,1088],[300,1088]].forEach(function(a,i){var e=E('M'+a[1]+' '+a[0]+' H1180','',5,i);e.x=0.6;edges.push(e);});
+    [[140,100],[140,180],[380,340],[380,420]].forEach(function(a,i){var e=E(br(1088,a[0],1110,1180,a[1]),'',5,i);e.x=0.6;edges.push(e);});
+    [520,640].forEach(function(y,i){var e=E('M1098 '+y+' H1180','',9,i);e.x=0.6;edges.push(e);});
+
+    /* build edge paths */
+    var edgeEls=edges.map(function(e){
+      var p=document.createElementNS(SVGNS,'path');
+      p.setAttribute('d',e.d);p.setAttribute('pathLength','1');p.setAttribute('fill','none');
+      p.setAttribute('stroke','#3C757D');p.setAttribute('stroke-width','1.6');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');
+      p.style.strokeDasharray='1';p.style.strokeDashoffset='1';p.style.transition='stroke-dashoffset .45s ease';
+      svg.appendChild(p);
+      var a=null;
+      if(e.arrow){a=document.createElementNS(SVGNS,'path');a.setAttribute('d',e.arrow);a.setAttribute('fill','none');a.setAttribute('stroke','#3C757D');a.setAttribute('stroke-width','1.6');a.setAttribute('stroke-linecap','round');a.setAttribute('stroke-linejoin','round');a.style.opacity='0';a.style.transition='opacity .15s ease';svg.appendChild(a);}
+      return {meta:e,path:p,arrow:a};
+    });
+    /* build node shapes + labels */
+    var nodeEls=nodes.map(function(n){
+      var g=document.createElementNS(SVGNS,'g');
+      g.style.transformBox='fill-box';g.style.opacity='0';g.style.transform='translateY(8px)';g.style.transition='opacity .35s ease,transform .35s ease';
+      var shape;
+      if(n.kind==='diamond'){shape=document.createElementNS(SVGNS,'polygon');shape.setAttribute('points',n.cx+','+(n.cy-80)+' '+(n.cx+115)+','+n.cy+' '+n.cx+','+(n.cy+80)+' '+(n.cx-115)+','+n.cy);shape.setAttribute('stroke-dasharray','5 5');}
+      else{shape=document.createElementNS(SVGNS,'rect');shape.setAttribute('x',n.cx-n.w/2);shape.setAttribute('y',n.cy-26);shape.setAttribute('width',n.w);shape.setAttribute('height',52);shape.setAttribute('rx',n.kind==='term'?26:16);shape.setAttribute('stroke-dasharray',n.kind==='term'?'none':'5 5');}
+      shape.setAttribute('fill','none');shape.setAttribute('stroke','#8A8A8A');shape.setAttribute('stroke-width',n.kind==='term'?'1.2':'1.2');shape.style.transition='stroke .3s';
+      g.appendChild(shape);svg.appendChild(g);
+      var lab=document.createElement('span');
+      lab.textContent=n.label;
+      lab.style.cssText='position:absolute;left:'+(n.cx/1120*100)+'%;top:'+(n.cy/700*100)+'%;transform:translate(-50%,-50%);white-space:nowrap;font-size:clamp(11px,1.43cqi,16px);color:#3D3D3D;opacity:0;transition:opacity .35s ease,color .3s;pointer-events:none';
+      wrap.appendChild(lab);
+      return {meta:n,g:g,shape:shape,lab:lab};
+    });
+
+    function apply(step){
+      edgeEls.forEach(function(ee){
+        var e=ee.meta,on=step>=e.st;
+        ee.path.style.transitionDelay=(on?e.i*0.1+(e.x||0):0)+'s';
+        ee.path.style.strokeDashoffset=on?'0':'1';
+        if(ee.arrow){ee.arrow.style.transitionDelay=(on?e.i*0.1+0.4:0)+'s';ee.arrow.style.opacity=on?'1':'0';}
+      });
+      nodeEls.forEach(function(ne){
+        var n=ne.meta,on=step>=n.st,cur=step===n.st,lag=n.st===0?0:0.4;
+        var delay=(on?lag+n.d*0.1:0)+'s';
+        ne.g.style.transitionDelay=delay;
+        ne.g.style.opacity=on?'1':'0';
+        ne.g.style.transform=on?'translateY(0px)':'translateY(8px)';
+        ne.shape.setAttribute('stroke',cur?'#3C757D':'#8A8A8A');
+        ne.lab.style.transitionDelay=delay;
+        ne.lab.style.opacity=on?'1':'0';
+        ne.lab.style.color=cur?'#3C757D':'#3D3D3D';
+      });
+    }
+    apply(-1);
+    var step=-1,timer=null,started=false;
+    function start(){
+      if(started)return;started=true;
+      timer=setInterval(function(){if(step>=10){clearInterval(timer);timer=null;return;}step++;apply(step);},800);
+    }
+    if(window.IntersectionObserver){
+      var io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;})){start();io.disconnect();}},{threshold:0.35});
+      io.observe(el('wv-flow-section'));
+    }else start();
+  })();
+
+  /* ---------- Meetings ---------- */
+  (function(){
+    var data=[
+      ['9:00 - 10:00','Morning Meeting','Prepare a weekly report on lead conversion statistics.',[1,2,3],'+4'],
+      ['14:00 - 15:00','Project Review Meeting','Discuss the main page review. Take out mistakes.',[1,2,4],''],
+      ['15:00 - 16:00','Team Meeting','Discuss the marketing plan for the week, clarify the details.',[5,2,4],'+1'],
+      ['17:00 - 18:00','Developers Meeting','Discussion of the widget operation in a slow internet environment.',[3,5],'']
+    ];
+    var wrap=el('wv-meetings');
+    wrap.innerHTML=data.map(function(m,i){
+      var av=m[3].map(function(n,j){return '<img src="'+B+'av-'+n+'.jpg" alt="" style="width:2.2cqi;height:2.2cqi;border-radius:999px;object-fit:cover;border:0.15cqi solid #FFFFFF;margin-left:'+(j?'-0.7cqi':'0')+'">';}).join('');
+      var more=m[4]?'<span style="width:2.2cqi;height:2.2cqi;border-radius:999px;background:#3C757D;color:#FFFFFF;border:0.15cqi solid #FFFFFF;margin-left:-0.7cqi;display:flex;align-items:center;justify-content:center;font-size:0.85cqi;box-sizing:content-box">'+m[4]+'</span>':'';
+      return '<div class="wv-meet" style="background:#FFFFFF;border-radius:0.7cqi;border-left:0.5cqi solid #3C757D;padding:1.4cqi 1.6cqi;display:flex;flex-direction:column;gap:0.8cqi;box-shadow:0 0.6cqi 2cqi rgba(0,0,0,.08);opacity:0;transform:translateY(3cqi);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;gap:1cqi"><span style="font-size:1.15cqi;color:#5A5A5A;white-space:nowrap">'+m[0]+'</span><span style="display:flex">'+av+more+'</span></div>'
+        +'<span style="font-size:1.55cqi;font-weight:500;color:#3D3D3D;line-height:1.2">'+m[1]+'</span>'
+        +'<span style="font-size:1.1cqi;line-height:1.45;color:#6B6B6B">'+m[2]+'</span></div>';
+    }).join('');
+    function reveal(){
+      var cards=wrap.querySelectorAll('.wv-meet');
+      cards.forEach(function(c,i){c.style.transitionDelay=(0.2+i*0.25)+'s';c.style.opacity='1';c.style.transform='translateY(0)';});
+    }
+    if(window.IntersectionObserver){
+      var io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;})){reveal();io.disconnect();}},{threshold:0.4});
+      io.observe(el('wv-meetings-wrap'));
+    }else reveal();
+  })();
+
+  /* ---------- Results + lightbox ---------- */
+  (function(){
+    var screens=[
+      ['wave-final-signup.jpg','Sign up / Log in page','Sign up page'],
+      ['wave-final-home.jpg','Home page','Home page — Meetings dashboard'],
+      ['wave-final-payment.jpg','New payment page','New payment page'],
+      ['wave-final-pivot.jpg','Pivot table','Pivot table — Sales order'],
+      ['wave-final-filters.jpg','Filters','Filters panel'],
+      ['wave-final-analytics.jpg','Analytics','Analytics page']
+    ];
+    var grid=el('wv-results');
+    grid.innerHTML=screens.map(function(s,i){
+      var n=String(i+1).padStart(2,'0');
+      return '<figure class="wv-figure" data-i="'+i+'" style="margin:0;display:flex;flex-direction:column;gap:16px;cursor:zoom-in">'
+        +'<div style="border-radius:6px;overflow:hidden;background:#CDCDCD;box-shadow:0 1px 0 #E0E0DE"><img src="'+B+s[0]+'" alt="'+s[1]+'" style="width:100%;height:auto"></div>'
+        +'<figcaption style="display:flex;gap:16px;align-items:baseline;font-size:17px"><span style="font-family:\'Geist Mono\',monospace;font-size:13px;color:#8A8A8A">'+n+'</span>'+s[1]+'</figcaption></figure>';
+    }).join('');
+
+    var lb=el('wv-lb'),img=el('wv-lb-img'),cap=el('wv-lb-cap'),cur=null;
+    function open(i){cur=i;var s=screens[i];img.src=B+s[0];img.alt=s[2];cap.textContent=String(i+1).padStart(2,'0')+'  '+s[1];lb.style.display='flex';document.body.style.overflow='hidden';}
+    function close(){lb.style.display='none';cur=null;document.body.style.overflow='';}
+    function go(d){if(cur===null)return;cur=(cur+d+screens.length)%screens.length;open(cur);}
+    grid.addEventListener('click',function(e){var f=e.target.closest('[data-i]');if(f)open(+f.getAttribute('data-i'));});
+    lb.addEventListener('click',function(e){if(e.target===lb||e.target===img)close();});
+    el('wv-lb-close').addEventListener('click',function(e){e.stopPropagation();close();});
+    el('wv-lb-prev').addEventListener('click',function(e){e.stopPropagation();go(-1);});
+    el('wv-lb-next').addEventListener('click',function(e){e.stopPropagation();go(1);});
+    window.addEventListener('keydown',function(e){if(cur===null)return;if(e.key==='Escape')close();if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);});
+  })();
+
+  /* ---------- Chapter nav scroll-spy ---------- */
+  (function(){
+    var links=Array.prototype.slice.call(document.querySelectorAll('.wv-chap a'));
+    var map={};links.forEach(function(a){var id=a.getAttribute('href').slice(1);var s=document.getElementById(id);if(s)map[id]={link:a,sec:s};});
+    if(!window.IntersectionObserver)return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var id=e.target.id;if(!map[id])return;
+        if(e.isIntersecting){links.forEach(function(l){l.classList.remove('is-active');});map[id].link.classList.add('is-active');}
+      });
+    },{rootMargin:'-45% 0px -50% 0px'});
+    Object.keys(map).forEach(function(id){io.observe(map[id].sec);});
+  })();
+
+})();
 </script>
 </body>
 </html>
