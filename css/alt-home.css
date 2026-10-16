@@ -814,7 +814,8 @@ body {
   overflow: hidden;
 }
 
-.portfolio-work-card__image img {
+.portfolio-work-card__image img,
+.portfolio-work-card__image video {
   display: block;
   width: 100%;
   height: 100%;
@@ -822,7 +823,8 @@ body {
   transition: transform 420ms ease;
 }
 
-.portfolio-work-card:hover .portfolio-work-card__image img {
+.portfolio-work-card:hover .portfolio-work-card__image img,
+.portfolio-work-card:hover .portfolio-work-card__image video {
   transform: scale(1.04);
 }
 
