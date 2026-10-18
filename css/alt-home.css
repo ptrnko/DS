@@ -838,6 +838,9 @@ body {
   transition: transform 420ms ease;
 }
 .portfolio-work-card:hover .erp-card-scene__inner { transform: translateX(-50%) scale(1.04); }
+/* Loop frames stay paused until the card plays (once in view, then on hover); the photo fade is untouched */
+.erp-card-scene__inner [style*="10s ease-in-out"] { animation-play-state: paused; }
+.erp-card-scene.is-live [style*="10s ease-in-out"] { animation-play-state: running; }
 @keyframes erpPhoto{0%{opacity:0;transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
 @keyframes erpC1{0%{opacity:0;transform:translateY(1.5cqw)}6%,88%{opacity:1;transform:translateY(0)}95%,100%{opacity:0;transform:translateY(0)}}
 @keyframes erpC2{0%,8%{opacity:0;transform:translateY(1.5cqw)}14%,88%{opacity:1;transform:translateY(0)}95%,100%{opacity:0;transform:translateY(0)}}

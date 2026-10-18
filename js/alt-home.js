@@ -373,6 +373,53 @@ function initHowIWorkPhotoLock() {
   });
 }
 
+// Portfolio card covers: play their animation once when scrolled into view,
+// then replay only on hover (no continuous looping).
+function initPortfolioCardMotion() {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ERP core — CSS-keyframe scene
+  const scene = document.querySelector('.erp-card-scene');
+  if (scene) {
+    const card = scene.closest('.portfolio-work-card') || scene;
+    const defs = Array.from(scene.querySelectorAll('[style*="10s ease-in-out"]')).map((el) => ({
+      el,
+      anim: el.style.animation.replace(/\b1\.4s\b/, '0s'), // start immediately on each play
+    }));
+    const play = () => {
+      scene.classList.add('is-live');
+      defs.forEach((d) => { d.el.style.animation = 'none'; });
+      void scene.offsetWidth; // restart the keyframes
+      defs.forEach((d) => { d.el.style.animation = d.anim; });
+    };
+    if (!reduce && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { play(); io.disconnect(); }
+      }, { threshold: 0.4 });
+      io.observe(card);
+    }
+    card.addEventListener('mouseenter', play);
+  }
+
+  // Pap-Pay — looping cover video, now one-shot
+  const video = document.querySelector('.portfolio-work-card video');
+  if (video) {
+    const card = video.closest('.portfolio-work-card') || video;
+    const playOnce = () => {
+      try { video.currentTime = 0; } catch (e) { /* not seekable yet */ }
+      const p = video.play();
+      if (p && p.catch) p.catch(() => {});
+    };
+    if (!reduce && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { playOnce(); io.disconnect(); }
+      }, { threshold: 0.4 });
+      io.observe(card);
+    }
+    card.addEventListener('mouseenter', playOnce);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initBurger();
   initHeroVideo();
@@ -383,4 +430,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHowIWorkAccordion();
   initStatCounters();
   initHowIWorkPhotoLock();
+  initPortfolioCardMotion();
 });
