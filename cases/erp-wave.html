@@ -672,7 +672,7 @@
     var step=-1,timer=null,started=false;
     function start(){
       if(started)return;started=true;
-      timer=setInterval(function(){if(step>=10){clearInterval(timer);timer=null;return;}step++;apply(step);},800);
+      timer=setInterval(function(){if(step>=10){clearInterval(timer);timer=null;return;}step++;apply(step);},400);
     }
     if(window.IntersectionObserver){
       var io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;})){start();io.disconnect();}},{threshold:0.35});
