@@ -91,6 +91,20 @@
     .wv-flink{display:block;color:#CDCDCD;font-size:15px;line-height:1.9;transition:color .2s}
     .wv-flink:hover{color:#FFFFFF}
 
+    /* User-flow scroll hint — only shown on mobile */
+    .wv-flow-hint{display:none;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#8A8A8A}
+
+    @media (max-width:768px){
+      /* Process — collapse the Gantt timeline into a vertical stack */
+      #wv-stages-scroll{overflow-x:visible}
+      #wv-stages-grid{min-width:0 !important;padding:8px 0 !important;background-image:none !important}
+      #wv-stages-bars [data-stage]{margin-left:0 !important;width:100% !important}
+      #wv-stages-info{margin-left:0 !important;width:100% !important}
+      /* User flow — trim padding and reveal the scroll affordance */
+      #wv-flow-section{padding-top:72px !important;padding-bottom:72px !important;gap:40px !important}
+      .wv-flow-hint{display:block}
+    }
+
     @media (max-width:640px){
       .wv-metric-fig{font-size:clamp(56px,16vw,88px)}
     }
@@ -156,8 +170,8 @@
         <div style="display:flex;flex-direction:column;gap:14px"><span class="wv-eyebrow" style="color:#8A8A8A">Process</span><h2 class="wv-h2">Stages</h2></div>
         <p style="margin:0;font-size:20px;line-height:1.55;color:#5A5A5A;text-wrap:pretty">My work involved several stages from creating a strategy to producing a visual outcome.</p>
       </div>
-      <div style="overflow-x:auto">
-        <div style="position:relative;min-width:980px;padding:64px 0;display:flex;flex-direction:column;gap:20px;background-image:linear-gradient(90deg,#DADAD8 1px,transparent 1px);background-size:11.111% 100%">
+      <div id="wv-stages-scroll" style="overflow-x:auto">
+        <div id="wv-stages-grid" style="position:relative;min-width:980px;padding:64px 0;display:flex;flex-direction:column;gap:20px;background-image:linear-gradient(90deg,#DADAD8 1px,transparent 1px);background-size:11.111% 100%">
           <div id="wv-stages-bars" style="display:flex;flex-direction:column;gap:20px"></div>
           <div id="wv-stages-info" style="width:min(360px,30%);min-height:120px;padding-top:12px;display:flex;flex-direction:column;gap:10px;transition:margin-left .35s ease"></div>
         </div>
@@ -294,8 +308,9 @@
         <div style="display:flex;flex-direction:column;gap:14px">
           <span class="wv-eyebrow" style="color:#8A8A8A">User flow</span>
           <h2 class="wv-h2">User Flow Overview</h2>
+          <span class="wv-flow-hint">Scroll to follow the flow →</span>
         </div>
-        <div style="overflow-x:auto">
+        <div id="wv-flow-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch">
           <div id="wv-flow" style="position:relative;min-width:760px;container-type:inline-size">
             <svg id="wv-flow-svg" viewBox="0 0 1120 700" style="width:100%;display:block" role="img" aria-label="Wave user flow overview"></svg>
           </div>
