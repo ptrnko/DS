@@ -40,6 +40,7 @@
       --bg:#0a0a0c;--surface:#0f0f12;--line:#2a2a2e;--faint:#1c1c20;
       --t2:#999;--t3:#666;--unfill:#3a3a40;--accent:#4493fa;
       --gut:clamp(20px,4vw,56px);--ease1:cubic-bezier(.76,0,.24,1);--ease2:cubic-bezier(.2,.7,.2,1);
+      --vr:clamp(96px,18vw,250px);--vr2:calc(var(--vr) * 0.5);
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -53,9 +54,25 @@
     @keyframes nudge{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
 
     /* header */
-    .hdr{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px var(--gut);background:rgba(10,10,12,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.02em}
-    .hdr nav{display:flex;gap:clamp(14px,2vw,28px);color:#ccc}
-    .hdr nav a{color:#ccc}
+    .hdr{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px var(--gut);background:rgba(10,10,12,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-family:'Geist Mono',monospace;font-size:13px;letter-spacing:.02em}
+    .hdr-logo{color:#fff;white-space:nowrap}
+    .clock-wrap{display:flex;align-items:center;gap:8px;color:var(--t2)}
+    .hdr-nav{display:flex;gap:clamp(14px,2vw,28px);color:#ccc}
+    .hdr-nav a{color:#ccc}
+    .hdr-burger{display:none;background:none;border:0;padding:0;margin:0;cursor:pointer;width:26px;height:14px;position:relative;flex:0 0 auto}
+    .hdr-burger span{position:absolute;left:0;right:0;height:1.5px;background:#fff;transition:transform .35s var(--ease2),opacity .25s}
+    .hdr-burger span:first-child{top:0}
+    .hdr-burger span:last-child{bottom:0}
+    .hdr-burger.active span:first-child{transform:translateY(6px) rotate(45deg)}
+    .hdr-burger.active span:last-child{transform:translateY(-6px) rotate(-45deg)}
+    /* mobile menu overlay */
+    .menu{position:fixed;inset:0;z-index:25;background:rgba(10,10,12,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;flex-direction:column;justify-content:center;gap:clamp(40px,8vh,80px);padding:calc(58px + var(--gut)) var(--gut) var(--gut);opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .4s ease,transform .4s var(--ease2)}
+    .menu.open{opacity:1;pointer-events:auto;transform:none}
+    .menu-nav{display:flex;flex-direction:column;gap:10px}
+    .menu-nav a{color:#fff;font-size:clamp(40px,11vw,60px);font-weight:500;letter-spacing:-0.04em;line-height:1.08}
+    .menu-nav a:hover,.menu-nav a:active{color:var(--accent)}
+    .menu-foot{display:flex;justify-content:space-between;gap:16px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--t2);border-top:1px solid var(--line);padding-top:24px}
+    body.menu-open{overflow:hidden}
 
     /* hero */
     .hero{position:relative;overflow:hidden;min-height:calc(100svh - 58px);justify-content:space-between;padding:clamp(40px,6vw,88px) var(--gut) clamp(32px,4vw,56px);display:flex;flex-direction:column;gap:clamp(40px,6vw,88px)}
@@ -67,7 +84,7 @@
     .hero-foot{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:16px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--t2)}
 
     /* numbers */
-    .numbers{padding:calc(250px - clamp(32px,4vw,56px)) 0 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:0;align-items:start}
+    .numbers{padding:calc(var(--vr) - clamp(32px,4vw,56px)) 0 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:0;align-items:start}
     .num-head{display:flex;flex-direction:column;gap:24px;padding:0 var(--gut)}
     .num-head h2{font-size:clamp(36px,4.6vw,68px);font-weight:500;letter-spacing:-0.04em;line-height:1.02;max-width:12ch;text-wrap:balance}
     .num-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-left:1px solid var(--line);gap:1px;background:var(--line)}
@@ -79,10 +96,10 @@
     .num-cell .note{font-size:16px;line-height:1.5;color:var(--t2);max-width:30ch;text-wrap:pretty}
 
     /* work */
-    .work{padding:250px var(--gut) clamp(112px,13vw,200px)}
+    .work{padding:var(--vr) var(--gut) var(--vr)}
     .work-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(56px,6vw,96px)}
     .work-head h2{font-size:clamp(36px,4.6vw,68px);font-weight:500;letter-spacing:-0.04em;line-height:1.02;max-width:14ch;text-wrap:balance}
-    .work-scroll{position:relative;height:700vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 calc(-1 * var(--gut)) calc(-1 * clamp(112px,13vw,200px))}
+    .work-scroll{position:relative;height:700vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 calc(-1 * var(--gut)) calc(-1 * var(--vr))}
     .work-sticky{position:sticky;top:58px;height:calc(100vh - 58px);overflow:hidden}
     .work-track{display:flex;flex-direction:row;height:100%;will-change:transform}
     .work-panel{position:relative;flex:0 0 auto;width:100vw;height:100%;display:grid;grid-template-columns:1fr 1fr 1fr;color:#fff}
@@ -102,7 +119,7 @@
     .work-prog .track span{position:absolute;inset:0;background:var(--accent);transform-origin:top;transform:scaleY(0)}
 
     /* lead / how I work */
-    .lead{padding:250px var(--gut) 125px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:clamp(40px,6vw,96px);align-items:start}
+    .lead{padding:var(--vr) var(--gut) var(--vr2);border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:clamp(40px,6vw,96px);align-items:start}
     .lead-photo{position:sticky;top:calc(58px + clamp(32px,4vw,56px));height:min(calc(100vh - 58px - 2 * clamp(32px,4vw,56px)),742px);max-width:100%;aspect-ratio:849/1500;overflow:hidden;background:var(--surface)}
     .lead-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
     .lead-main{display:flex;flex-direction:column;gap:clamp(56px,6vw,96px);min-width:0}
@@ -122,7 +139,7 @@
     .acc-body p{padding:0 40px clamp(24px,2.4vw,36px) 0;font-size:17px;line-height:1.6;color:var(--t2);text-wrap:pretty}
 
     /* footer */
-    .ftr{padding:125px var(--gut) 40px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:clamp(72px,8vw,120px)}
+    .ftr{padding:var(--vr2) var(--gut) 40px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:clamp(56px,8vw,120px)}
     .cta{font-size:clamp(40px,7.4vw,120px);font-weight:500;letter-spacing:-0.045em;line-height:1;color:#fff;max-width:14ch}
     .cta:hover{color:var(--accent)}
     .ftr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;font-size:15px;color:#ccc}
@@ -161,9 +178,15 @@
       .lead{grid-template-columns:minmax(0,1fr)}
       .lead-photo{position:relative;top:0;height:auto}
     }
-    @media (max-width:620px){
+    @media (max-width:760px){
       .hdr{gap:16px}
-      .hdr .clock-wrap{display:none}
+      .clock-wrap,.hdr-nav{display:none}
+      .hdr-burger{display:block}
+    }
+    @media (max-width:600px){
+      .num-grid{grid-template-columns:1fr}
+      .hero-foot{grid-template-columns:1fr auto;font-size:12px}
+      .hero-foot a[aria-label="Scroll to work"]{display:none!important}
     }
     @media (prefers-reduced-motion:reduce){
       *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -186,14 +209,24 @@
   </div>
 
   <header class="hdr">
-    <a href="#top" style="color:#fff">©Anastasiia Petrenko</a>
-    <div class="clock-wrap" style="display:flex;align-items:center;gap:8px;color:var(--t2)"><span id="clock">Montpellier, FR —</span></div>
-    <nav>
+    <a href="#top" class="hdr-logo">©Anastasiia Petrenko</a>
+    <div class="clock-wrap"><span id="clock">Montpellier, FR —</span></div>
+    <nav class="hdr-nav">
       <a href="#work">Work (07)</a>
       <a href="#lead">How I lead</a>
       <a href="mailto:petrenkoag95@gmail.com">Contact</a>
     </nav>
+    <button class="hdr-burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
   </header>
+
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu-nav">
+      <a href="#work" data-menu-link>Work (07)</a>
+      <a href="#lead" data-menu-link>How I lead</a>
+      <a href="mailto:petrenkoag95@gmail.com" data-menu-link>Contact</a>
+    </nav>
+    <div class="menu-foot"><span>Montpellier, France</span><span id="menu-clock"></span></div>
+  </div>
 
   <section id="top" class="hero" data-hero>
     <div class="hero-trail" id="hero-trail" aria-hidden="true"></div>
@@ -445,8 +478,25 @@
     function tickClock(){
       var t = new Date().toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone:'Europe/Paris' });
       el('clock').textContent = 'Montpellier, FR — ' + t;
+      var mc = el('menu-clock'); if (mc) mc.textContent = t;
     }
     tickClock(); setInterval(tickClock, 30000);
+
+    /* ---------- Mobile menu ---------- */
+    (function(){
+      var burger = el('burger'), menu = el('menu');
+      if (!burger || !menu) return;
+      function setOpen(open){
+        burger.classList.toggle('active', open);
+        menu.classList.toggle('open', open);
+        document.body.classList.toggle('menu-open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+      }
+      burger.addEventListener('click', function(){ setOpen(!menu.classList.contains('open')); });
+      [].forEach.call(menu.querySelectorAll('[data-menu-link]'), function(a){ a.addEventListener('click', function(){ setOpen(false); }); });
+      window.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+    })();
 
     /* ---------- Master scroll handler ---------- */
     var workScroll = el('work-scroll'), track = el('work-track'),
