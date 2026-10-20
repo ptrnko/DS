@@ -166,12 +166,12 @@
       .num-grid{border-left:none}
     }
     @media (max-width:899px){
-      .work-scroll{height:auto;margin-bottom:0}
+      .work-scroll{height:auto;margin-bottom:0;border:none}
       .work-sticky{position:relative;top:0;height:auto;overflow:visible}
       .work-track{flex-direction:column;height:auto;transform:none!important;gap:8px}
-      /* image-first card: cover on top, then text, then grouped meta — uniform gutters */
-      .work-panel{width:100%!important;height:auto;display:flex;flex-direction:column;gap:28px;padding:48px 0;border-bottom:1px solid var(--line)}
-      .work-panel .col-c{order:-1;padding:0;border:none;min-height:0}
+      /* image-first card: cover on top, then text, then grouped meta — uniform gutters, no dividers */
+      .work-panel{width:100%!important;height:auto;display:flex;flex-direction:column;gap:28px;padding:48px 0;border:none}
+      .work-panel .col-c{order:-1;padding:0 var(--gut);border:none;min-height:0}
       .work-panel .col-l{padding:0 var(--gut);gap:18px;justify-content:flex-start}
       .work-panel .col-r{padding:0 var(--gut);gap:22px;flex-direction:row;flex-wrap:wrap;justify-content:space-between}
       .work-panel .col-r>div{min-width:0}
