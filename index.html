@@ -34,7 +34,7 @@
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#0a0a0c;--surface:#0f0f12;--line:#2a2a2e;--faint:#1c1c20;
@@ -619,6 +619,12 @@
       window.addEventListener('resize', function(){ measureAcc(); layout(); onScroll(); });
       window.addEventListener('scroll', onScroll, { passive:true });
       layout(); onScroll(); startHero();
+      // warm the work covers in the background (desktop) so the pinned scroll has them ready,
+      // without making them block the initial page/loader on a slow connection
+      if (!MOBILE) {
+        var warm = function(){ COVERS.forEach(function(s){ var im = new Image(); im.decoding = 'async'; im.src = s; }); };
+        if ('requestIdleCallback' in window) requestIdleCallback(warm, { timeout: 2000 }); else setTimeout(warm, 800);
+      }
     }
     (function runLoader(){
       var loader = el('loader');
@@ -633,8 +639,9 @@
           grid.appendChild(c); cells.push(c);
         }
       }
-      // phones don't preload the trail/cover images (covers lazy-load on scroll); the timer drives the counter
-      var preload = MOBILE ? [] : TRAIL.concat(COVERS);
+      // Only block the loader on the 12 grid images it shows; covers are not preloaded here
+      // (they lazy-load on scroll and are warmed in the background once the page is interactive).
+      var preload = MOBILE ? [] : TRAIL.slice();
       var finished = false;
       function finishLoad(){ if (finished) return; finished = true; var l = el('loader'); if (l) l.remove(); document.body.style.overflow = ''; initAfterLoad(); }
       if (REDUCE || !loader){ finishLoad(); return; }
