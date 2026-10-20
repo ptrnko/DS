@@ -24,7 +24,7 @@ const CASES = [
     tag:   'ERP & CRM',
     title: 'Enhancing the ERP & CRM flow',
     desc:  'Designed the interface for complex allocation of funds and resources, using a game-inspired visual language to make a dense system intuitive.',
-    img:   'assets/images/case-erp.jpg',
+    img:   'assets/images/case-erp.webp',
     url:   'cases/erp-core.html',
   },
   /* Archived: Money Track wallet — cases/moneytrack.html still exists,
@@ -33,7 +33,7 @@ const CASES = [
     tag:   'E-COMMERCE · MOBILE',
     title: 'Turbo.ua delivery app',
     desc:  'Reworked the ordering flow for a high-volume delivery service: faster checkout, fewer drop-offs.',
-    img:   'assets/images/case-turbo.jpg',
+    img:   'assets/images/case-turbo.webp',
     url:   'cases/turbo.html',
   },
 ];
