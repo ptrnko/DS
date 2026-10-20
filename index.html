@@ -168,10 +168,15 @@
     @media (max-width:899px){
       .work-scroll{height:auto;margin-bottom:0}
       .work-sticky{position:relative;top:0;height:auto;overflow:visible}
-      .work-track{flex-direction:column;height:auto;transform:none!important}
-      .work-panel{width:100%!important;height:auto;grid-template-columns:1fr;border-bottom:1px solid var(--line)}
-      .work-panel .col-c{border-left:none;border-right:none}
-      .work-cover{height:min(70vh,560px);cursor:pointer}
+      .work-track{flex-direction:column;height:auto;transform:none!important;gap:8px}
+      /* image-first card: cover on top, then text, then grouped meta — uniform gutters */
+      .work-panel{width:100%!important;height:auto;display:flex;flex-direction:column;gap:28px;padding:48px 0;border-bottom:1px solid var(--line)}
+      .work-panel .col-c{order:-1;padding:0;border:none;min-height:0}
+      .work-panel .col-l{padding:0 var(--gut);gap:18px;justify-content:flex-start}
+      .work-panel .col-r{padding:0 var(--gut);gap:22px;flex-direction:row;flex-wrap:wrap;justify-content:space-between}
+      .work-panel .col-r>div{min-width:0}
+      .work-cover{height:auto;width:100%;aspect-ratio:4/5;cursor:pointer}
+      .work-panel h3{font-size:clamp(26px,6.4vw,34px)}
       .view-dot{display:none}
       .work-prog{display:none}
     }
