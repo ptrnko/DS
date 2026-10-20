@@ -159,6 +159,7 @@
     #loader .bar .track{position:relative;flex:1;height:1px;background:var(--line)}
     #loader .bar .track span{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(0)}
     #loader .bar .pct{font-variant-numeric:tabular-nums;min-width:4ch;text-align:right}
+    .loader-big{display:none}
 
     @media (max-width:900px){
       .numbers{grid-template-columns:minmax(0,1fr);gap:40px}
@@ -184,6 +185,12 @@
       .hdr-burger{display:block}
     }
     @media (max-width:600px){
+      /* simple numeric loader on phones */
+      #loader{grid-template-rows:1fr;place-items:center;gap:0}
+      #loader .top,#loader-grid,#loader .bar{display:none}
+      .loader-big{display:flex;align-items:baseline;gap:6px;color:#fff;font-weight:500;letter-spacing:-0.05em;line-height:.9}
+      #loader-bignum{font-size:clamp(96px,30vw,170px);font-variant-numeric:tabular-nums}
+      .loader-big .pc{font-size:clamp(28px,8vw,52px);color:var(--t2)}
       .num-grid{grid-template-columns:1fr}
       .hero-foot{grid-template-columns:1fr auto;font-size:12px}
       .hero-foot a[aria-label="Scroll to work"]{display:none!important}
@@ -207,6 +214,7 @@
     <div class="top"><span style="color:#fff">©Anastasiia Petrenko</span><span>[ Loading work ]</span></div>
     <div id="loader-grid"></div>
     <div class="bar"><span class="track"><span id="loader-fill"></span></span><span class="pct" id="loader-pct">000%</span></div>
+    <div class="loader-big" aria-hidden="true"><span id="loader-bignum">0</span><span class="pc">%</span></div>
   </div>
 
   <header class="hdr">
@@ -619,7 +627,7 @@
       setTimeout(function(){ if (!finished){ loader.classList.add('exit'); setTimeout(finishLoad, 700); } }, 9000);
       var done = 0, total = preload.length;
       preload.forEach(function(s){ var im = new Image(); im.onload = im.onerror = function(){ done++; }; im.src = s; });
-      var fill = el('loader-fill'), pctEl = el('loader-pct');
+      var fill = el('loader-fill'), pctEl = el('loader-pct'), bignum = el('loader-bignum');
       var t0 = 0, lastPct = -1, lastLit = -1;
       function step(now){
         if (!t0) t0 = now;
@@ -630,6 +638,7 @@
           lastPct = pct;
           fill.style.transform = 'scaleX(' + (pct/100) + ')';
           pctEl.textContent = String(pct).padStart(3,'0') + '%';
+          if (bignum) bignum.textContent = pct;
           var lit = Math.floor(pct/100*12 + 0.001);
           if (lit !== lastLit){
             for (var i=0;i<12;i++) cells[i].classList.toggle('lit', i < lit);
