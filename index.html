@@ -325,6 +325,7 @@
   <script>
   (function(){
     var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var MOBILE = window.matchMedia('(max-width:760px)').matches;
     var TRAIL = ['t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13'].map(function(n){return 'assets/home/trail/'+n+'.webp';});
     var COVERS = ['erp-core-sm','pap-pay-sm','erp-wave-sm','branding-sm','turbo-sm','betroute-sm'].map(function(n){return 'assets/home/covers/'+n+'.webp';});
     var HEADLINE = 'I build design teams, and the systems they ship with.';
@@ -443,7 +444,7 @@
           +'</div>'
           +'<div class="col-c">'
             +'<a class="work-cover" href="'+file+'" aria-label="Open '+esc(title)+'">'
-              +'<img src="'+img+'" alt="'+esc(title)+'" draggable="false">'
+              +'<img src="'+img+'" alt="'+esc(title)+'" draggable="false" loading="lazy" decoding="async">'
               +'<span class="view-dot">VIEW</span>'
             +'</a>'
           +'</div>'
@@ -571,7 +572,7 @@
     /* ---------- Hero image trail ---------- */
     (function(){
       var hero = document.querySelector('[data-hero]'), box = el('hero-trail');
-      if (!hero || !box || REDUCE) return;
+      if (!hero || !box || REDUCE || MOBILE) return;
       TRAIL.forEach(function(s){ var im = new Image(); im.src = s; });
       var ti = 0;
       function spawn(x, y){
@@ -621,16 +622,19 @@
     }
     (function runLoader(){
       var loader = el('loader');
-      // build grid cells (first 12 = trail images)
+      // build grid cells (first 12 = trail images) — desktop only; the phone loader is just a number
       var grid = el('loader-grid');
       var cells = [];
-      for (var i = 0; i < 12; i++){
-        var c = document.createElement('div');
-        c.className = 'cell';
-        c.innerHTML = '<img src="'+TRAIL[i]+'" alt=""><span class="idx">'+String(i+1).padStart(2,'0')+'</span>';
-        grid.appendChild(c); cells.push(c);
+      if (!MOBILE) {
+        for (var i = 0; i < 12; i++){
+          var c = document.createElement('div');
+          c.className = 'cell';
+          c.innerHTML = '<img src="'+TRAIL[i]+'" alt=""><span class="idx">'+String(i+1).padStart(2,'0')+'</span>';
+          grid.appendChild(c); cells.push(c);
+        }
       }
-      var preload = TRAIL.concat(COVERS);
+      // phones don't preload the trail/cover images (covers lazy-load on scroll); the timer drives the counter
+      var preload = MOBILE ? [] : TRAIL.concat(COVERS);
       var finished = false;
       function finishLoad(){ if (finished) return; finished = true; var l = el('loader'); if (l) l.remove(); document.body.style.overflow = ''; initAfterLoad(); }
       if (REDUCE || !loader){ finishLoad(); return; }
@@ -643,7 +647,7 @@
       var t0 = 0, lastPct = -1, lastLit = -1;
       function step(now){
         if (!t0) t0 = now;
-        var elp = now - t0, timeP = Math.min(1, elp/2200), real = done/total;
+        var elp = now - t0, timeP = Math.min(1, elp/2200), real = total ? done/total : 1;
         var shown = Math.min(timeP, Math.max(real, timeP*0.9));
         var pct = Math.round((1 - Math.pow(1 - shown, 2)) * 100);
         if (pct !== lastPct){
@@ -652,7 +656,7 @@
           pctEl.textContent = String(pct).padStart(3,'0') + '%';
           if (bignum) bignum.textContent = pct;
           var lit = Math.floor(pct/100*12 + 0.001);
-          if (lit !== lastLit){
+          if (cells.length && lit !== lastLit){
             for (var i=0;i<12;i++) cells[i].classList.toggle('lit', i < lit);
             lastLit = lit;
           }
@@ -660,11 +664,11 @@
         if (pct >= 100 && real >= 1){
           setTimeout(function(){
             // exit: clip cells up staggered + fade overlay
-            for (var i=0;i<12;i++){
-              var im = cells[i].querySelector('img');
+            cells.forEach(function(c,i){
+              var im = c.querySelector('img');
               im.style.transitionDelay = ((i%4)*60 + Math.floor(i/4)*40) + 'ms';
               im.style.clipPath = 'inset(0 0 100% 0)';
-            }
+            });
             loader.classList.add('exit');
           }, 250);
           setTimeout(finishLoad, 1250);
