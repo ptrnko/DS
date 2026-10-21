@@ -30,11 +30,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anastasiia Petrenko &mdash; Lead Product Designer</title>
-  <meta name="description" content="Lead Product Designer building high-load product systems, senior design teams, and AI-native workflows.">
+  <meta name="description" content="I build design teams, and the systems they ship with. 7+ years in complex B2B products: ERP/CRM, SaaS, fintech.">
+  <meta property="og:title" content="Anastasiia Petrenko — Lead Product Designer">
+  <meta property="og:description" content="I build design teams, and the systems they ship with. 7+ years in complex B2B products: ERP/CRM, SaaS, fintech.">
+  <meta property="og:url" content="https://petrenko-anastasiia.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://petrenko-anastasiia.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="assets/favicon.png">
+  <script>
+    /* JS-only states (loader, reveals) are scoped to .js so the page is fully visible without JS;
+       the loader plays once per session — repeat visits and returns from a case skip it */
+    (function(d){var c=' js';try{if(sessionStorage.getItem('loaderSeen'))c+=' no-loader';}catch(e){}d.className+=c;})(document.documentElement);
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
   <style>
     :root{
       --bg:#0a0a0c;--surface:#0f0f12;--line:#2a2a2e;--faint:#1c1c20;
@@ -89,8 +104,9 @@
     .num-head h2{font-size:clamp(36px,4.6vw,68px);font-weight:500;letter-spacing:-0.04em;line-height:1.02;max-width:12ch;text-wrap:balance}
     .num-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-left:1px solid var(--line);gap:1px;background:var(--line)}
     .num-cell{display:flex;flex-direction:column;gap:14px;padding:clamp(32px,3.6vw,56px) clamp(20px,3vw,48px);background:var(--bg)}
-    .num-cell>div{display:flex;flex-direction:column;gap:14px;opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .9s var(--ease2)}
-    .num-cell.in>div{opacity:1;transform:none}
+    .num-cell>div{display:flex;flex-direction:column;gap:14px}
+    .js .num-cell>div{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .9s var(--ease2)}
+    .js .num-cell.in>div{opacity:1;transform:none}
     .num-cell strong{font-size:clamp(48px,5vw,80px);font-weight:600;letter-spacing:-0.045em;line-height:.95;color:#fff;font-variant-numeric:tabular-nums}
     .num-cell .lbl{font-size:clamp(20px,1.6vw,24px);font-weight:600;letter-spacing:-0.02em;color:#fff}
     .num-cell .note{font-size:16px;line-height:1.5;color:var(--t2);max-width:30ch;text-wrap:pretty}
@@ -98,6 +114,7 @@
     /* work */
     .work{padding:var(--vr) var(--gut) var(--vr)}
     .work-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(56px,6vw,96px)}
+    .work-tags{white-space:nowrap}
     .work-head h2{font-size:clamp(36px,4.6vw,68px);font-weight:500;letter-spacing:-0.04em;line-height:1.02;max-width:14ch;text-wrap:balance}
     .work-scroll{position:relative;height:700vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 calc(-1 * var(--gut)) calc(-1 * var(--vr))}
     .work-sticky{position:sticky;top:58px;height:calc(100vh - 58px);overflow:hidden}
@@ -148,6 +165,7 @@
     /* loader */
     #loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;grid-template-rows:auto 1fr auto;gap:clamp(20px,2.4vw,32px);padding:var(--gut);opacity:1;transition:opacity .6s ease .5s}
     #loader.exit{opacity:0}
+    html:not(.js) #loader,.no-loader #loader{display:none}
     #loader .top{display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:13px;color:var(--t2)}
     #loader-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);min-height:0}
     #loader-grid .cell{position:relative;overflow:hidden;background:var(--bg)}
@@ -198,6 +216,8 @@
       #loader-bignum{font-size:clamp(48px,15vw,85px);font-variant-numeric:tabular-nums}
       .loader-big .pc{font-size:clamp(14px,4vw,26px);color:var(--t2)}
       .num-grid{grid-template-columns:1fr}
+      /* nowrap would overflow a phone; wrap between items only (U+2011 keeps e‑commerce whole) */
+      .work-tags{white-space:normal}
       .hero-foot{grid-template-columns:1fr auto;font-size:12px}
       .hero-foot a[aria-label="Scroll to work"]{display:none!important}
       .hero h1{font-size:clamp(52px,14vw,72px);text-align:center;max-width:none}
@@ -251,13 +271,13 @@
 
   <section id="top" class="hero" data-hero>
     <div class="hero-trail" id="hero-trail" aria-hidden="true"></div>
-    <h1 id="hero-h1"></h1>
+    <h1 id="hero-h1">I build design teams, and the systems they ship with.</h1>
     <div class="hero-foot">
       <span>[ Lead Product Designer ]</span>
       <a href="#work" aria-label="Scroll to work" style="display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--t2)">
         <svg width="20" height="28" viewBox="0 0 20 28" fill="none" style="animation:nudge 1.8s ease-in-out infinite"><path d="M10 2v22M2 16l8 8 8-8" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
       </a>
-      <span style="justify-self:end">[ 2019 — 2026 ]</span>
+      <span style="justify-self:end">[ 2019 — now ]</span>
     </div>
   </section>
 
@@ -266,7 +286,12 @@
       <span class="mono" style="font-size:13px;color:var(--t2)">[ In numbers ]</span>
       <h2 id="num-title" data-fill="Teams I’ve built. Products I still design."></h2>
     </div>
-    <div class="num-grid" id="num-grid"></div>
+    <div class="num-grid" id="num-grid">
+      <div class="num-cell"><div><strong data-count="7">7+</strong><span class="lbl">Years in Design</span><span class="note">Complex B2B products: ERP/CRM, SaaS, fintech.</span></div></div>
+      <div class="num-cell"><div><strong data-count="10">10+</strong><span class="lbl">Designers Hired &amp; Led</span><span class="note">Across product, graphic, motion, SMM, photo and packaging design.</span></div></div>
+      <div class="num-cell"><div><strong data-count="5">5</strong><span class="lbl">Design Systems Built</span><span class="note">Including several legacy systems merged into one.</span></div></div>
+      <div class="num-cell"><div><strong data-count="3">3</strong><span class="lbl">Design Teams Built from Zero</span><span class="note">At Turbo.ua, Onseo and an NDA startup.</span></div></div>
+    </div>
   </section>
 
   <section id="work" class="work">
@@ -275,7 +300,7 @@
         <span class="mono" style="font-size:13px;color:var(--t2)">[ Selected work ]</span>
         <h2 id="work-title" data-fill="Products I led — and designed."></h2>
       </div>
-      <span class="mono" style="font-size:13px;color:var(--t2);max-width:36ch">[ ERP &amp; CRM, fintech, crypto, e-commerce, branding, design systems ]</span>
+      <span class="mono work-tags" style="font-size:13px;color:var(--t2)">[ ERP/CRM&nbsp;· fintech&nbsp;· e&#8209;commerce&nbsp;· design&nbsp;systems ]</span>
     </div>
     <div class="work-scroll" id="work-scroll">
       <div class="work-sticky">
@@ -312,7 +337,6 @@
       <div style="display:flex;flex-direction:column;gap:10px">
         <span class="mono" style="font-size:12px;color:var(--t3)">[ Social ]</span>
         <a href="https://www.linkedin.com/in/anastasia-petrenko/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://dribbble.com/AnnastasiiaP2018" target="_blank" rel="noopener">Dribbble</a>
         <a href="https://www.behance.net/petrenkoanastasia" target="_blank" rel="noopener">Behance</a>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;justify-content:flex-end;font-family:'Geist Mono',monospace;font-size:12px;color:var(--t3)">
@@ -327,23 +351,17 @@
     var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var MOBILE = window.matchMedia('(max-width:760px)').matches;
     var TRAIL = ['t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13'].map(function(n){return 'assets/home/trail/'+n+'.webp';});
-    var COVERS = ['erp-core-sm','pap-pay-sm','erp-wave-sm','branding-sm','turbo-sm','betroute-sm'].map(function(n){return 'assets/home/covers/'+n+'.webp';});
+    var COVERS = ['erp-core-sm','pap-pay-sm','erp-wave-sm','branding-sm','turbo-sm','b2c-onboarding-sm'].map(function(n){return 'assets/home/covers/'+n+'.webp';});
     var HEADLINE = 'I build design teams, and the systems they ship with.';
 
     var PROJECTS = [
       ['Redesigning distribution planning in an enterprise ERP','From a linear, error-prone workflow to an intelligent matrix interface.','Lead Product Designer','4 months',['ERP','Enterprise'],'assets/home/covers/erp-core-sm.webp','cases/erp-core.html'],
-      ['Wave — developing a high-load system from scratch','An ERP & CRM system built from scratch for one of the bigger media holdings in Ukraine: research, design system, user flows and results.','Founding Product Designer','2 years',['ERP','CRM'],'assets/home/covers/erp-wave-sm.webp','cases/erp-wave.html'],
-      ['Pap-Pay crypto payroll wallet','A mobile crypto payroll wallet. Employees are paid in BTC and cash out to their card.','Lead Product Designer','6 months',['Crypto','Mobile'],'assets/home/covers/pap-pay-sm.webp','cases/pap-pay.html'],
+      ['Wave — an ERP/CRM platform built from scratch',"An ERP/CRM platform built from scratch for one of Ukraine's largest media holdings: research, design system, user flows and results.",'Product Designer · founding designer','2 years',['ERP','CRM'],'assets/home/covers/erp-wave-sm.webp','cases/erp-wave.html'],
+      ['Pap-Pay crypto payroll wallet','A mobile crypto payroll wallet. Employees are paid in BTC and cash out to their card.','Lead Product Designer','[X months]',['Crypto','Mobile'],'assets/home/covers/pap-pay-sm.webp','cases/pap-pay.html'],
       ['Turbo.ua delivery app',"Mobile app for Ukraine's fastest grocery delivery.",'Lead Product Designer','2 years',['E-commerce','Mobile'],'assets/home/covers/turbo-sm.webp','cases/turbo.html'],
       ['Packaging & brand identity',"Full-cycle branding for Ukraine's fastest grocery delivery: packaging, courier fleet, billboard, and social media content system.",'Lead Product Designer','2 years',['Branding'],'assets/home/covers/branding-sm.webp','cases/turbo-branding.html'],
-      ['Design system for a crypto payroll wallet','Every transfer is irreversible, and that one fact shaped every token, component and rule.','Product Designer','7 months',['Design system','Crypto'],'assets/home/pap-pay-ds/brand-a-trail.webp','cases/pap-pay-ds.html'],
-      ['Bet Route registration redesign','Redesign of the registration flow for a betting product.','Product Designer','1 year',['Betting','Mobile'],'assets/home/covers/betroute-sm.webp','cases/betroute.html']
-    ];
-    var STATS = [
-      ['7','+','Years in Design','Leading design for complex products and systems.'],
-      ['10','+','Designers Hired & Led','Building design teams through hiring, mentoring, and growth.'],
-      ['5','','Design Systems Built','Creating scalable UI foundations for complex digital products.'],
-      ['3','','Design Teams Built from Zero','Hiring, structure and process from scratch.']
+      ['Design system for a crypto payroll wallet','Every transfer is irreversible, and that one fact shaped every token, component and rule.','Product Designer','[X months]',['Design system','Crypto'],'assets/home/pap-pay-ds/brand-a-trail.webp','cases/pap-pay-ds.html'],
+      ['B2C onboarding & first-deposit funnel','Redesign of a registration and first-deposit flow for a B2C product under NDA.','Product Designer','1 year',['B2C','Mobile'],'assets/home/covers/b2c-onboarding-sm.webp','cases/b2c-onboarding.html']
     ];
     var PILLARS = [
       ['People',['Hiring & onboarding','Grades & career paths','1:1s & mentoring','Performance & pay reviews']],
@@ -358,6 +376,7 @@
     /* ---------- Headline words ---------- */
     (function(){
       var h1 = el('hero-h1');
+      h1.textContent = '';
       HEADLINE.split(' ').forEach(function(w,i){
         var s = document.createElement('span');
         s.className = 'w'; s.textContent = w + (i < HEADLINE.split(' ').length-1 ? ' ' : '');
@@ -397,29 +416,24 @@
     var ctaFill = buildFill(el('cta'), 'inherit');
 
     /* ---------- Stats ---------- */
-    var statValueEls = [];
-    (function(){
-      var g = el('num-grid');
-      STATS.forEach(function(s,i){
-        var cell = document.createElement('div');
-        cell.className = 'num-cell';
-        cell.innerHTML = '<div><strong>0'+s[1]+'</strong><span class="lbl">'+esc(s[2])+'</span><span class="note">'+esc(s[3])+'</span></div>';
-        cell.querySelector('div').style.transitionDelay = (i*120)+'ms, '+(i*120)+'ms';
-        g.appendChild(cell);
-        statValueEls.push(cell.querySelector('strong'));
-      });
-    })();
+    /* final values are in the HTML (no-JS, previews); the count-up from zero runs only once the block is reached */
+    var STATS = [];
+    [].forEach.call(document.querySelectorAll('#num-grid .num-cell'), function(cell,i){
+      var v = cell.querySelector('strong'), n = v.getAttribute('data-count');
+      cell.querySelector('div').style.transitionDelay = (i*120)+'ms, '+(i*120)+'ms';
+      STATS.push({ el: v, n: parseInt(n,10), suffix: v.textContent.slice(n.length) });
+    });
     var countGo = false;
     function startCount(){
       if (countGo) return; countGo = true;
       [].forEach.call(document.querySelectorAll('.num-cell'), function(c){ c.classList.add('in'); });
-      if (REDUCE){ STATS.forEach(function(s,i){ statValueEls[i].textContent = s[0]+s[1]; }); return; }
+      if (REDUCE) return;
       var t0 = 0;
       function tick(now){
         if (!t0) t0 = now;
         var p = clamp01((now - 150 - t0) / 1600);
         var k = 1 - Math.pow(1 - p, 3);
-        STATS.forEach(function(s,i){ statValueEls[i].textContent = Math.round(parseInt(s[0],10)*k) + s[1]; });
+        STATS.forEach(function(s){ s.el.textContent = Math.round(s.n*k) + s.suffix; });
         if (p < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
@@ -470,14 +484,14 @@
     var revealed = [];
 
     /* ---------- Accordion ---------- */
-    var accOpen = -1, accRows = [];
+    var accOpen = 0, accRows = [];
     (function(){
       var acc = el('acc');
       PILLARS.forEach(function(p,i){
         var row = document.createElement('div');
-        row.className = 'acc-row';
+        row.className = 'acc-row' + (i === accOpen ? ' open' : '');
         row.innerHTML =
-          '<button class="acc-btn" aria-expanded="false"><span class="acc-title">'+esc(p[0])+'</span><span class="acc-sign">+</span></button>'
+          '<button class="acc-btn" aria-expanded="'+(i === accOpen)+'"><span class="acc-title">'+esc(p[0])+'</span><span class="acc-sign">+</span></button>'
           +'<div class="acc-panel"><div class="acc-body"><p>'+esc(p[1].join(', '))+'</p></div></div>';
         acc.appendChild(row);
         accRows.push(row);
@@ -644,17 +658,18 @@
       var preload = MOBILE ? [] : TRAIL.slice();
       var finished = false;
       function finishLoad(){ if (finished) return; finished = true; var l = el('loader'); if (l) l.remove(); document.body.style.overflow = ''; initAfterLoad(); }
-      if (REDUCE || !loader){ finishLoad(); return; }
+      if (REDUCE || !loader || document.documentElement.classList.contains('no-loader')){ finishLoad(); return; }
+      try { sessionStorage.setItem('loaderSeen','1'); } catch(e){}
       document.body.style.overflow = 'hidden';
       // safety net: never leave the page scroll-locked if the loader ever stalls
-      setTimeout(function(){ if (!finished){ loader.classList.add('exit'); setTimeout(finishLoad, 700); } }, 9000);
+      setTimeout(function(){ if (!finished){ loader.classList.add('exit'); setTimeout(finishLoad, 700); } }, 5000);
       var done = 0, total = preload.length;
       preload.forEach(function(s){ var im = new Image(); im.onload = im.onerror = function(){ done++; }; im.src = s; });
       var fill = el('loader-fill'), pctEl = el('loader-pct'), bignum = el('loader-bignum');
       var t0 = 0, lastPct = -1, lastLit = -1;
       function step(now){
         if (!t0) t0 = now;
-        var elp = now - t0, timeP = Math.min(1, elp/2200), real = total ? done/total : 1;
+        var elp = now - t0, timeP = Math.min(1, elp/1600), real = total ? done/total : 1;
         var shown = Math.min(timeP, Math.max(real, timeP*0.9));
         var pct = Math.round((1 - Math.pow(1 - shown, 2)) * 100);
         if (pct !== lastPct){

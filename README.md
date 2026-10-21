@@ -1,6 +1,6 @@
 # Anastasiia Petrenko — Portfolio
 
-Personal portfolio of Anastasiia Petrenko, Lead Product Designer specializing in complex product systems: ERP/CRM, fintech, e-commerce, mobile products, iGaming, branding, and design systems.
+Personal portfolio of Anastasiia Petrenko, Lead Product Designer specializing in complex product systems: ERP/CRM, fintech, e-commerce, mobile products, branding, and design systems.
 
 ## Project Structure
 
@@ -15,7 +15,7 @@ Personal portfolio of Anastasiia Petrenko, Lead Product Designer specializing in
 ├── js/
 │   └── main.js             # Carousel, mobile menu, reveals, counters
 ├── cases/
-│   ├── betroute.html       # Bet Route image-stack case
+│   ├── b2c-onboarding.html # B2C onboarding image-stack case (NDA)
 │   ├── erp-core.html       # ERP core case
 │   ├── erp-wave.html       # ERP/CRM payments flow case
 │   ├── pap-pay.html        # Pap-Pay product case
@@ -38,7 +38,7 @@ The main page currently shows these case cards:
 4. Turbo.ua delivery app
 5. Packaging & brand identity
 6. Design system
-7. Bet Route registration redesign
+7. B2C onboarding & first-deposit funnel
 
 ## Styling Notes
 
@@ -48,19 +48,14 @@ The main page currently shows these case cards:
 - Some large case pages include their own embedded CSS because they use custom layouts.
 - `css/style.css` and `css/tokens.css` were removed during cleanup and are no longer part of the live site.
 
-## Bet Route
+## B2C onboarding (NDA)
 
-`cases/betroute.html` is intentionally simple: it renders six full-width images one after another.
+`cases/b2c-onboarding.html` is intentionally simple: it renders six full-width images one after another. The project is under NDA, so the product name and domain are kept out of the copy and the images.
 
 The images live in `assets/images/`:
 
-- `betroute-01.png`
-- `betroute-02.jpg`
-- `betroute-03.jpg`
-- `betroute-04.jpg`
-- `betroute-05.jpg`
-- `betroute-06.jpg`
-- `case-betroute.jpg` for the main-page card thumbnail
+- `b2c-onboarding-01.webp` … `b2c-onboarding-06.webp`
+- `case-b2c-onboarding.webp` (legacy thumbnail; the main-page card uses `assets/home/covers/b2c-onboarding-sm.webp`)
 
 ## Maintenance
 
