@@ -336,8 +336,6 @@
 </section>
 
 <footer class="ftr" id="contact">
-  <span class="eyebrow" data-lift>[ Open ]</span>
-  <a class="cta" id="cta" href="mailto:petrenkoag95@gmail.com" aria-label="Let's build your design team" data-text="Let's build your design team →"></a>
   <div class="ftr-grid" data-lift>
     <div style="display:flex;flex-direction:column;gap:10px">
       <span class="mono" style="font-size:12px;color:var(--t3)">[ Contact ]</span>
@@ -425,7 +423,6 @@
   }
   var quoteSpans = buildWords(el('quote'));
   var insightSpans = buildWords(el('insight-text'));
-  var ctaSpans = buildChars(el('cta'));
   function fillWords(spans, frac){
     var n = Math.round(frac * spans.length);
     for (var i=0;i<spans.length;i++) spans[i].style.color = i < n ? '#fff' : '#3a3a40';
@@ -524,9 +521,6 @@
     if (!REDUCE){
       fillWords(quoteSpans, fillOf(el('quote')));
       fillWords(insightSpans, fillOf(el('insight-text')));
-      var c = el('cta').getBoundingClientRect();
-      var ctaFill = (h - window.scrollY < 2) ? 1 : clamp01((window.innerHeight - c.top)/(window.innerHeight*0.5));
-      fillChars(ctaSpans, ctaFill);
     }
     imgScroll();
   }
