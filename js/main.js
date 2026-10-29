@@ -32,7 +32,7 @@ const CASES = [
   {
     tag:   'E-COMMERCE · MOBILE',
     title: 'Turbo.ua delivery app',
-    desc:  'Reworked the ordering flow for a high-volume delivery service: faster checkout, fewer drop-offs.',
+    desc:  '30-minute grocery delivery in Kyiv. I designed the app, website and courier app from zero, then built the creative team.',
     img:   'assets/images/case-turbo.webp',
     url:   'cases/turbo.html',
   },
