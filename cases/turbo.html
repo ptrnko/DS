@@ -29,1262 +29,777 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Turbo.ua — grocery delivery in 30 minutes · Anastasiia Petrenko</title>
+  <title>Turbo.ua — 30-minute grocery delivery app — Anastasiia Petrenko</title>
+  <meta name="description" content="Case study: designing the Turbo.ua grocery delivery app, website and courier app from zero — research, key screens, the address flow and the creative team built after release.">
   <link rel="icon" type="image/png" href="../assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/case.css">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ── Turbo page-specific styles ── */
-    @keyframes wordIn {
-      from { opacity: 0; transform: translateY(18px); filter: blur(4px); }
-      to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    :root{
+      --bg:#0a0a0c;--surface:#0f0f12;--hover:#111114;--chrome:#141417;--faint:#1c1c20;--line:#2a2a2e;--conn:#3a3a40;
+      --t3:#666;--t2:#999;--ccc:#ccc;--ddd:#ddd;--accent:#4493fa;
+      --gut:clamp(20px,4vw,56px);--col:clamp(20px,3vw,48px);--mgap:250px;--intro:clamp(120px,16vh,180px);
+      --lift:cubic-bezier(.2,.7,.2,1);--curtain:cubic-bezier(.76,0,.24,1);
+      --glass:rgba(10,10,12,.82);
     }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .t-word {
-      display: inline-block;
-      opacity: 0;
-      animation: wordIn 0.55s cubic-bezier(.16,1,.3,1) forwards;
-    }
-    .t-reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
-    }
-    .t-reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:#fff;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:#fff;text-decoration:none}
+    a:hover{color:var(--accent)}
+    img{display:block;max-width:100%}
+    ::selection{background:var(--accent);color:#fff}
+    .label{font-family:'Geist Mono',monospace;font-size:13px;color:var(--t2)}
+    .micro{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--t3)}
+    .h2{margin:0;font-size:clamp(36px,4.6vw,68px);font-weight:500;letter-spacing:-0.04em;line-height:1.02;text-wrap:balance}
+    .h2 .dim{color:var(--t2)}
+    .h3{font-size:clamp(24px,2vw,32px);font-weight:500;letter-spacing:-0.025em;line-height:1.15}
+    .lead{margin:0;font-size:clamp(28px,3.4vw,56px);font-weight:500;letter-spacing:-0.035em;line-height:1.12;text-wrap:pretty}
+    .body{margin:0;font-size:17px;line-height:1.6;color:var(--t2);max-width:56ch;text-wrap:pretty}
+    .small{font-size:15px;line-height:1.6;color:var(--t2);text-wrap:pretty}
+    .glass{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 
-    /* Hero */
-    .turbo-hero {
-      position: relative;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 560px;
-      align-items: stretch;
-      min-height: 720px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      background: #0a0a0c;
-    }
-    .turbo-hero__grid {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-    .turbo-hero__content {
-      padding: 120px 80px 150px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-    }
-    .turbo-hero__eyebrow {
-      margin: 0 0 32px;
-      font-size: 12px;
-      font-weight: 500;
-      color: #4493fa;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      opacity: 0;
-      animation: fadeUp 0.6s cubic-bezier(.16,1,.3,1) 0.1s forwards;
-    }
-    .turbo-hero__h1 {
-      font-size: 60px;
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -.03em;
-      color: #fff;
-      margin: 0 0 40px;
-    }
-    .turbo-hero__body {
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: rgba(255,255,255,.55);
-      margin: 0;
-      max-width: 520px;
-      opacity: 0;
-      animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) 0.6s forwards;
-    }
-    .turbo-hero__meta {
-      display: flex;
-      gap: 48px;
-      margin-top: 60px;
-      opacity: 0;
-      animation: fadeUp 0.7s cubic-bezier(.16,1,.3,1) 0.75s forwards;
-    }
-    .turbo-hero__meta-label {
-      font-size: 11px;
-      color: #444;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .turbo-hero__meta-val {
-      font-size: 15px;
-      color: #ccc;
-    }
-    .turbo-hero__phone {
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-right: 80px;
-      overflow: hidden;
-      z-index: 1;
-    }
-    .turbo-hero__phone img {
-      width: 100%;
-      max-width: 460px;
-      position: relative;
-      z-index: 3;
-      display: block;
-      margin-bottom: -2px;
-      object-fit: contain;
-      object-position: bottom;
-    }
+    /* label 1/3 · content 2/3 */
+    .head{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:32px var(--col);padding:0 var(--gut)}
+    .head>.span{grid-column:span 2;display:flex;flex-direction:column;gap:24px;min-width:0}
+    .lines{display:flex;flex-direction:column;border-top:1px solid var(--faint)}
+    .lines>*{border-bottom:1px solid var(--faint)}
 
-    /* Section common */
-    .turbo-section {
-      padding: 150px 80px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .turbo-eyebrow {
-      font-size: 12px;
-      font-weight: 500;
-      color: #4493fa;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin: 0 0 24px;
-    }
-    .turbo-fullwidth {
-      border-top: 1px solid rgba(255,255,255,0.05);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .turbo-fullwidth img {
-      width: 100%;
-      display: block;
-    }
+    /* header */
+    .hdr{position:fixed;top:0;left:0;right:0;z-index:50;height:58px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 var(--gut);border-bottom:1px solid var(--line);font-family:'Geist Mono',monospace;font-size:13px;white-space:nowrap}
+    .hdr .c,.hdr .r{color:var(--t2)}
+    .hdr .prog{position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--accent)}
 
-    /* Main Goals */
-    .turbo-goals {
-      background: #0d0d10;
-    }
-    .turbo-goals__grid {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-    .turbo-goals__accent-bar {
-      width: 40px;
-      height: 2px;
-      background: #4493fa;
-      margin-top: 24px;
-    }
-    .turbo-goals__statement {
-      font-size: 40px;
-      font-weight: 700;
-      line-height: 1.15;
-      color: #fff;
-      margin: 0 0 16px;
-    }
-    .turbo-goals__divider {
-      height: 1px;
-      background: rgba(255,255,255,.06);
-      margin: 40px 0;
-    }
-    .turbo-goals__list {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 40px;
-    }
-    .turbo-goals__num {
-      font-size: 11px;
-      font-weight: 500;
-      color: #4493fa;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin: 0 0 10px;
-    }
-    .turbo-goals__item-body {
-      font-size: 14px;
-      line-height: 1.65;
-      color: rgba(255,255,255,.5);
-      margin: 0;
-    }
+    /* stacking layers: hero → overview → frames */
+    .stack{position:relative}
+    .layer{position:sticky;top:0;overflow:hidden}
+    .layer>.inner{will-change:transform}
+    .layer>.dim{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none}
+    .screen{height:100vh;min-height:560px;background:var(--surface)}
+    .screen>.inner{position:absolute;inset:0}
 
-    /* Numbers */
-    .turbo-numbers {
-      background: #0a0a0c;
-    }
-    .turbo-numbers__grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .turbo-numbers__heading {
-      font-size: 40px;
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -.025em;
-      color: #fff;
-      margin: 0;
-    }
-    .turbo-numbers__stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: #1a1a1e;
-    }
-    .turbo-numbers__stat {
-      background: #0f0f12;
-      padding: 48px 40px;
-    }
-    .turbo-numbers__num {
-      font-size: 80px;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -.03em;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-    .turbo-numbers__label {
-      font-size: 15px;
-      font-weight: 400;
-      color: rgba(255,255,255,.45);
-    }
+    /* 01 hero */
+    .hero .par{position:absolute;inset:-6% 0;will-change:transform}
+    .hero .par img{width:100%;height:100%;object-fit:cover;object-position:35% 50%}
+    .hero .shade{position:absolute;inset:0;background:var(--bg);opacity:.45}
+    .hero .meta{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line)}
+    .hero .meta>div{padding:20px var(--col);display:flex;flex-direction:column;gap:6px}
+    .hero .meta>div:first-child{padding-left:var(--gut)}
+    .hero .meta .v{font-size:15px}
+    @media (max-width:880px){.hero .meta{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .meta>div:nth-child(3){padding-left:var(--gut)}}
+    @media (max-width:440px){.hero .meta{grid-template-columns:1fr}.hero .meta>div{padding-left:var(--gut)}}
 
-    /* Personas */
-    .turbo-personas {
-      background: #0a0a0c;
-      padding-bottom: 80px;
-    }
-    .turbo-personas__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-    }
-    .turbo-persona {
-      position: relative;
-      min-height: 600px;
-      overflow: hidden;
-      background: #0a0a0c;
-    }
-    .turbo-persona--left { border-right: 1px solid rgba(255,255,255,.05); }
-    .turbo-persona__photo {
-      position: absolute;
-      bottom: 0;
-      height: calc(100% - 100px);
-      object-fit: contain;
-    }
-    .turbo-persona--left .turbo-persona__photo { right: -20px; object-position: bottom right; }
-    .turbo-persona--right .turbo-persona__photo { left: -20px; object-position: bottom left; }
-    .turbo-persona__fade-v {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, #0a0a0c 0%, #0a0a0c 12%, rgba(10,10,12,0.4) 35%, transparent 100%);
-    }
-    .turbo-persona--left .turbo-persona__fade-h {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, #0a0a0c 25%, transparent 55%);
-    }
-    .turbo-persona--right .turbo-persona__fade-h {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to left, #0a0a0c 25%, transparent 55%);
-    }
-    .turbo-persona__content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 2;
-      padding: 48px;
-    }
-    .turbo-persona--right .turbo-persona__content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
-    }
-    .turbo-persona__name {
-      font-size: 40px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 6px;
-      letter-spacing: -.02em;
-    }
-    .turbo-persona__meta {
-      font-size: 14px;
-      color: rgba(255,255,255,.4);
-      margin: 0 0 20px;
-    }
-    .turbo-persona__bio {
-      font-size: 15px;
-      line-height: 1.65;
-      color: rgba(255,255,255,.55);
-      margin: 0 0 24px;
-      max-width: 400px;
-    }
-    .turbo-persona__tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-      max-width: 420px;
-    }
-    .turbo-persona--right .turbo-persona__tags { justify-content: flex-end; }
-    .turbo-persona__tag {
-      font-size: 12px;
-      color: rgba(255,255,255,.6);
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.09);
-      padding: 5px 14px;
-    }
-    .turbo-persona__pain {
-      border-top: 1px solid rgba(255,255,255,.07);
-      padding-top: 20px;
-      max-width: 400px;
-      width: 100%;
-    }
-    .turbo-persona--right .turbo-persona__pain { text-align: right; }
-    .turbo-persona__pain-label {
-      font-size: 10px;
-      font-weight: 600;
-      color: #4493fa;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin: 0 0 10px;
-    }
-    .turbo-persona__pain-body {
-      font-size: 13px;
-      color: rgba(255,255,255,.55);
-      margin: 0;
-      line-height: 1.6;
-    }
+    /* 02 overview */
+    .over{background:var(--bg);border-top:1px solid var(--line)}
+    .over>.inner{--g:clamp(120px,14vw,200px);padding:var(--intro) 0;display:flex;flex-direction:column;gap:var(--g)}
+    .lead [data-w]{color:var(--conn);transition:color .3s var(--lift)}
+    .row-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:0 var(--gut)}
+    .cells{display:grid;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .steps>div{background:var(--bg);padding:clamp(32px,3.6vw,56px) var(--col);display:flex;flex-direction:column;gap:20px;min-height:260px}
+    @media (max-width:960px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:480px){.steps{grid-template-columns:1fr}.steps>div{min-height:0}}
+    .bleed{margin:calc(-1 * var(--g)) 0;position:relative;aspect-ratio:2433/1512;max-height:100vh;width:100%;overflow:hidden;background:var(--surface)}
+    .bleed img{width:100%;height:100%;object-fit:cover}
+    .numbers{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+    .numbers>div:first-child{background:var(--bg);padding:clamp(32px,3.6vw,56px) var(--gut);display:flex;flex-direction:column;gap:20px}
+    .numbers .grid{grid-column:span 2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line)}
+    .numbers .grid>div{background:var(--bg);padding:clamp(32px,3.6vw,56px) var(--col);display:flex;flex-direction:column;gap:12px}
+    .stat{font-size:clamp(48px,5vw,80px);font-weight:600;letter-spacing:-0.045em;line-height:1;font-variant-numeric:tabular-nums}
 
-    /* Pain points */
-    .turbo-pain {
-      background: #0a0a0c;
-    }
-    .turbo-pain__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: #1a1a1e;
-    }
-    .turbo-pain__card {
-      background: #0f0f12;
-      padding: 40px 36px;
-      position: relative;
-      overflow: hidden;
-    }
-    .turbo-pain__bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 3px;
-      height: 100%;
-    }
-    .turbo-pain__category {
-      font-size: 13px;
-      font-weight: 500;
-      color: #4493fa;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin: 0 0 16px;
-    }
-    .turbo-pain__title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 12px;
-      line-height: 1.2;
-    }
-    .turbo-pain__body {
-      font-size: 15px;
-      line-height: 1.65;
-      color: rgba(255,255,255,.5);
-      margin: 0;
-    }
+    /* 03 frames */
+    .frame img{width:100%;height:100%;object-fit:cover}
+    .cap{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;padding:20px var(--gut);border-top:1px solid var(--line);font-family:'Geist Mono',monospace;font-size:13px}
+    .cap .micro{align-self:center}
 
-    /* Colors & Typography */
-    .turbo-brand {
-      background: #0d0d10;
-    }
-    .turbo-brand__intro {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-      margin-bottom: 60px;
-    }
-    .turbo-brand__heading {
-      font-size: 36px;
-      font-weight: 700;
-      line-height: 1.15;
-      color: #fff;
-      margin: 0;
-    }
-    .turbo-brand__body {
-      font-size: 17px;
-      line-height: 1.7;
-      color: rgba(255,255,255,.5);
-      margin: 0;
-    }
-    .turbo-brand__swatches {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 2px;
-      background: #1a1a1e;
-      margin-bottom: 60px;
-    }
-    .turbo-brand__swatch {
-      height: 160px;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: 20px 24px;
-    }
-    .turbo-brand__swatch-name {
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .turbo-brand__swatch-hex {
-      font-size: 13px;
-    }
-    .turbo-brand__type {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: #1a1a1e;
-    }
-    .turbo-brand__type-card {
-      background: #0f0f12;
-      padding: 40px 36px;
-    }
-    .turbo-brand__type-label {
-      font-size: 11px;
-      color: #4493fa;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
+    .sec{position:relative;z-index:6;background:var(--bg);padding-top:var(--mgap);display:flex;flex-direction:column;gap:64px}
+    .sec.bt{border-top:1px solid var(--line)}
 
-    /* Discovery Workflow */
-    .turbo-discovery {
-      background: #fff;
-    }
-    .turbo-discovery__heading {
-      font-size: 36px;
-      font-weight: 700;
-      line-height: 1.15;
-      color: #0a0a0c;
-      margin: 0 0 60px;
-      max-width: 600px;
-    }
-    .turbo-discovery__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 20px;
-    }
-    .turbo-dw-card {
-      background: #f5f5f7;
-      padding: 40px 32px;
-      border-radius: 3px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    .turbo-dw-card__weeks {
-      font-size: 11px;
-      font-weight: 600;
-      color: #0a0a0c;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .turbo-dw-card__phase {
-      font-size: 32px;
-      font-weight: 700;
-      color: #0a0a0c;
-      letter-spacing: -.02em;
-      line-height: 1.1;
-    }
-    .turbo-dw-card__tasks {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-    .turbo-dw-card__task {
-      font-size: 14px;
-      color: rgba(0,0,0,.7);
-      line-height: 1.5;
-    }
-    .turbo-dw-card__tools {
-      display: flex;
-      gap: 8px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0,0,0,.08);
-    }
-    .turbo-dw-card__tools img {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      object-fit: cover;
-    }
+    /* 04 my role */
+    .roles{position:relative;z-index:6;background:var(--bg);border-top:1px solid var(--line);padding-top:var(--intro);display:flex;flex-direction:column;gap:64px;overflow-x:clip}
+    .role-list{display:flex;flex-direction:column;padding-bottom:clamp(80px,10vw,160px)}
+    .role{position:sticky;background:var(--bg);border-top:1px solid var(--line);padding:clamp(24px,2.4vw,40px) var(--gut);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2fr);gap:24px var(--col);align-items:start}
+    .role .ph{aspect-ratio:4/5;overflow:hidden;background:var(--surface);max-height:min(56vh,520px);width:100%}
+    .role .ph img{width:100%;height:100%;object-fit:cover}
+    .role .tt{display:flex;gap:clamp(20px,4vw,80px);align-items:baseline}
+    .role .inc{display:flex;flex-direction:column;gap:20px;min-width:0}
+    .role .inc span:not(.micro){font-size:15px;line-height:1.5;color:var(--ddd);padding:14px 0}
 
-    /* User flow */
-    .turbo-flow {
-      background: #0a0a0c;
-    }
-    .turbo-flow__heading {
-      font-size: 36px;
-      font-weight: 700;
-      line-height: 1.15;
-      color: #fff;
-      margin: 0 0 60px;
-      max-width: 600px;
-    }
-    .turbo-flow__diagram {
-      display: flex;
-      justify-content: center;
-    }
-    .turbo-flow__diagram img {
-      width: 66%;
-      display: block;
-      border-radius: 4px;
-    }
+    /* 05 research */
+    .res-stage{position:relative;border-top:1px solid var(--line)}
+    .res-in{display:grid;grid-template-columns:minmax(0,1fr)}
+    .res-img{padding:clamp(24px,3vw,48px) var(--gut);display:flex;flex-direction:column;gap:16px;min-height:0}
+    .res-img .box{position:relative;flex:1;min-height:70vh;overflow:hidden;background:var(--surface)}
+    .res-img .box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+    .res-img .foot{display:flex;justify-content:space-between;gap:16px}
+    .res-right{display:flex;flex-direction:column;min-height:0;min-width:0}
+    .tabs{display:none;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line)}
+    .tab{position:relative;appearance:none;border:0;border-right:1px solid var(--line);background:transparent;text-align:left;font-family:inherit;padding:20px clamp(16px,2vw,32px);display:flex;flex-direction:column;gap:6px;cursor:pointer}
+    .tab:hover{background:var(--hover)}
+    .tab .t{font-size:15px;color:var(--t3);transition:color .3s var(--lift);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tab .bar{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent);transform-origin:0 50%;transform:scaleX(0);transition:transform .5s var(--lift)}
+    .tab.on .t{color:#fff}.tab.on .bar{transform:scaleX(1)}
+    .cards{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+    .pain{position:relative;padding:clamp(40px,5vw,80px) var(--gut);display:flex;flex-direction:column;justify-content:space-between;gap:48px;border-bottom:1px solid var(--line);transition:opacity .6s var(--lift),transform .6s var(--lift),filter .6s var(--lift)}
+    .pain .top{display:flex;flex-direction:column;gap:28px}
+    .pain .ttl{display:flex;justify-content:space-between;align-items:baseline;gap:24px}
+    .pain .ttl .label{white-space:nowrap}
+    .pain q{margin:0;font-size:clamp(24px,2.4vw,40px);font-weight:500;letter-spacing:-0.03em;line-height:1.2;color:var(--t2);max-width:24ch;text-wrap:pretty;quotes:"\201C" "\201D"}
+    .pain .did{display:flex;flex-direction:column;gap:16px;max-width:640px}
+    .arrow-row{display:flex;gap:16px;align-items:baseline;padding:16px 0}
+    .arrow-row .a{font-family:'Geist Mono',monospace;font-size:13px;color:var(--t3)}
+    .arrow-row .x{font-size:17px;line-height:1.5;color:var(--ddd);text-wrap:pretty}
 
-    /* Feature sections */
-    .turbo-features {
-      background: #0a0a0c;
+    /* 07 key screens */
+    .ks{position:relative;min-height:calc(100vh - 58px);background:var(--bg);border-top:1px solid var(--line);overflow:hidden}
+    .ks>.inner{min-height:calc(100vh - 58px);display:grid;grid-template-columns:minmax(0,1fr);transform-origin:50% 0}
+    .ks .txt{padding:clamp(32px,3.6vw,56px) var(--gut);display:flex;flex-direction:column;justify-content:space-between;gap:48px}
+    .ks .txt .top{display:flex;flex-direction:column;gap:24px}
+    .ks .txt .top .meta{display:flex;justify-content:space-between;gap:16px}
+    .ks .txt .top .meta .micro{align-self:center}
+    .ks .ttl{font-size:clamp(36px,4.6vw,68px);font-weight:500;letter-spacing:-0.04em;line-height:1.02}
+    .dec{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0}
+    .dec .x{font-size:15px;line-height:1.5;color:var(--ddd);text-wrap:pretty}
+    .dec .micro{white-space:nowrap}
+    .ks .pan{position:relative;background:var(--surface);display:flex;align-items:center;justify-content:center;padding:clamp(16px,2vw,32px);min-height:min(80vh,720px);overflow:hidden}
+    .ks .pan img{flex:none;width:100%;height:auto;max-height:80vh;object-fit:contain;object-position:50% 20%}
+    .ks .pan.full{padding:0}
+
+    /* 08 delivery time */
+    .flow{display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .flow .txt{display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding:clamp(32px,3.6vw,56px) var(--gut)}
+    .fstep{position:relative;display:flex;flex-direction:column;gap:10px;padding:24px 0;opacity:.35;transition:opacity .5s var(--lift)}
+    .fstep .row{display:flex;align-items:baseline;gap:16px}
+    .fstep .row .label{white-space:nowrap;flex:none}
+    .fstep .t{font-size:clamp(22px,2vw,28px);font-weight:500;letter-spacing:-0.025em;line-height:1.15}
+    .fstep .bar{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent);transform-origin:0 50%;transform:scaleX(0)}
+    .flow .note{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px 24px}
+    .flow .note span:first-child{font-size:15px;line-height:1.6;color:var(--ddd);max-width:32ch}
+    .flow .pan{background:var(--surface);display:flex;justify-content:center;align-items:center;padding:clamp(24px,4vh,64px) 20px;min-width:0;overflow:hidden}
+    .pwrap{width:376px;height:780px;position:relative}
+    .phone{position:absolute;left:0;top:0;width:376px;height:780px;padding:12px;background:#1a1a1d;border-radius:58px;box-shadow:inset 0 0 0 1px var(--conn),0 40px 80px rgba(0,0,0,.45);transform-origin:0 0}
+    .scr{position:relative;width:352px;height:756px;border-radius:46px;overflow:hidden;background:#fff;font-family:'Urbanist',sans-serif;color:#1c1c1e}
+    .scr .map{position:absolute;top:82px;left:0;right:0;bottom:0;overflow:hidden;background:#c9d6d8}
+    .scr .map img{position:absolute;top:0;max-width:none;will-change:transform,opacity}
+    .pin{position:absolute;left:176px;top:262px;width:0;height:0;will-change:transform}
+    .pin>*,.pin .lift>*{position:absolute}
+    .pin .shadow{left:-7px;top:-3px;width:14px;height:6px;border-radius:50%;background:rgba(0,0,0,.25)}
+    .pin .lift{left:0;top:0}
+    .pin .stem{left:-1px;top:-22px;width:2px;height:22px;background:#2b2b30}
+    .pin .knob{left:-15px;top:-50px;width:30px;height:30px;border-radius:50%;background:#2b2b30;display:flex;align-items:center;justify-content:center;transform-origin:50% 100%}
+    .pin .knob i{width:10px;height:10px;border-radius:50%;border:2px solid #fff}
+    .pin .pill{left:-37px;top:-48px;width:74px;height:26px;border-radius:5px;background:#1c1c1e;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;opacity:0;transform-origin:50% 100%}
+    .sheet{position:absolute;left:0;right:0;bottom:0;z-index:2;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.08);padding:22px 18px 44px;display:flex;flex-direction:column}
+    .sheet .hd{height:34px;display:flex;justify-content:space-between;align-items:center}
+    .sheet .hd b{font-size:19px;font-weight:600}
+    .loc{width:34px;height:34px;border-radius:50%;background:#f1f2f3;display:flex;align-items:center;justify-content:center}
+    .loc i{width:14px;height:14px;border-radius:50%;border:1.5px solid #333;display:flex;align-items:center;justify-content:center}
+    .loc i::after{content:"";width:4px;height:4px;border-radius:50%;background:#333}
+    .fld{position:relative;flex:1;min-width:0;height:42px;border:1px solid #d5d7da;border-radius:6px;display:flex;align-items:center;padding:0 12px;transition:border-color .2s}
+    .fld .ph{font-size:14px;color:#9a9aa0}
+    .fld .lb{position:absolute;left:10px;top:-7px;padding:0 3px;background:#fff;font-size:10px;font-weight:500;color:#6e6e73;opacity:0}
+    .fld .tx{font-size:15px;font-weight:500;color:#1c1c1e;white-space:pre}
+    .fld .ca{width:1.5px;height:18px;background:#1cb9bf;margin-left:1px;opacity:0}
+    .frow{height:0;overflow:hidden;opacity:0}
+    .frow>div{display:flex;gap:10px;padding-top:12px}
+    .btn{height:42px;border-radius:6px;background:#d2f1f3;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:600;transition:background .3s}
+    .homebar{position:absolute;left:50%;bottom:8px;z-index:3;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#111}
+    .fade{position:absolute;inset:0;z-index:4;background:#fff;opacity:0;pointer-events:none}
+
+    /* 09 web */
+    .web-stage{position:relative}
+    .web-in{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .wcol{background:var(--bg);display:flex;flex-direction:column;min-height:0;min-width:0}
+    .wcol .hd{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px clamp(16px,2vw,32px);font-family:'Geist Mono',monospace;font-size:13px;border-bottom:1px solid var(--line)}
+    .wcol .bd{flex:1;min-height:0;min-width:0;padding:clamp(16px,2vw,32px);display:flex}
+    .win{appearance:none;font:inherit;color:inherit;text-align:left;padding:0;flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;border:1px solid var(--line);background:var(--chrome);cursor:zoom-in;transition:border-color .3s var(--lift)}
+    .win:hover{border-color:var(--accent)}
+    .win .bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}
+    .win .sq{display:flex;gap:6px}.win .sq i{width:7px;height:7px;background:var(--conn)}
+    .win .url{flex:1;min-width:0;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.02em;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .win .open{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--t2);white-space:nowrap}
+    .win:hover .open{color:var(--accent)}
+    .win .view{position:relative;flex:1;min-height:0;height:70vh;overflow:auto;background:#fff}
+    .win .view img{width:100%;height:auto;will-change:transform}
+    .lb-wrap{position:fixed;inset:0;z-index:100;background:rgba(10,10,12,.96);display:none;flex-direction:column}
+    .lb-wrap.on{display:flex}
+    .lb-top{flex:none;height:58px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 var(--gut);border-bottom:1px solid var(--line);font-family:'Geist Mono',monospace;font-size:13px}
+    .lb-top .nm{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .lb-top .nm span{color:var(--t3)}
+    .lb-top .ctl{display:flex;gap:24px;flex:none}
+    .lb-top button{appearance:none;border:0;background:none;font:inherit;color:var(--t2);cursor:pointer;padding:0}
+    .lb-top button:hover{color:var(--accent)}
+    .lb-top button.x{color:#fff}
+    .lb-scroll{flex:1;min-height:0;overflow:auto;padding:clamp(20px,3vw,48px) var(--gut);cursor:zoom-out}
+    .lb-scroll img{width:100%;max-width:1440px;height:auto;margin:0 auto;cursor:default}
+
+    /* next / footer */
+    .nextcase{position:relative;z-index:7;background:var(--bg);margin-top:var(--mgap);padding:64px var(--gut) 32px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:56px}
+    .nextcase .big{font-size:clamp(40px,7.4vw,120px);font-weight:500;letter-spacing:-0.045em;line-height:1;color:#fff;max-width:14ch}
+    .nextcase .big:hover{color:var(--accent)}
+    .ftr-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;font-size:15px;color:var(--ccc);padding-top:32px;border-top:1px solid var(--line)}
+    .ftr-row a{color:var(--ccc)}
+
+    /* wide: sticky / pinned layouts */
+    @media (min-width:900px){
+      .res-stage{height:360vh}
+      .res-in{position:sticky;top:58px;height:calc(100vh - 58px);grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+      .res-img{border-right:1px solid var(--line)}
+      .res-img .box{min-height:0}
+      .tabs{display:grid}
+      .pain{position:absolute;inset:0;border-bottom:0;opacity:0;transform:translateY(24px);filter:blur(6px);pointer-events:none}
+      .pain.before{transform:translateY(-24px)}
+      .pain.on{opacity:1;transform:none;filter:blur(0);pointer-events:auto}
+      .ks{position:sticky;top:58px}
+      .ks>.inner{grid-template-columns:minmax(0,1fr) minmax(0,2fr);will-change:transform}
+      .ks .txt{border-right:1px solid var(--line)}
+      .ks .pan.tall{align-items:flex-start}
+      .ks .pan.tall img{height:calc(100vh - 58px + 14vh);max-height:none}
+      .ks .pan.full img{max-height:none}
+      .flow{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+      .flow .txt{border-right:1px solid var(--line)}
+      .web-stage{height:320vh}
+      .web-in{position:sticky;top:58px;height:calc(100vh - 58px);grid-template-columns:repeat(3,minmax(0,1fr))}
+      .win .view{height:auto;overflow:hidden}
+      .win .view img{position:absolute;left:0;top:0}
     }
-    .turbo-features__grid-main {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 80px;
-      align-items: center;
+    @media (max-width:899px){
+      :root{--mgap:160px}
+      .role{position:relative!important;top:auto!important;grid-template-columns:1fr}
+      .role .ph{max-height:70vh}
     }
-    .turbo-features__grid-product {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .turbo-features__heading {
-      font-size: 48px;
-      font-weight: 700;
-      line-height: 1.05;
-      color: #fff;
-      margin: 0 0 56px;
-    }
-    .turbo-features__cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: #1a1a1e;
-    }
-    .turbo-features__card {
-      background: #0f0f12;
-      padding: 36px 32px;
-    }
-    .turbo-features__bar {
-      width: 32px;
-      height: 2px;
-      margin-bottom: 20px;
-    }
-    .turbo-features__card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 10px;
-    }
-    .turbo-features__card-body {
-      font-size: 14px;
-      line-height: 1.6;
-      color: rgba(255,255,255,.5);
-      margin: 0;
-    }
-    .turbo-features__phone {
-      width: 100%;
-      display: block;
-      border-radius: 8px;
-    }
-
-    /* Cart page */
-    .turbo-cart {
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      background: #0d0d10;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      overflow: hidden;
-    }
-    .turbo-cart__content {
-      padding: 150px 80px;
-    }
-    .turbo-cart__phone {
-      display: block;
-      height: 800px;
-      width: auto;
-      object-fit: cover;
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      .site-header { padding: 0 20px; height: 56px; }
-      .site-header .nav { display: none; }
-
-      /* Hero */
-      .turbo-hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-      .turbo-hero__content {
-        padding: 80px 20px 44px;
-      }
-      .turbo-hero__h1 { font-size: 36px; margin-bottom: 20px; }
-      .turbo-hero__eyebrow { margin-bottom: 20px; }
-      .turbo-hero__body { font-size: 15px; }
-      .turbo-hero__meta { gap: 24px; margin-top: 36px; flex-wrap: wrap; }
-      .turbo-hero__phone { display: none; }
-
-      /* Sections */
-      .turbo-section { padding: 52px 20px; }
-
-      /* Goals */
-      .turbo-goals__grid { grid-template-columns: 1fr; gap: 32px; }
-      .turbo-goals__statement { font-size: 26px; }
-      .turbo-goals__list { grid-template-columns: 1fr; gap: 24px; }
-
-      /* Numbers */
-      .turbo-numbers__grid { grid-template-columns: 1fr; gap: 32px; }
-      .turbo-numbers__heading { font-size: 28px; }
-      .turbo-numbers__stats { grid-template-columns: 1fr 1fr; }
-      .turbo-numbers__stat { padding: 28px 20px; }
-      .turbo-numbers__num { font-size: 48px; }
-
-      /* Personas — photo top, text block below */
-      .turbo-personas__grid { grid-template-columns: 1fr; }
-      .turbo-persona {
-        min-height: auto;
-        display: flex;
-        flex-direction: column;
-        overflow: visible;
-      }
-      .turbo-persona--left { border-right: none; border-bottom: 1px solid rgba(255,255,255,.05); }
-      .turbo-persona__photo {
-        position: static;
-        width: 100%;
-        height: auto;
-        object-fit: unset;
-      }
-      .turbo-persona__fade-v,
-      .turbo-persona__fade-h { display: none; }
-      .turbo-persona__content {
-        position: static;
-        padding: 24px 20px 36px;
-        background: #0a0a0c;
-      }
-      .turbo-persona__name { font-size: 26px; }
-      .turbo-persona--right .turbo-persona__content { align-items: flex-start; text-align: left; }
-      .turbo-persona--right .turbo-persona__tags { justify-content: flex-start; }
-      .turbo-persona--right .turbo-persona__pain { text-align: left; }
-
-      /* Pain points */
-      .turbo-pain__grid { grid-template-columns: 1fr; }
-      .turbo-pain__card { padding: 28px 20px; }
-
-      /* Brand */
-      .turbo-brand__intro { grid-template-columns: 1fr; gap: 20px; margin-bottom: 32px; }
-      .turbo-brand__heading { font-size: 26px; }
-      .turbo-brand__swatches { grid-template-columns: 1fr 1fr; margin-bottom: 32px; }
-      .turbo-brand__swatch { height: 120px; padding: 16px; }
-      .turbo-brand__type { grid-template-columns: 1fr; }
-      .turbo-brand__type-card { padding: 28px 20px; }
-
-      /* Discovery */
-      .turbo-discovery__heading { font-size: 24px; margin-bottom: 32px; }
-      .turbo-discovery__scroll { overflow-x: auto; padding-bottom: 12px; padding-right: 20px; }
-      .turbo-discovery__grid { grid-template-columns: repeat(4, 240px); width: max-content; }
-
-      /* Flow */
-      .turbo-flow__heading { font-size: 24px; margin-bottom: 32px; }
-      .turbo-flow__diagram img { width: 100%; }
-
-      /* Features */
-      .turbo-features__grid-main,
-      .turbo-features__grid-product {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-      .turbo-features__grid-product .turbo-features__phone { order: -1; }
-      .turbo-features__heading { font-size: 32px; margin-bottom: 32px; }
-      .turbo-features__cards { grid-template-columns: 1fr; }
-      .turbo-features__card { padding: 24px 20px; }
-      .turbo-features__phone { max-width: 280px; margin: 0 auto; }
-
-      /* Cart */
-      .turbo-cart { grid-template-columns: 1fr; }
-      .turbo-cart__content { padding: 52px 20px; }
-      .turbo-cart__phone { display: none; }
-
-      /* Footer */
-      .footer { padding: 48px 20px 36px; }
-      .footer__columns { flex-direction: column; gap: 32px; }
+    @media (max-width:640px){.hdr .c{display:none}}
+    @media (max-width:480px){.hdr .r{display:none}}
+    @media (prefers-reduced-motion:reduce){
+      *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     }
   </style>
 </head>
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K25V9CTP"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K25V9CTP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
+<header class="hdr glass">
+  <a href="../index.html">← Back to works</a>
+  <span class="c">Turbo.ua · Groceries delivery</span>
+  <span class="r">[ App + Web · Kyiv · 2021 ]</span>
+  <span class="prog" id="prog"></span>
+</header>
 
-  <header class="site-header">
-    <a href="../index.html" class="logo case-back">&larr; Back to works</a>
-    <nav class="nav">
-      <a href="../index.html#work"  class="nav__link">Work</a>
-      <a href="../index.html#about" class="nav__link">About</a>
-      <a href="mailto:petrenkoag95@gmail.com" class="nav__link">Contact</a>
-    </nav>
-  </header>
+<div class="stack" id="stack">
 
-  <main>
-
-    <!-- ── HERO ── -->
-    <section class="turbo-hero">
-      <svg class="turbo-hero__grid" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="sparseGrid" width="240" height="240" patternUnits="userSpaceOnUse">
-            <rect x="0" y="0" width="240" height="240" fill="none" stroke="rgba(68,147,250,0.15)" stroke-width="1"></rect>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#sparseGrid)"></rect>
-        <circle cx="240" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0s" repeatCount="indefinite"></animate></circle>
-        <circle cx="480" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0.6s" repeatCount="indefinite"></animate></circle>
-        <circle cx="720" cy="480" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1.2s" repeatCount="indefinite"></animate></circle>
-        <circle cx="960" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="1.8s" repeatCount="indefinite"></animate></circle>
-        <circle cx="480" cy="480" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="0.9s" repeatCount="indefinite"></animate></circle>
-        <circle cx="720" cy="240" r="3" fill="#4493fa" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="2.4s" repeatCount="indefinite"></animate></circle>
-        <rect x="480" y="240" width="240" height="240" fill="rgba(68,147,250,0)" opacity="0"><animate attributeName="fill" values="rgba(68,147,250,0);rgba(68,147,250,0.05);rgba(68,147,250,0)" dur="6s" begin="1s" repeatCount="indefinite"></animate><animate attributeName="opacity" values="0;1;0" dur="6s" begin="1s" repeatCount="indefinite"></animate></rect>
-        <rect x="720" y="0" width="240" height="240" fill="rgba(68,147,250,0)" opacity="0"><animate attributeName="fill" values="rgba(68,147,250,0);rgba(68,147,250,0.05);rgba(68,147,250,0)" dur="6s" begin="3s" repeatCount="indefinite"></animate><animate attributeName="opacity" values="0;1;0" dur="6s" begin="3s" repeatCount="indefinite"></animate></rect>
-      </svg>
-
-      <div class="turbo-hero__content">
-        <p class="turbo-hero__eyebrow">Project Overview</p>
-        <h1 class="turbo-hero__h1">
-          <span class="t-word" style="animation-delay:.2s;">Turbo.ua</span>
-          <span class="t-word" style="animation-delay:.28s;">—</span><br>
-          <span class="t-word" style="animation-delay:.36s;color:#4493fa;">grocery</span>
-          <span class="t-word" style="animation-delay:.44s;color:#4493fa;">delivery</span><br>
-          <span class="t-word" style="animation-delay:.52s;">in</span>
-          <span class="t-word" style="animation-delay:.6s;">30</span>
-          <span class="t-word" style="animation-delay:.68s;">minutes.</span>
-        </h1>
-        <p class="turbo-hero__body">A DoorDash-style grocery delivery service for Kyiv: dark stores in every district, plus a courier app with precise delivery addresses, customer comments, and real-time GPS order tracking.</p>
-        <div class="turbo-hero__meta">
-          <div>
-            <div class="turbo-hero__meta-label">Role</div>
-            <div class="turbo-hero__meta-val">Lead Product Designer</div>
-          </div>
-          <div>
-            <div class="turbo-hero__meta-label">Platform</div>
-            <div class="turbo-hero__meta-val">iOS · Android · Web</div>
-          </div>
-          <div>
-            <div class="turbo-hero__meta-label">Sector</div>
-            <div class="turbo-hero__meta-val">Delivery · B2C</div>
-          </div>
-        </div>
+  <section class="layer screen hero" style="z-index:1" id="hero">
+    <div class="inner">
+      <div class="par" id="hero-par"><img id="hero-img" src="../assets/turbo/hero-courier.webp" alt="Turbo courier with a bike and a branded bag in Kyiv" fetchpriority="high"></div>
+      <div class="shade"></div>
+      <div class="meta">
+        <div class="glass" data-lift><span class="micro">ROLE</span><span class="v">Lead Product Designer</span></div>
+        <div class="glass" data-lift><span class="micro">SCOPE</span><span class="v">iOS, Android and web</span></div>
+        <div class="glass" data-lift><span class="micro">DOMAIN</span><span class="v">E-commerce, delivery</span></div>
+        <div class="glass" data-lift><span class="micro">AFTER RELEASE</span><span class="v">Built the creative team</span></div>
       </div>
-
-      <div class="turbo-hero__phone">
-        <img src="../assets/images/turbo-hero-phone.webp" alt="Turbo.ua app">
-      </div>
-    </section>
-
-    <!-- ── MAIN GOALS ── -->
-    <section class="turbo-section turbo-goals">
-      <div class="turbo-goals__grid">
-        <div class="t-reveal">
-          <p class="turbo-eyebrow">Main Goals</p>
-          <div class="turbo-goals__accent-bar"></div>
-        </div>
-        <div class="t-reveal">
-          <p class="turbo-goals__statement">30-min delivery, zero hassle. <span style="color:rgba(255,255,255,.2);">No stock-outs. No delays.</span> Automated shelf management.</p>
-          <div class="turbo-goals__divider"></div>
-          <div class="turbo-goals__list">
-            <div>
-              <p class="turbo-goals__num">01</p>
-              <p class="turbo-goals__item-body">Create a service as easy to use as possible while guaranteeing high customer orientation.</p>
-            </div>
-            <div>
-              <p class="turbo-goals__num">02</p>
-              <p class="turbo-goals__item-body">Avoid out-of-stock situations and courier delays — learn from competitor weaknesses.</p>
-            </div>
-            <div>
-              <p class="turbo-goals__num">03</p>
-              <p class="turbo-goals__item-body">The system puts everything on shelves automatically — both money and goods.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── BRAND IMAGE ── -->
-    <div class="turbo-fullwidth">
-      <img loading="lazy" src="../assets/images/turbo-brand.webp" alt="Turbo.ua brand">
     </div>
+    <div class="dim"></div>
+  </section>
 
-    <!-- ── PROJECT IN NUMBERS ── -->
-    <section class="turbo-section turbo-numbers">
-      <div class="turbo-numbers__grid">
-        <div class="t-reveal">
-          <p class="turbo-eyebrow">Project in numbers</p>
-          <h2 class="turbo-numbers__heading">Scale of the work done.</h2>
+  <section class="layer over" style="z-index:2" id="over">
+    <div class="inner">
+
+      <div class="head">
+        <span class="label">[ 02 Overview ]</span>
+        <p class="lead span" id="lead" style="display:block">Turbo.ua delivers groceries across Kyiv in 30 minutes. I designed the app and the website from zero, and after the release I built and led the creative team.</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:40px">
+        <div class="row-head">
+          <h2 class="h2">How it works</h2>
+          <span class="label">[ 04 steps ]</span>
         </div>
-        <div class="turbo-numbers__stats">
-          <div class="turbo-numbers__stat">
-            <div class="turbo-numbers__num" data-counter="150" data-suffix="+">0</div>
-            <div class="turbo-numbers__label">Screens designed</div>
-          </div>
-          <div class="turbo-numbers__stat">
-            <div class="turbo-numbers__num" data-counter="20" data-suffix="+">0</div>
-            <div class="turbo-numbers__label">Usability tests</div>
-          </div>
-          <div class="turbo-numbers__stat">
-            <div class="turbo-numbers__num" data-counter="30" data-suffix="+">0</div>
-            <div class="turbo-numbers__label">In-depth interviews</div>
-          </div>
-          <div class="turbo-numbers__stat">
-            <div class="turbo-numbers__num" data-counter="5" data-suffix="+">0</div>
-            <div class="turbo-numbers__label">Months to release</div>
-          </div>
+        <div class="cells steps">
+          <div><span class="micro">01</span><span class="h3">Dark stores</span><span class="small">Every district of Kyiv has its own dark store, stocked like the nearest shop.</span></div>
+          <div><span class="micro">02</span><span class="h3">Picking</span><span class="small">A picker assembles the order, checks the quality of every product and hands it to a courier.</span></div>
+          <div><span class="micro">03</span><span class="h3">Courier app</span><span class="small">Couriers get the exact address, comments and a GPS tracker. The client follows the delivery live.</span></div>
+          <div><span class="micro">04</span><span class="h3">Bikes</span><span class="small">Couriers ride bicycles and carry up to 12 kg per order.</span></div>
         </div>
       </div>
-    </section>
 
-    <!-- ── PERSONAS ── -->
-    <section class="turbo-section turbo-personas">
-      <p class="turbo-eyebrow t-reveal">Personas</p>
-      <div class="turbo-personas__grid" style="margin-top:48px;">
+      <div class="bleed"><img data-reveal src="../assets/turbo/app-in-hand.webp" alt="Hand holding a phone with the Turbo.ua main screen" loading="lazy"></div>
 
-        <!-- Anna -->
-        <div class="turbo-persona turbo-persona--left t-reveal">
-          <img loading="lazy" src="../assets/images/turbo-persona-anna.webp" alt="Anna Panchenko" class="turbo-persona__photo">
-          <div class="turbo-persona__fade-v"></div>
-          <div class="turbo-persona__fade-h"></div>
-          <div class="turbo-persona__content">
-            <p class="turbo-persona__name">Anna Panchenko</p>
-            <p class="turbo-persona__meta">26 · Maternity leave · Living on savings</p>
-            <p class="turbo-persona__bio">On maternity leave. Chooses only high-quality products for her child and husband.</p>
-            <div class="turbo-persona__tags">
-              <span class="turbo-persona__tag">Fresh products</span>
-              <span class="turbo-persona__tag">Kids-safe</span>
-              <span class="turbo-persona__tag">No sugar/gluten</span>
-              <span class="turbo-persona__tag">Silent courier</span>
-            </div>
-            <div class="turbo-persona__pain">
-              <p class="turbo-persona__pain-label">Pain points</p>
-              <p class="turbo-persona__pain-body">Fear not all products in order · Quality concerns</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Ivan -->
-        <div class="turbo-persona turbo-persona--right t-reveal">
-          <img loading="lazy" src="../assets/images/turbo-persona-ivan.webp" alt="Ivan Moneko" class="turbo-persona__photo">
-          <div class="turbo-persona__fade-v"></div>
-          <div class="turbo-persona__fade-h"></div>
-          <div class="turbo-persona__content">
-            <p class="turbo-persona__name">Ivan Moneko</p>
-            <p class="turbo-persona__meta">35 · Senior Manager · $1500/mo</p>
-            <p class="turbo-persona__bio">Senior manager, lives alone. Orders ready-made food or products that can be prepared quickly.</p>
-            <div class="turbo-persona__tags">
-              <span class="turbo-persona__tag">Fast food range</span>
-              <span class="turbo-persona__tag">Express delivery</span>
-              <span class="turbo-persona__tag">Online payment</span>
-              <span class="turbo-persona__tag">Product ratings</span>
-            </div>
-            <div class="turbo-persona__pain">
-              <p class="turbo-persona__pain-label">Pain points</p>
-              <p class="turbo-persona__pain-body">Courier delays · Low trust as new company</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── USER PAIN POINTS ── -->
-    <section class="turbo-section turbo-pain">
-      <p class="turbo-eyebrow t-reveal" style="margin-bottom:48px;">User pain points</p>
-      <div class="turbo-pain__grid">
-        <div class="turbo-pain__card t-reveal">
-          <div class="turbo-pain__bar" style="background:#4493fa;"></div>
-          <p class="turbo-pain__category">Availability</p>
-          <p class="turbo-pain__title">Products out of stock?</p>
-          <p class="turbo-pain__body">Fear that not all products will be in the order. Something missing to prepare a meal.</p>
-        </div>
-        <div class="turbo-pain__card t-reveal" style="transition-delay:.08s;">
-          <div class="turbo-pain__bar" style="background:rgba(68,147,250,.3);"></div>
-          <p class="turbo-pain__category">Confidence</p>
-          <p class="turbo-pain__title">Can I trust them?</p>
-          <p class="turbo-pain__body">The company is new to market with few reviews — low baseline trust.</p>
-        </div>
-        <div class="turbo-pain__card t-reveal" style="transition-delay:.16s;">
-          <div class="turbo-pain__bar" style="background:rgba(68,147,250,.3);"></div>
-          <p class="turbo-pain__category">Speed</p>
-          <p class="turbo-pain__title">Will it arrive in time?</p>
-          <p class="turbo-pain__body">Fears that the courier will take too long and perishables will deteriorate.</p>
-        </div>
-        <div class="turbo-pain__card t-reveal" style="transition-delay:.24s;">
-          <div class="turbo-pain__bar" style="background:#4493fa;"></div>
-          <p class="turbo-pain__category">Quality</p>
-          <p class="turbo-pain__title">Is quality guaranteed?</p>
-          <p class="turbo-pain__body">Worried about quality of goods and products ordered online vs in store.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── COURIER IMAGE ── -->
-    <div class="turbo-fullwidth">
-      <img loading="lazy" src="../assets/images/turbo-courier.webp" alt="Turbo.ua courier">
-    </div>
-
-    <!-- ── COLORS & TYPOGRAPHY ── -->
-    <section class="turbo-section turbo-brand">
-      <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">Colors &amp; Typography</p>
-      <div class="turbo-brand__intro">
-        <h2 class="turbo-brand__heading t-reveal">Visual language built for trust and speed.</h2>
-        <p class="turbo-brand__body t-reveal">The Turbo palette uses teal as the brand anchor — energetic, modern, and distinct in the delivery space. Typography stays clean and functional.</p>
-      </div>
-      <div class="turbo-brand__swatches">
-        <div class="turbo-brand__swatch" style="background:#00C8B8;">
-          <div>
-            <div class="turbo-brand__swatch-name" style="color:rgba(0,0,0,.7);">Primary</div>
-            <div class="turbo-brand__swatch-hex" style="color:rgba(0,0,0,.5);">#00C8B8</div>
-          </div>
-        </div>
-        <div class="turbo-brand__swatch" style="background:#0a0a0c;border:1px solid rgba(255,255,255,.06);">
-          <div>
-            <div class="turbo-brand__swatch-name" style="color:rgba(255,255,255,.6);">Background</div>
-            <div class="turbo-brand__swatch-hex" style="color:rgba(255,255,255,.3);">#0A0A0C</div>
-          </div>
-        </div>
-        <div class="turbo-brand__swatch" style="background:#fff;">
-          <div>
-            <div class="turbo-brand__swatch-name" style="color:rgba(0,0,0,.5);">White</div>
-            <div class="turbo-brand__swatch-hex" style="color:rgba(0,0,0,.35);">#FFFFFF</div>
-          </div>
-        </div>
-        <div class="turbo-brand__swatch" style="background:#1a1a20;">
-          <div>
-            <div class="turbo-brand__swatch-name" style="color:rgba(255,255,255,.5);">Surface</div>
-            <div class="turbo-brand__swatch-hex" style="color:rgba(255,255,255,.3);">#1A1A20</div>
-          </div>
-        </div>
-      </div>
-      <div class="turbo-brand__type">
-        <div class="turbo-brand__type-card">
-          <div class="turbo-brand__type-label">Heading</div>
-          <div style="font-size:48px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.025em;">Delivery in 15 min.</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.3);margin-top:16px;">Inter 700 · 48px · -0.025em</div>
-        </div>
-        <div class="turbo-brand__type-card">
-          <div class="turbo-brand__type-label">Body</div>
-          <div style="font-size:17px;font-weight:400;color:rgba(255,255,255,.65);line-height:1.7;">Application for the delivery of products up to 30 minutes in Kyiv. Making an order takes less time than going to a store around the corner.</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.3);margin-top:16px;">Inter 400 · 17px · 1.7</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── DISCOVERY WORKFLOW ── -->
-    <section class="turbo-section turbo-discovery">
-      <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;color:#4493fa;">Discovery Workflow</p>
-      <h2 class="turbo-discovery__heading t-reveal">From research to first sketch — the discovery path.</h2>
-      <div class="turbo-discovery__scroll">
-      <div class="turbo-discovery__grid">
-
-        <div class="turbo-dw-card t-reveal">
-          <div>
-            <div class="turbo-dw-card__weeks">4 weeks</div>
-            <div class="turbo-dw-card__phase">Dipping</div>
-          </div>
-          <div class="turbo-dw-card__tasks">
-            <div class="turbo-dw-card__task">Desk research</div>
-            <div class="turbo-dw-card__task">Interview with stakeholder</div>
-            <div class="turbo-dw-card__task">Definition of basic requirements</div>
-            <div class="turbo-dw-card__task">User flow and story mapping</div>
-            <div class="turbo-dw-card__task">Briefing</div>
-          </div>
-          <div class="turbo-dw-card__tools">
-            <img loading="lazy" src="../assets/images/turbo-tool-docs.webp" alt="Google Docs">
-            <img loading="lazy" src="../assets/images/turbo-tool-notion.webp" alt="Notion">
-            <img loading="lazy" src="../assets/images/turbo-tool-sheets.webp" alt="Google Sheets">
-          </div>
-        </div>
-
-        <div class="turbo-dw-card t-reveal" style="transition-delay:.08s;">
-          <div>
-            <div class="turbo-dw-card__weeks">5 weeks</div>
-            <div class="turbo-dw-card__phase">UX</div>
-          </div>
-          <div class="turbo-dw-card__tasks">
-            <div class="turbo-dw-card__task">Info Architecture</div>
-            <div class="turbo-dw-card__task">Wireframes</div>
-            <div class="turbo-dw-card__task">User flow</div>
-            <div class="turbo-dw-card__task">Interactive prototype</div>
-            <div class="turbo-dw-card__task">Technical tasks</div>
-          </div>
-          <div class="turbo-dw-card__tools">
-            <img loading="lazy" src="../assets/images/turbo-tool-docs.webp" alt="Google Docs">
-            <img loading="lazy" src="../assets/images/turbo-tool-figma.webp" alt="Figma">
-            <img loading="lazy" src="../assets/images/turbo-tool-miro.webp" alt="Miro">
-          </div>
-        </div>
-
-        <div class="turbo-dw-card t-reveal" style="transition-delay:.16s;">
-          <div>
-            <div class="turbo-dw-card__weeks">8 weeks</div>
-            <div class="turbo-dw-card__phase">UI</div>
-          </div>
-          <div class="turbo-dw-card__tasks">
-            <div class="turbo-dw-card__task">Visual concept</div>
-            <div class="turbo-dw-card__task">UI Kit and design system</div>
-            <div class="turbo-dw-card__task">Style guide</div>
-            <div class="turbo-dw-card__task">Preparing layouts</div>
-            <div class="turbo-dw-card__task">Interactive prototype</div>
-          </div>
-          <div class="turbo-dw-card__tools">
-            <img loading="lazy" src="../assets/images/turbo-tool-figma.webp" alt="Figma">
-            <img loading="lazy" src="../assets/images/turbo-tool-miro.webp" alt="Miro">
-          </div>
-        </div>
-
-        <div class="turbo-dw-card t-reveal" style="transition-delay:.24s;">
-          <div>
-            <div class="turbo-dw-card__weeks">4 weeks</div>
-            <div class="turbo-dw-card__phase">Testing</div>
-          </div>
-          <div class="turbo-dw-card__tasks">
-            <div class="turbo-dw-card__task">Specification</div>
-            <div class="turbo-dw-card__task">Use cases</div>
-            <div class="turbo-dw-card__task">Transferring the project to developers</div>
-            <div class="turbo-dw-card__task">Preparing rules for animation</div>
-          </div>
-          <div class="turbo-dw-card__tools">
-            <img loading="lazy" src="../assets/images/turbo-tool-docs.webp" alt="Google Docs">
-            <img loading="lazy" src="../assets/images/turbo-tool-figma.webp" alt="Figma">
-            <img loading="lazy" src="../assets/images/turbo-tool-notion.webp" alt="Notion">
-          </div>
-        </div>
-
-      </div>
-      </div>
-    </section>
-
-    <!-- ── APP IMAGE ── -->
-    <div class="turbo-fullwidth">
-      <img loading="lazy" src="../assets/images/turbo-app.webp" alt="Turbo.ua app screens">
-    </div>
-
-    <!-- ── USER FLOW ── -->
-    <section class="turbo-section turbo-flow">
-      <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">User Flow</p>
-      <h2 class="turbo-flow__heading t-reveal">End-to-end journey from open to checkout.</h2>
-      <div class="turbo-flow__diagram t-reveal">
-        <img loading="lazy" src="../assets/images/turbo-userflow.webp" alt="User flow diagram">
-      </div>
-    </section>
-
-    <!-- ── PRODUCT CATALOG IMAGE ── -->
-    <div class="turbo-fullwidth">
-      <img loading="lazy" src="../assets/images/turbo-catalog.webp" alt="Turbo.ua product catalog">
-    </div>
-
-    <!-- ── MAIN PAGE FEATURES ── -->
-    <section class="turbo-section turbo-features">
-      <div class="turbo-features__grid-main">
+      <div class="cells numbers">
         <div>
-          <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">High-Fidelity</p>
-          <h2 class="turbo-features__heading t-reveal">Main page features</h2>
-          <div class="turbo-features__cards">
-            <div class="turbo-features__card t-reveal">
-              <div class="turbo-features__bar" style="background:#4493fa;"></div>
-              <p class="turbo-features__card-title">Delivery time</p>
-              <p class="turbo-features__card-body">Calculated based on the user's location.</p>
-            </div>
-            <div class="turbo-features__card t-reveal" style="transition-delay:.08s;">
-              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
-              <p class="turbo-features__card-title">Address selection</p>
-              <p class="turbo-features__card-body">Save up to 5 popular addresses.</p>
-            </div>
-            <div class="turbo-features__card t-reveal" style="transition-delay:.16s;">
-              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
-              <p class="turbo-features__card-title">Catalog</p>
-              <p class="turbo-features__card-body">Dynamic, demand-driven category order.</p>
-            </div>
-            <div class="turbo-features__card t-reveal" style="transition-delay:.24s;">
-              <div class="turbo-features__bar" style="background:#4493fa;"></div>
-              <p class="turbo-features__card-title">Cart</p>
-              <p class="turbo-features__card-body">Weight-tracking with gradient fill indicator.</p>
-            </div>
-          </div>
+          <span class="label">[ In numbers ]</span>
+          <span class="small" style="max-width:32ch">From the first interview to the release.</span>
         </div>
-        <img loading="lazy" src="../assets/images/turbo-iphone-main.webp" alt="Turbo.ua main page" class="turbo-features__phone t-reveal">
-      </div>
-    </section>
-
-    <!-- ── PRODUCT PAGE FEATURES ── -->
-    <section class="turbo-section turbo-features">
-      <div class="turbo-features__grid-product">
-        <img loading="lazy" src="../assets/images/turbo-iphone-main.webp" alt="Turbo.ua product page" class="turbo-features__phone t-reveal">
-        <div>
-          <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">High-Fidelity</p>
-          <h2 class="turbo-features__heading t-reveal">Product page features</h2>
-          <div class="turbo-features__cards">
-            <div class="turbo-features__card t-reveal">
-              <div class="turbo-features__bar" style="background:#4493fa;"></div>
-              <p class="turbo-features__card-title">Add to main</p>
-              <p class="turbo-features__card-body">Possibility to add a product to favorites and monitor its availability.</p>
-            </div>
-            <div class="turbo-features__card t-reveal" style="transition-delay:.08s;">
-              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
-              <p class="turbo-features__card-title">Product composition</p>
-              <p class="turbo-features__card-body">The composition of each product is detailed.</p>
-            </div>
-            <div class="turbo-features__card t-reveal" style="transition-delay:.16s;">
-              <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
-              <p class="turbo-features__card-title">The nutritional value</p>
-              <p class="turbo-features__card-body">Proteins, fats, carbohydrates and calories for each product.</p>
-            </div>
-            <div class="turbo-features__card t-reveal" style="transition-delay:.24s;">
-              <div class="turbo-features__bar" style="background:#4493fa;"></div>
-              <p class="turbo-features__card-title">Product photo</p>
-              <p class="turbo-features__card-body">High-quality photos: packaging, composition label, and product without packaging.</p>
-            </div>
-          </div>
+        <div class="grid">
+          <div><span class="stat"><span data-count="150">0</span>+</span><span class="label">Screens</span></div>
+          <div><span class="stat"><span data-count="20">0</span>+</span><span class="label">Usability tests</span></div>
+          <div><span class="stat"><span data-count="30">0</span>+</span><span class="label">In-depth interviews</span></div>
+          <div><span class="stat"><span data-count="5">0</span>+</span><span class="label">Months to release</span></div>
         </div>
       </div>
-    </section>
 
-    <!-- ── CART PAGE ── -->
-    <div class="turbo-cart">
-      <div class="turbo-cart__content">
-        <p class="turbo-eyebrow t-reveal" style="margin-bottom:16px;">High-Fidelity</p>
-        <h2 class="turbo-features__heading t-reveal">Product cart page</h2>
-        <div class="turbo-features__cards">
-          <div class="turbo-features__card t-reveal">
-            <div class="turbo-features__bar" style="background:#4493fa;"></div>
-            <p class="turbo-features__card-title">Weight &amp; volume control</p>
-            <p class="turbo-features__card-body">Live sliders show how close the cart is to the 12 kg courier limit.</p>
-          </div>
-          <div class="turbo-features__card t-reveal" style="transition-delay:.08s;">
-            <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
-            <p class="turbo-features__card-title">Promo code</p>
-            <p class="turbo-features__card-body">Inline promo code entry with instant discount calculation.</p>
-          </div>
-          <div class="turbo-features__card t-reveal" style="transition-delay:.16s;">
-            <div class="turbo-features__bar" style="background:rgba(68,147,250,.3);"></div>
-            <p class="turbo-features__card-title">Order comments</p>
-            <p class="turbo-features__card-body">Leave notes for the courier — no phone calls needed.</p>
-          </div>
-          <div class="turbo-features__card t-reveal" style="transition-delay:.24s;">
-            <div class="turbo-features__bar" style="background:#4493fa;"></div>
-            <p class="turbo-features__card-title">Order confirmation</p>
-            <p class="turbo-features__card-body">"Thanks for your order" modal with delivery time and tracking link.</p>
+      <div class="head">
+        <span class="label">[ Main goal ]</span>
+        <div class="span" style="gap:32px">
+          <h2 class="h2">Easy to order. <span class="dim">Hard to disappoint.</span></h2>
+          <p class="body">A 30-minute delivery service, as simple as possible from opening the app to receiving the order. I studied where competitors fail and designed against two failures: the product is out of stock, and the courier is late.</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="dim"></div>
+  </section>
+
+  <section class="layer screen frame" style="z-index:3">
+    <div class="inner">
+      <img src="../assets/turbo/frame-ride.webp" alt="Courier on a Turbo bike in front of a residential building" loading="lazy" style="object-position:50% 40%">
+      <div class="cap glass"><span class="label">[ 01 / 03 ]</span><span>On route</span><span class="micro">BRAND SHOOT · KYIV</span></div>
+    </div>
+    <div class="dim"></div>
+  </section>
+
+  <section class="layer screen frame" style="z-index:4">
+    <div class="inner">
+      <img src="../assets/turbo/frame-back.webp" alt="Courier seen from the back, Turbo.ua printed on the jacket" loading="lazy" style="object-position:50% 35%">
+      <div class="cap glass"><span class="label">[ 02 / 03 ]</span><span>The brand</span><span class="micro">BRAND SHOOT · KYIV</span></div>
+    </div>
+    <div class="dim"></div>
+  </section>
+
+  <section class="screen frame" style="position:relative;z-index:5;overflow:hidden">
+    <div class="inner">
+      <img src="../assets/turbo/frame-door.webp" alt="Courier with a Turbo bag opening the door of a building" loading="lazy" style="object-position:60% 14%">
+      <div class="cap glass"><span class="label">[ 03 / 03 ]</span><span>At the door</span><span class="micro">BRAND SHOOT · KYIV</span></div>
+    </div>
+  </section>
+
+</div>
+
+<section class="roles">
+  <div class="head">
+    <span class="label">[ 04 My role ]</span>
+    <h2 class="h2 span" style="display:block">I designed it from zero. <span class="dim">Then I built the team.</span></h2>
+  </div>
+  <div class="role-list" id="roles"></div>
+</section>
+
+<section class="sec">
+  <div class="head">
+    <span class="label">[ 05 Research ]</span>
+    <div class="span">
+      <h2 class="h2">Four fears stood before <span class="dim">the first order.</span></h2>
+      <p class="body">30+ interviews. Each fear became a design decision.</p>
+    </div>
+  </div>
+  <div class="res-stage" id="res">
+    <div class="res-in">
+      <div class="res-img">
+        <div class="box"><img src="../assets/turbo/research-groceries.webp" alt="Turbo paper bag with groceries on a kitchen table" loading="lazy"></div>
+        <div class="foot label"><span>[ 30+ interviews ]</span><span class="micro" style="align-self:center">BRAND SHOOT · KYIV</span></div>
+      </div>
+      <div class="res-right">
+        <div class="tabs" id="tabs" role="tablist"></div>
+        <div class="cards" id="pains"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="head">
+    <span class="label">[ 07 Key screens ]</span>
+    <div class="span">
+      <h2 class="h2">Three screens. <span class="dim">Every fear answered.</span></h2>
+      <p class="body">Home, product and cart carry most of the path to the first order. Each decision below closes one of the four fears from the research.</p>
+    </div>
+  </div>
+  <div id="screens" style="display:flex;flex-direction:column"></div>
+</section>
+
+<section class="sec bt" style="z-index:7">
+  <div class="head">
+    <span class="label">[ 08 Delivery time ]</span>
+    <div class="span">
+      <h2 class="h2">Find out the delivery time <span class="dim">to your home.</span></h2>
+      <p class="body">The address comes first. The user sees the delivery time before adding a single product.</p>
+    </div>
+  </div>
+  <div class="flow" id="flow">
+    <div class="txt">
+      <div class="lines" id="fsteps"></div>
+      <div class="note"><span>The delivery time is known before the catalog opens.</span><span class="micro">→ SPEED</span></div>
+    </div>
+    <div class="pan">
+      <div class="pwrap" data-k="wrap" aria-hidden="true">
+        <div class="phone" data-k="phone">
+          <div class="scr">
+            <div class="map">
+              <img data-k="city" src="../assets/turbo/dt-map-city.webp" alt="" style="left:0;width:352px;height:448px;transform-origin:176px 238px">
+              <img data-k="street" src="../assets/turbo/dt-map-street.webp" alt="" style="left:-28px;width:408px;height:450px;transform-origin:204px 238px;opacity:0">
+              <div class="pin" data-k="pin">
+                <span class="shadow"></span>
+                <div class="lift" data-k="lift">
+                  <span class="stem"></span>
+                  <span class="knob" data-k="head"><i></i></span>
+                  <span class="pill" data-k="pill">15 min</span>
+                </div>
+              </div>
+            </div>
+            <img src="../assets/turbo/dt-head.webp" alt="" style="position:absolute;left:0;top:0;width:352px;height:82px;z-index:2">
+            <div class="sheet">
+              <div class="hd"><b>Where to deliver?</b><span class="loc"><i></i></span></div>
+              <div style="height:22px"></div>
+              <div style="display:flex"><div class="fld" data-k="abox"><span class="ph" data-k="aph">Enter delivery address</span><span class="lb" data-k="alb">Address</span><span class="tx" data-k="atx"></span><span class="ca" data-k="aca"></span></div></div>
+              <div class="frow" data-k="row"><div>
+                <div class="fld" data-k="f0box"><span class="ph" data-k="f0ph">Flat</span><span class="lb" data-k="f0lb">Flat</span><span class="tx" data-k="f0tx"></span><span class="ca" data-k="f0ca"></span></div>
+                <div class="fld" data-k="f1box"><span class="ph" data-k="f1ph">Floor</span><span class="lb" data-k="f1lb">Floor</span><span class="tx" data-k="f1tx"></span><span class="ca" data-k="f1ca"></span></div>
+                <div class="fld" data-k="f2box"><span class="ph" data-k="f2ph">Entrance</span><span class="lb" data-k="f2lb">Entrance</span><span class="tx" data-k="f2tx"></span><span class="ca" data-k="f2ca"></span></div>
+              </div></div>
+              <div style="height:20px"></div>
+              <div class="btn" data-k="btn"><span data-k="btnTx">Confirm</span></div>
+            </div>
+            <span class="homebar"></span>
+            <div class="fade" data-k="fade"></div>
           </div>
         </div>
       </div>
-      <img loading="lazy" src="../assets/images/turbo-cart-mockup.webp" alt="Turbo.ua cart page" class="turbo-cart__phone t-reveal">
     </div>
+  </div>
+</section>
 
-    <!-- ── FINAL IMAGE ── -->
-    <div class="turbo-fullwidth" style="border-bottom:none;">
-      <img loading="lazy" src="../assets/images/turbo-final.webp" alt="Turbo.ua couriers">
+<section class="sec bt" style="z-index:7;overflow-x:clip">
+  <div class="head">
+    <span class="label">[ 09 Web ]</span>
+    <div class="span">
+      <h2 class="h2">Same logic. <span class="dim">Wider screen.</span></h2>
+      <p class="body">The website repeats the path of the app. On a wide screen the cart stays open next to the catalog, so the user sees the total while adding products.</p>
     </div>
+  </div>
+  <div class="web-stage" id="web">
+    <div class="web-in" id="web-in"></div>
+  </div>
+</section>
 
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer" id="contact">
-    <p class="footer__cta">Let&rsquo;s build the next big thing together.</p>
-    <div class="footer__columns">
-      <div class="footer__col">
-        <p class="footer__col-label">Contact</p>
-        <p class="footer__col-item">Europe, remote</p>
-        <a href="mailto:petrenkoag95@gmail.com" class="footer__col-link">petrenkoag95@gmail.com</a>
-      </div>
-      <div class="footer__col">
-        <p class="footer__col-label">Links</p>
-        <a href="https://www.linkedin.com/in/anastasia-petrenko/" class="footer__col-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://www.behance.net/petrenkoanastasia" class="footer__col-link" target="_blank" rel="noopener noreferrer">Behance</a>
-      </div>
-      <div class="footer__col">
-        <p class="footer__col-label">Navigate</p>
-        <a href="../index.html#work"  class="footer__col-link">Work</a>
-        <a href="../index.html#about" class="footer__col-link">About</a>
-      </div>
+<div class="lb-wrap" id="lb" role="dialog" aria-modal="true" aria-label="Website page">
+  <div class="lb-top">
+    <span class="label" id="lb-n">[ 01 / 03 ]</span>
+    <span class="nm" id="lb-t"></span>
+    <div class="ctl">
+      <button id="lb-prev" aria-label="Previous page">←</button>
+      <button id="lb-next" aria-label="Next page">→</button>
+      <button class="x" id="lb-close">[ Close × ]</button>
     </div>
-    <div class="footer__bottom">
-      <span>Anastasiia Petrenko &mdash; Lead Product Designer</span>
-      <span>&copy; 2026</span>
-    </div>
-  </footer>
+  </div>
+  <div class="lb-scroll" id="lb-scroll"><img id="lb-img" src="" alt=""></div>
+</div>
 
-  <script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.t-reveal');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -48px 0px' });
-    reveals.forEach(el => revealObserver.observe(el));
+<section class="nextcase" id="contact">
+  <span class="label">[ Next case ]</span>
+  <a class="big" href="turbo-branding.html">Packaging &amp; brand identity →</a>
+  <div class="ftr-row">
+    <a href="mailto:petrenkoag95@gmail.com">petrenkoag95@gmail.com</a>
+    <a href="https://www.linkedin.com/in/anastasia-petrenko/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://www.behance.net/petrenkoanastasia" target="_blank" rel="noopener">Behance ↗</a>
+    <span style="color:var(--t3)">©2026</span>
+  </div>
+</section>
 
-    // Animated counters
-    const counters = document.querySelectorAll('[data-counter]');
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target._counted) {
-          entry.target._counted = true;
-          const target = parseInt(entry.target.dataset.counter);
-          const suffix = entry.target.dataset.suffix || '';
-          const duration = 1600;
-          const start = performance.now();
-          const animate = (now) => {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            entry.target.textContent = Math.round(eased * target) + suffix;
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          requestAnimationFrame(animate);
-        }
-      });
-    }, { threshold: 0.4 });
-    counters.forEach(c => counterObserver.observe(c));
-  </script>
+<script>
+(function(){
+  var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(id){return document.getElementById(id);};
+  var pad = function(n){return String(n).padStart(2,'0');};
+  var esc = function(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');};
+  var A = '../assets/turbo/';
+
+  /* ---------- Data ---------- */
+  var ROLES = [
+    { t:'Research', img:'role-uiux.webp', pos:'50% 50%', inc:['30+ in-depth interviews','Desk research','Stakeholder interview','Personas and user pains'] },
+    { t:'Branding', img:'role-branding-jacket.webp', pos:'50% 40%', inc:['Brand book','Design system','Packaging','Branded bikes, uniforms and courier bags','Advertising'] },
+    { t:'UI/UX design', img:'role-uiux-phone.webp', pos:'50% 50%', inc:['Information architecture','User flows and story mapping','Wireframes','Interactive prototype','Client app, website and courier app'] },
+    { t:'Testing', img:'role-testing.webp', pos:'50% 50%', inc:['20+ usability tests','Use cases','Specification','Handoff to development'] },
+    { t:'Animations', img:'role-animations.webp', pos:'50% 50%', inc:['Motion rules','Prepared for development'] },
+    { t:'Creative team', img:'role-branding.webp', pos:'50% 60%', inc:['Built the creative team from scratch','Set up internal processes','Hiring','Onboarding','Mentoring'] }
+  ];
+  var PAINS = [
+    { t:'Availability', q:'What if half of my order is missing?', a:['Favorites that track the stock','Weight counter with the 12 kg limit'] },
+    { t:'Quality', q:'Will it be as good as picked by hand?', a:['Real photos of the pack and the label','Full composition and nutrition facts'] },
+    { t:'Speed', q:'What if the courier is late?', a:['Delivery time calculated from the address','Live GPS tracking of the courier'] },
+    { t:'Confidence', q:'A new brand with few reviews. Why trust it?', a:['Payment on delivery','The full price before checkout','Confirmation with the delivery time'] }
+  ];
+  var SCREENS = [
+    { t:'Home', img:'ks-home.webp', cls:'tall', alt:'Turbo.ua home screen with the delivery time, promo banner and catalog',
+      d:'The first screen answers two questions before the user scrolls: when the order arrives and where it goes.',
+      dec:[['Delivery time and address pinned under the logo','SPEED'],['The banner states the promise: up to 30 minutes','CONFIDENCE'],['Catalog by categories with real product photos','AVAILABILITY'],['Cart in the center of the tab bar with the running total','CONFIDENCE']] },
+    { t:'Product', img:'ks-product.webp', cls:'tall', alt:'Turbo.ua product screen with a pack photo, nutrition facts and Add to cart',
+      d:'The card replaces the shelf. The user sees everything they would check by hand in a shop.',
+      dec:[['Large photo of the pack on a neutral background','QUALITY'],['Calories, proteins, fats and carbs in one row','QUALITY'],['Ingredients, trademark and country of origin','QUALITY'],['Favorites to follow the stock','AVAILABILITY'],['Price and Add to cart pinned to the bottom','SPEED']] },
+    { t:'Cart and checkout', img:'ks-cart.webp', cls:'full', alt:'Turbo.ua cart, payment and order confirmation screens',
+      d:'Checkout shows the full price before payment and ends with one action: track the order.',
+      dec:[['Weight and volume counters with the 12 kg limit','AVAILABILITY'],['Total split into products, delivery, package and bonuses','CONFIDENCE'],['Promo code and comments for the courier','CONFIDENCE'],['Confirmation with the delivery time and Track your order','SPEED']] }
+  ];
+  var FSTEPS = [
+    { t:'Type the address', d:'Or drop a pin on the map.' },
+    { t:'See the time', d:'The pin shows the delivery time to this address right away.' },
+    { t:'Details for the courier', d:'Flat, floor and entrance. The courier does not have to call.' }
+  ];
+  var WEB = [
+    { t:'Home', url:'turbo.ua', img:'web-home.webp', alt:'Turbo.ua website home page, full length' },
+    { t:'Catalog', url:'turbo.ua/catalog/dairy-and-eggs', img:'web-catalog.webp', alt:'Turbo.ua catalog with the Dairy and eggs category open and the cart on the right' },
+    { t:'Product', url:'turbo.ua/catalog/snacks/lays-sour-cream', img:'web-product.webp', alt:'Turbo.ua product page with nutrition facts and product carousels' }
+  ];
+
+  /* ---------- Render ---------- */
+  $('roles').innerHTML = ROLES.map(function(r,i){
+    return '<div class="role" style="top:calc(58px + '+i+' * clamp(64px,7vw,96px))">'+
+      '<div class="ph"><img src="'+A+r.img+'" alt="'+esc(r.t)+'" loading="lazy" style="object-position:'+r.pos+'"></div>'+
+      '<div class="tt"><span class="label">['+pad(i+1)+']</span><span class="h3">'+esc(r.t)+'</span></div>'+
+      '<div class="inc"><span class="micro">INCLUDES</span><div class="lines">'+r.inc.map(function(x){return '<span>'+esc(x)+'</span>';}).join('')+'</div></div>'+
+    '</div>';
+  }).join('');
+
+  $('tabs').innerHTML = PAINS.map(function(p,i){
+    return '<button class="tab" role="tab" data-i="'+i+'"><span class="micro">'+pad(i+1)+'</span><span class="t">'+esc(p.t)+'</span><span class="bar"></span></button>';
+  }).join('');
+  $('pains').innerHTML = PAINS.map(function(p,i){
+    return '<div class="pain">'+
+      '<div class="top"><div class="ttl"><span class="h2">'+esc(p.t)+'</span><span class="label">[ '+pad(i+1)+' / 04 ]</span></div><q>'+esc(p.q)+'</q></div>'+
+      '<div class="did"><span class="micro">WHAT I DESIGNED</span><div class="lines">'+p.a.map(function(x){return '<div class="arrow-row"><span class="a">→</span><span class="x">'+esc(x)+'</span></div>';}).join('')+'</div></div>'+
+    '</div>';
+  }).join('');
+
+  $('screens').innerHTML = SCREENS.map(function(s,i){
+    return '<div class="ks" data-ks><div class="inner">'+
+      '<div class="txt"><div class="top">'+
+        '<div class="meta label"><span>[ '+pad(i+1)+' / 03 ]</span><span class="micro">APP · IOS + ANDROID</span></div>'+
+        '<span class="ttl">'+esc(s.t)+'</span><p class="body" style="max-width:40ch">'+esc(s.d)+'</p></div>'+
+        '<div style="display:flex;flex-direction:column;gap:16px"><span class="micro">DECISIONS</span><div class="lines">'+
+          s.dec.map(function(d){return '<div class="dec"><span class="x">'+esc(d[0])+'</span><span class="micro">'+d[1]+'</span></div>';}).join('')+
+        '</div></div></div>'+
+      '<div class="pan '+s.cls+'"><img src="'+A+s.img+'" alt="'+esc(s.alt)+'" loading="lazy"></div>'+
+    '</div><div class="dim" style="position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none"></div></div>';
+  }).join('');
+
+  $('fsteps').innerHTML = FSTEPS.map(function(s,i){
+    return '<div class="fstep" data-k="st'+i+'"><div class="row"><span class="label">[ '+pad(i+1)+' ]</span><span class="t">'+esc(s.t)+'</span></div><span class="small">'+esc(s.d)+'</span><span class="bar" data-k="bar'+i+'"></span></div>';
+  }).join('');
+
+  $('web-in').innerHTML = WEB.map(function(w,i){
+    return '<div class="wcol"><div class="hd"><span style="color:var(--t2)">[ '+pad(i+1)+' ]</span><span>'+esc(w.t)+'</span></div>'+
+      '<div class="bd"><button class="win" data-i="'+i+'" aria-label="Open '+esc(w.t)+' page full screen">'+
+        '<span class="bar"><span class="sq"><i></i><i></i><i></i></span><span class="url">'+esc(w.url)+'</span><span class="open">OPEN ↗</span></span>'+
+        '<span class="view" data-webview><img data-webimg src="'+A+w.img+'" alt="'+esc(w.alt)+'" decoding="async"></span>'+
+      '</button></div></div>';
+  }).join('');
+
+  var lead = $('lead');
+  lead.innerHTML = lead.textContent.trim().split(/\s+/).map(function(w){return '<span data-w>'+esc(w)+' </span>';}).join('');
+
+  /* ---------- Intro ---------- */
+  var hero = $('hero');
+  if (!REDUCE && hero.animate){
+    $('hero-img').animate([{clipPath:'inset(100% 0 0 0)',transform:'scale(1.3)'},{clipPath:'inset(0 0 0 0)',transform:'scale(1)'}],
+      {duration:1200,easing:'cubic-bezier(.76,0,.24,1)',fill:'backwards'});
+    hero.querySelectorAll('[data-lift]').forEach(function(el,i){
+      el.animate([{opacity:0,transform:'translateY(.6em)',filter:'blur(6px)'},{opacity:1,transform:'none',filter:'blur(0)'}],
+        {duration:700,delay:500+i*90,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+    });
+  }
+
+  /* ---------- Counters ---------- */
+  var counts = document.querySelectorAll('[data-count]');
+  function runCount(el){
+    var to = +el.getAttribute('data-count');
+    if (REDUCE){ el.textContent = to; return; }
+    var t0 = performance.now();
+    (function step(now){
+      var p = Math.min(1,(now-t0)/1200), k = 1-Math.pow(1-p,3);
+      el.textContent = Math.round(to*k);
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ io.unobserve(e.target); runCount(e.target); } }); },{threshold:.6});
+    counts.forEach(function(el){ io.observe(el); });
+  } else counts.forEach(function(el){ el.textContent = el.getAttribute('data-count'); });
+
+  /* ---------- Scroll effects ---------- */
+  var layers = Array.prototype.slice.call($('stack').children);
+  var over = $('over');
+  var reveals = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var pains = Array.prototype.slice.call(document.querySelectorAll('.pain'));
+  var ks = Array.prototype.slice.call(document.querySelectorAll('[data-ks]'));
+  var webViews = Array.prototype.slice.call(document.querySelectorAll('[data-webview]'));
+  var words = Array.prototype.slice.call(lead.querySelectorAll('[data-w]'));
+  var painIdx = -1;
+  var clamp = function(v,a,b){return Math.max(a,Math.min(b,v));};
+
+  function setPain(i){
+    if (i === painIdx) return; painIdx = i;
+    tabs.forEach(function(t,j){ t.classList.toggle('on', j===i); t.setAttribute('aria-selected', j===i); });
+    pains.forEach(function(p,j){ p.classList.toggle('on', j===i); p.classList.toggle('before', j<i); });
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click', function(){
+      var el = $('res'), top = el.getBoundingClientRect().top + window.scrollY - 58;
+      var span = el.offsetHeight - (window.innerHeight - 58);
+      window.scrollTo({top: top + span*(i+.5)/4, behavior: REDUCE ? 'auto' : 'smooth'});
+    });
+  });
+
+  function tick(){
+    var vh = window.innerHeight, wide = window.innerWidth >= 900;
+
+    over.style.top = Math.min(0, vh - over.offsetHeight) + 'px';
+    for (var i = 0; i < layers.length-1; i++){
+      var cur = layers[i], nx = layers[i+1];
+      var p = clamp(1 - nx.getBoundingClientRect().top / vh, 0, 1);
+      var inner = cur.querySelector(':scope > .inner'), dim = cur.querySelector(':scope > .dim');
+      if (i === 1) inner.style.transformOrigin = '50% ' + (cur.offsetHeight - vh/2) + 'px';
+      inner.style.transform = 'scale(' + (1 - .06*p) + ')';
+      if (dim) dim.style.opacity = (.6*p).toFixed(3);
+      if (i === 0) $('hero-par').style.transform = 'translateY(' + (p*5) + '%)';
+    }
+
+    reveals.forEach(function(el){
+      if (el._rev) return;
+      if (REDUCE){ el._rev = true; return; }
+      if (el.parentNode.getBoundingClientRect().top < vh*.8){
+        el._rev = true; el.style.clipPath = '';
+        el.animate && el.animate([{clipPath:'inset(100% 0 0 0)',transform:'scale(1.3)'},{clipPath:'inset(0 0 0 0)',transform:'scale(1)'}],
+          {duration:1200,easing:'cubic-bezier(.76,0,.24,1)'});
+      } else el.style.clipPath = 'inset(100% 0 0 0)';
+    });
+
+    if (wide){
+      var b = $('res').getBoundingClientRect();
+      setPain(Math.floor(clamp((58 - b.top) / Math.max(1, b.height - (vh-58)), 0, .999) * 4));
+    } else { painIdx = -1; tabs.concat(pains).forEach(function(e){ e.classList.remove('on','before'); }); }
+
+    ks.forEach(function(el,i){
+      el.style.top = wide ? Math.min(58, vh - el.offsetHeight) + 'px' : '';
+      var inner = el.querySelector(':scope > .inner'), dim = el.querySelector(':scope > .dim');
+      var n = ks[i+1];
+      if (!n || !wide){ inner.style.transform = ''; dim.style.opacity = 0; return; }
+      var p = clamp(1 - (n.getBoundingClientRect().top - 58) / (vh - 58), 0, 1);
+      inner.style.transformOrigin = '50% ' + Math.max(0, el.offsetHeight - vh/2) + 'px';
+      inner.style.transform = 'scale(' + (1 - .04*p) + ')';
+      dim.style.opacity = (.6*p).toFixed(3);
+    });
+
+    var wb = $('web').getBoundingClientRect();
+    var wp = clamp((58 - wb.top) / Math.max(1, wb.height - (vh-58)), 0, 1);
+    webViews.forEach(function(v){
+      var img = v.firstChild;
+      img.style.transform = wide ? 'translateY(' + (-wp * Math.max(0, img.offsetHeight - v.clientHeight)) + 'px)' : '';
+    });
+
+    var r = lead.getBoundingClientRect();
+    var lp = REDUCE ? 1 : clamp((vh*.85 - r.top) / (vh*.85 - vh*.3 + r.height*.5), 0, 1);
+    words.forEach(function(w,i){ w.style.color = i < lp*words.length ? '#fff' : ''; });
+
+    var doc = document.documentElement;
+    $('prog').style.width = (100 * window.scrollY / Math.max(1, doc.scrollHeight - vh)) + '%';
+  }
+  var raf = 0;
+  function onScroll(){ if (!raf) raf = requestAnimationFrame(function(){ raf = 0; tick(); }); }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', onScroll);
+  document.querySelectorAll('img').forEach(function(im){ if (!im.complete) im.addEventListener('load', onScroll); });
+  tick();
+
+  /* ---------- Delivery-time phone ---------- */
+  var flow = $('flow'), K = {};
+  flow.querySelectorAll('[data-k]').forEach(function(el){ K[el.getAttribute('data-k')] = el; });
+  var dtT = 0, dtLast = performance.now();
+  function seg(T,a,b){ return clamp((T-a)/(b-a), 0, 1); }
+  function eo(x){ return 1 - Math.pow(1-x,3); }
+  function eio(x){ return x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x+2,3)/2; }
+  function dtRender(T){
+    var reset = T > 9400, t = reset ? 0 : T;
+    var S = function(a,b){ return reset ? 0 : seg(T,a,b); };
+    var blink = Math.floor(T/450) % 2 === 0 ? 1 : 0;
+    var host = K.wrap.parentNode;
+    var padY = parseFloat(getComputedStyle(host).paddingTop) || 0;
+    var sc = Math.min(1, (host.clientWidth - 40)/376, (window.innerHeight - 58 - padY*2)/780);
+    K.wrap.style.width = 376*sc + 'px'; K.wrap.style.height = 780*sc + 'px';
+    K.phone.style.transform = 'scale(' + sc + ')';
+    K.fade.style.opacity = T > 8800 ? (T < 9400 ? seg(T,8800,9400) : 1 - seg(T,9400,10000)) : 0;
+    function type(key, str, a, b, fa, fb){
+      var txt = str.slice(0, Math.floor(S(a,b) * str.length));
+      K[key+'tx'].textContent = txt;
+      K[key+'ph'].style.display = txt ? 'none' : '';
+      var focus = !reset && t >= fa && t < fb;
+      K[key+'box'].style.borderColor = focus ? '#1cb9bf' : '#d5d7da';
+      K[key+'ca'].style.opacity = focus ? blink : 0;
+      K[key+'lb'].style.opacity = txt ? 1 : 0;
+    }
+    type('a', 'Kniazhyi Zaton, 21', 700, 2100, 500, 2300);
+    var z = eio(S(2300,3300));
+    K.city.style.transform = 'scale(' + (1 + 2*z) + ')'; K.city.style.opacity = 1 - eio(S(2600,3300));
+    K.street.style.transform = 'scale(' + (1.6 - .6*z) + ')'; K.street.style.opacity = eio(S(2600,3300));
+    var lift = S(2300,2800) < 1 ? eo(S(2300,2800)) : 1 - eio(S(2800,3200));
+    K.lift.style.transform = 'translateY(' + (-14*lift) + 'px)';
+    var pm = eo(S(3200,3600));
+    K.head.style.opacity = 1 - pm; K.head.style.transform = 'scale(' + (1 - .4*pm) + ')';
+    K.pill.style.opacity = pm; K.pill.style.transform = 'scale(' + (.6 + .4*pm) + ')';
+    var row = eo(S(3500,4100));
+    K.row.style.height = 54*row + 'px'; K.row.style.opacity = row;
+    type('f0', '12', 4400, 4700, 4300, 4900);
+    type('f1', '4', 4950, 5100, 4900, 5400);
+    type('f2', '2', 5450, 5600, 5400, 6000);
+    K.btn.style.background = !reset && t >= 3800 ? 'linear-gradient(180deg,#22c3c8,#15a7ad)' : '#d2f1f3';
+    var press = S(6200,6350) < 1 ? S(6200,6350) : 1 - S(6350,6550);
+    K.btn.style.transform = 'scale(' + (1 - .03*press) + ')';
+    K.btnTx.textContent = !reset && t >= 6450 ? 'Delivery in 15 min' : 'Confirm';
+    [[0,2300],[2300,4100],[4100,8800]].forEach(function(r,i){
+      var on = (!reset && t >= r[0] && t < r[1]) || (reset && i === 0) || (!reset && i === 2 && t >= r[1]);
+      K['st'+i].style.opacity = on ? 1 : .35;
+      K['bar'+i].style.transform = 'scaleX(' + (reset ? 0 : seg(T,r[0],r[1])) + ')';
+    });
+  }
+  (function dtLoop(now){
+    var dt = Math.min(64, now - dtLast); dtLast = now;
+    var b = flow.getBoundingClientRect();
+    if (b.bottom > 0 && b.top < window.innerHeight){
+      dtT = REDUCE ? 6000 : (dtT + dt) % 10000;
+      dtRender(dtT);
+    }
+    requestAnimationFrame(dtLoop);
+  })(dtLast);
+
+  /* ---------- Web viewer ---------- */
+  var lb = $('lb'), lbScroll = $('lb-scroll'), lbImg = $('lb-img'), webOpen = -1, opener = null;
+  function openWeb(i){
+    webOpen = i;
+    document.body.style.overflow = i < 0 ? '' : 'hidden';
+    lb.classList.toggle('on', i >= 0);
+    if (i < 0){ if (opener) opener.focus(); return; }
+    var w = WEB[i];
+    $('lb-n').textContent = '[ ' + pad(i+1) + ' / 03 ]';
+    $('lb-t').innerHTML = esc(w.t) + ' <span>· ' + esc(w.url) + '</span>';
+    lbImg.src = A + w.img; lbImg.alt = w.alt;
+    lbScroll.scrollTop = 0;
+    $('lb-close').focus();
+  }
+  document.querySelectorAll('.win').forEach(function(b){
+    b.addEventListener('click', function(){ opener = b; openWeb(+b.getAttribute('data-i')); });
+  });
+  $('lb-close').addEventListener('click', function(){ openWeb(-1); });
+  $('lb-prev').addEventListener('click', function(){ openWeb((webOpen + 2) % 3); });
+  $('lb-next').addEventListener('click', function(){ openWeb((webOpen + 1) % 3); });
+  lbScroll.addEventListener('click', function(e){ if (e.target !== lbImg) openWeb(-1); });
+  window.addEventListener('keydown', function(e){
+    if (webOpen < 0) return;
+    if (e.key === 'Escape') openWeb(-1);
+    if (e.key === 'ArrowRight') openWeb((webOpen + 1) % 3);
+    if (e.key === 'ArrowLeft') openWeb((webOpen + 2) % 3);
+  });
+})();
+</script>
 </body>
 </html>
