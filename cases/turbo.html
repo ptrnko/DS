@@ -590,7 +590,7 @@
     return '<div class="wcol"><div class="hd"><span style="color:var(--t2)">[ '+pad(i+1)+' ]</span><span>'+esc(w.t)+'</span></div>'+
       '<div class="bd"><button class="win" data-i="'+i+'" aria-label="Open '+esc(w.t)+' page full screen">'+
         '<span class="bar"><span class="sq"><i></i><i></i><i></i></span><span class="url">'+esc(w.url)+'</span><span class="open">OPEN ↗</span></span>'+
-        '<span class="view" data-webview><img data-webimg src="'+A+w.img+'" alt="'+esc(w.alt)+'" loading="lazy"></span>'+
+        '<span class="view" data-webview><img data-webimg src="'+A+w.img+'" alt="'+esc(w.alt)+'" decoding="async"></span>'+
       '</button></div></div>';
   }).join('');
 
@@ -709,6 +709,7 @@
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll);
   window.addEventListener('load', onScroll);
+  document.querySelectorAll('img').forEach(function(im){ if (!im.complete) im.addEventListener('load', onScroll); });
   tick();
 
   /* ---------- Delivery-time phone ---------- */
