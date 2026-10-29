@@ -20,7 +20,7 @@ Personal portfolio of Anastasiia Petrenko, Lead Product Designer specializing in
 │   ├── erp-wave.html       # ERP/CRM payments flow case
 │   ├── pap-pay.html        # Pap-Pay product case
 │   ├── pap-pay-ds.html     # Pap-Pay design system case
-│   ├── turbo.html          # Turbo.ua delivery app case
+│   ├── turbo.html          # Turbo.ua delivery app case (dark long-scroll, assets in assets/turbo/)
 │   └── turbo-branding.html # Turbo.ua brand identity case
 └── assets/
     ├── images/             # Shared images and case thumbnails
